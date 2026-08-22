@@ -1,0 +1,10 @@
+# GUI
+customtkinter>=5.2.0
+
+# 高性能关键词匹配 (Aho-Corasick 自动机)
+pyahocorasick>=1.4.0
+
+# 可选：LLM 语义增强检测（需本地安装 Ollama）
+# ollama>=0.1.0
+
+# 开发依赖见 requirements-dev.txt

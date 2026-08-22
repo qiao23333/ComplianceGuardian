@@ -1,0 +1,11 @@
+# 测试
+pytest>=7.0
+pytest-cov>=4.0
+
+# 代码质量
+flake8>=6.0
+black>=23.0
+mypy>=1.0
+
+# 打包
+pyinstaller>=6.0

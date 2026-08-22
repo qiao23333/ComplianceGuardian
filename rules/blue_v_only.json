@@ -1,0 +1,515 @@
+[
+  {
+    "keyword": "治疗效果",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V账号不可使用医疗效果表述；蓝V账号需确保有医疗资质",
+    "note": "医疗健康类效果声明仅限认证账号"
+  },
+  {
+    "keyword": "治愈",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用治愈表述；蓝V需有医疗资质",
+    "note": "治愈类表述仅限认证账号"
+  },
+  {
+    "keyword": "药效",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用药效表述；蓝V需有药品相关资质",
+    "note": "药效类表述仅限认证账号"
+  },
+  {
+    "keyword": "临床验证",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用临床验证表述；蓝V需提供临床数据",
+    "note": "临床验证类表述需认证资质"
+  },
+  {
+    "keyword": "处方",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及处方相关内容",
+    "note": "处方相关内容需医疗认证"
+  },
+  {
+    "keyword": "保证收益",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可做收益保证；蓝V也需加风险提示",
+    "note": "金融投资类承诺需认证资质"
+  },
+  {
+    "keyword": "稳赚",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用稳赚表述；蓝V需加风险提示",
+    "note": "投资收益承诺需认证资质"
+  },
+  {
+    "keyword": "保本",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用保本表述",
+    "note": "保本承诺需金融认证资质"
+  },
+  {
+    "keyword": "投资建议",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可提供投资建议",
+    "note": "投资建议需金融认证资质"
+  },
+  {
+    "keyword": "理财推荐",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可做理财推荐",
+    "note": "理财推荐需金融认证资质"
+  },
+  {
+    "keyword": "包过",
+    "category": "教育承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用包过承诺",
+    "note": "教育包过承诺需认证资质"
+  },
+  {
+    "keyword": "保录",
+    "category": "教育承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用保录承诺",
+    "note": "保录承诺需教育认证资质"
+  },
+  {
+    "keyword": "包就业",
+    "category": "教育承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用包就业承诺",
+    "note": "就业承诺需认证资质"
+  },
+  {
+    "keyword": "法律意见",
+    "category": "法律服务",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可提供法律意见",
+    "note": "法律意见需法律认证资质"
+  },
+  {
+    "keyword": "代为诉讼",
+    "category": "法律服务",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可代理诉讼",
+    "note": "诉讼代理需法律认证资质"
+  },
+  {
+    "keyword": "专业代理",
+    "category": "法律服务",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用专业代理表述",
+    "note": "专业代理需认证资质"
+  },
+  {
+    "keyword": "疗效",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用疗效表述；蓝V需提供医疗资质",
+    "note": "疗效类表述仅限认证账号"
+  },
+  {
+    "keyword": "医学验证",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用医学验证表述；蓝V需提供验证报告",
+    "note": "医学验证类表述需认证资质"
+  },
+  {
+    "keyword": "临床数据",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用临床数据表述；蓝V需提供临床数据",
+    "note": "临床数据类表述需认证资质"
+  },
+  {
+    "keyword": "医学认证",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用医学认证表述；蓝V需提供认证文件",
+    "note": "医学认证类表述需认证资质"
+  },
+  {
+    "keyword": "医师推荐",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用医师推荐表述；蓝V需提供资质和授权",
+    "note": "医师推荐类表述需医疗资质"
+  },
+  {
+    "keyword": "老中医推荐",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用老中医推荐表述；蓝V需提供资质和授权",
+    "note": "老中医推荐类表述需医疗资质"
+  },
+  {
+    "keyword": "名医推荐",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用名医推荐表述；蓝V需提供资质和授权",
+    "note": "名医推荐类表述需医疗资质"
+  },
+  {
+    "keyword": "祖传秘方",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用祖传秘方表述；蓝V需提供医疗资质",
+    "note": "祖传秘方类表述需医疗资质"
+  },
+  {
+    "keyword": "宫廷秘方",
+    "category": "医疗声明",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用宫廷秘方表述；蓝V需提供医疗资质",
+    "note": "宫廷秘方类表述需医疗资质"
+  },
+  {
+    "keyword": "保本保息",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用保本保息表述；蓝V需加风险提示",
+    "note": "保本保息承诺需金融认证资质"
+  },
+  {
+    "keyword": "零风险",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用零风险表述；蓝V需加风险提示",
+    "note": "零风险承诺需金融认证资质"
+  },
+  {
+    "keyword": "无风险",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用无风险表述；蓝V需加风险提示",
+    "note": "无风险承诺需金融认证资质"
+  },
+  {
+    "keyword": "日赚千元",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用日赚千元表述；蓝V需加风险提示",
+    "note": "日赚千元类承诺需金融认证资质"
+  },
+  {
+    "keyword": "日赚百元",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用日赚百元表述；蓝V需加风险提示",
+    "note": "日赚百元类承诺需金融认证资质"
+  },
+  {
+    "keyword": "月入过万",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用月入过万表述；蓝V需加风险提示",
+    "note": "月入过万类承诺需金融认证资质"
+  },
+  {
+    "keyword": "年化收益20%",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用年化收益表述；蓝V需提供数据并加风险提示",
+    "note": "年化收益类承诺需金融认证资质"
+  },
+  {
+    "keyword": "投资零风险",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用投资零风险表述；蓝V需加风险提示",
+    "note": "投资零风险承诺需金融认证资质"
+  },
+  {
+    "keyword": "100%收益",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用100%收益表述；蓝V需加风险提示",
+    "note": "100%收益承诺需金融认证资质"
+  },
+  {
+    "keyword": "无风险投资",
+    "category": "金融承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用无风险投资表述；蓝V需加风险提示",
+    "note": "无风险投资承诺需金融认证资质"
+  },
+  {
+    "keyword": "包拿证",
+    "category": "教育承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用包拿证承诺；蓝V需加风险提示",
+    "note": "包拿证承诺需教育认证资质"
+  },
+  {
+    "keyword": "保过",
+    "category": "教育承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用保过承诺；蓝V需加风险提示",
+    "note": "保过承诺需教育认证资质"
+  },
+  {
+    "keyword": "100%升学",
+    "category": "教育承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用100%升学承诺；蓝V需提供数据并加风险提示",
+    "note": "100%升学承诺需教育认证资质"
+  },
+  {
+    "keyword": "名校保录",
+    "category": "教育承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用名校保录承诺；蓝V需加风险提示",
+    "note": "名校保录承诺需教育认证资质"
+  },
+  {
+    "keyword": "押题率",
+    "category": "教育承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用押题率承诺；蓝V需提供数据并加风险提示",
+    "note": "押题率承诺需教育认证资质"
+  },
+  {
+    "keyword": "一次过",
+    "category": "教育承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用一次过承诺；蓝V需加风险提示",
+    "note": "一次过承诺需教育认证资质"
+  },
+  {
+    "keyword": "考不过退费",
+    "category": "教育承诺",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用考不过退费承诺；蓝V需标注退费条件",
+    "note": "考不过退费承诺需教育认证资质"
+  },
+  {
+    "keyword": "律师函",
+    "category": "法律服务",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用律师函表述；蓝V需提供法律服务资质",
+    "note": "律师函类表述需法律认证资质"
+  },
+  {
+    "keyword": "法律咨询",
+    "category": "法律服务",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用法律咨询表述；蓝V需提供法律服务资质",
+    "note": "法律咨询类表述需法律认证资质"
+  },
+  {
+    "keyword": "代理维权",
+    "category": "法律服务",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可使用代理维权表述；蓝V需提供法律服务资质",
+    "note": "代理维权类表述需法律认证资质"
+  },
+  {
+    "keyword": "医疗器械",
+    "category": "医疗器械",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及医疗器械；蓝V需提供医疗器械资质",
+    "note": "医疗器械类内容需认证资质"
+  },
+  {
+    "keyword": "理疗",
+    "category": "医疗器械",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及理疗；蓝V需提供医疗器械资质",
+    "note": "理疗类内容需认证资质"
+  },
+  {
+    "keyword": "康复设备",
+    "category": "医疗器械",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及康复设备；蓝V需提供医疗器械资质",
+    "note": "康复设备类内容需认证资质"
+  },
+  {
+    "keyword": "处方药",
+    "category": "药品",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及处方药；蓝V需提供药品经营资质",
+    "note": "处方药类内容需认证资质"
+  },
+  {
+    "keyword": "非处方药",
+    "category": "药品",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及非处方药；蓝V需提供药品经营资质",
+    "note": "非处方药类内容需认证资质"
+  },
+  {
+    "keyword": "中药",
+    "category": "药品",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及中药；蓝V需提供药品经营资质",
+    "note": "中药类内容需认证资质"
+  },
+  {
+    "keyword": "西药",
+    "category": "药品",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及西药；蓝V需提供药品经营资质",
+    "note": "西药类内容需认证资质"
+  },
+  {
+    "keyword": "保健食品",
+    "category": "保健品",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及保健食品；蓝V需提供保健品经营资质并按规标注",
+    "note": "保健食品类内容需认证资质，需标注'本品不能代替药物'"
+  },
+  {
+    "keyword": "营养补充剂",
+    "category": "保健品",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及营养补充剂；蓝V需提供保健品经营资质",
+    "note": "营养补充剂类内容需认证资质"
+  },
+  {
+    "keyword": "功效声称",
+    "category": "保健品",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及功效声称；蓝V需提供保健品经营资质并按规标注",
+    "note": "功效声称类内容需认证资质"
+  },
+  {
+    "keyword": "婴幼儿配方食品",
+    "category": "特殊食品",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及婴幼儿配方食品；蓝V需提供注册证",
+    "note": "婴幼儿配方食品类内容需认证资质"
+  },
+  {
+    "keyword": "特殊医学用途食品",
+    "category": "特殊食品",
+    "severity": "blue_v_required",
+    "non_blue_v": "violation",
+    "blue_v": "warning",
+    "suggestion": "非蓝V不可涉及特殊医学用途食品；蓝V需提供注册证",
+    "note": "特殊医学用途食品类内容需认证资质"
+  }
+]

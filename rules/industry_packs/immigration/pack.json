@@ -1,0 +1,28 @@
+{
+  "id": "immigration",
+  "name": "移民行业合规包",
+  "version": "1.0.0",
+  "description": "移民/出入境中介行业专属合规词库，覆盖虚假承诺、雇主担保红线、违法操作、成功率宣传等高风险表达。适用于小红书、抖音、视频号等内容平台的移民类内容创作。",
+  "author": "Compliance Guardian",
+  "industry": "移民/出入境",
+  "categories": [
+    "虚假承诺",
+    "虚假宣传",
+    "雇主担保红线",
+    "违法操作",
+    "综合极限词",
+    "时间承诺",
+    "虚假资质",
+    "费用承诺",
+    "关系暗示",
+    "成功率宣传",
+    "过程简化",
+    "价格宣传",
+    "入籍承诺"
+  ],
+  "rules_file": "rules.json",
+  "rule_count": 140,
+  "platforms": ["xiaohongshu", "douyin", "weixin"],
+  "created": "2026-07-01",
+  "updated": "2026-08-23"
+}
