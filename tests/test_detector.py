@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """ComplianceDetector 核心功能测试"""
 import pytest
-from core.detector import ComplianceDetector
+from guardian.detector import ComplianceDetector
 
 
 @pytest.fixture

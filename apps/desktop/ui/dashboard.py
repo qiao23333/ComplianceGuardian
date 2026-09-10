@@ -11,15 +11,15 @@
 """
 import customtkinter as ctk
 
-from ui.theme import (
+from apps.desktop.ui.theme import (
     get_colors, font_safe, font_typo, SPACING, CORNER_RADIUS,
     primary_button_style, secondary_button_style, card_frame_style,
     gradient_button_style, glass_card_style,
 )
-from ui.widgets import (
+from apps.desktop.ui.widgets import (
     GradientCard, BarChart, StatCard, SegmentedControl,
 )
-from core.detector import ComplianceDetector
+from guardian.detector import ComplianceDetector
 
 
 class DashboardPage(ctk.CTkFrame):

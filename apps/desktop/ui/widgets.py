@@ -17,8 +17,8 @@
 """
 import tkinter as tk
 import customtkinter as ctk
-from ui.theme import (
-    get_colors, font_safe, font_typo, SPACING, CORNER_RADIUS,
+from apps.desktop.ui.theme import (
+    get_colors, font_safe, font_emoji, font_typo, SPACING, CORNER_RADIUS,
     card_frame_style, glass_card_style, elevated_card_style,
     gradient_button_style, status_pill_style,
 )
@@ -51,7 +51,7 @@ class GradientCard(ctk.CTkFrame):
         header = ctk.CTkFrame(content, fg_color="transparent")
         header.pack(fill="x", pady=(0, SPACING["xs"]))
         if icon:
-            ctk.CTkLabel(header, text=icon, font=("Apple Color Emoji", 20)).pack(side="left", padx=(0, SPACING["sm"]))
+            ctk.CTkLabel(header, text=icon, font=font_emoji(20)).pack(side="left", padx=(0, SPACING["sm"]))
         ctk.CTkLabel(header, text=title, font=font_typo("caption"),
                      text_color=colors["text_secondary"]).pack(side="left")
 
@@ -234,7 +234,7 @@ class StatCard(ctk.CTkFrame):
         header = ctk.CTkFrame(content, fg_color="transparent")
         header.pack(fill="x", pady=(0, SPACING["xs"]))
         if icon:
-            ctk.CTkLabel(header, text=icon, font=("Apple Color Emoji", 18)).pack(side="left", padx=(0, SPACING["sm"]))
+            ctk.CTkLabel(header, text=icon, font=font_emoji(18)).pack(side="left", padx=(0, SPACING["sm"]))
         ctk.CTkLabel(header, text=title, font=font_typo("caption"),
                      text_color=colors["text_secondary"]).pack(side="left")
 

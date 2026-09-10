@@ -15,13 +15,13 @@ from tkinter import filedialog, messagebox, ttk
 
 import customtkinter as ctk
 
-from ui.theme import (
+from apps.desktop.ui.theme import (
     get_colors, font_safe, font_typo, SPACING, CORNER_RADIUS,
     primary_button_style, secondary_button_style, card_frame_style,
     danger_button_style, gradient_button_style,
 )
-from ui.widgets import SegmentedControl, ToastNotification
-from core.detector import ComplianceDetector
+from apps.desktop.ui.widgets import SegmentedControl, ToastNotification
+from guardian.detector import ComplianceDetector
 
 
 class RulesManagerPage(ctk.CTkFrame):

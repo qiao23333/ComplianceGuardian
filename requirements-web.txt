@@ -1,0 +1,21 @@
+# ===== 合规卫士 · Web 端运行依赖 =====
+# 安装：pip install -r requirements-web.txt
+# Web 端与桌面端共享 guardian/ 内核，需同时安装 requirements-desktop.txt 的内核部分
+
+# Web 框架（自带 OpenAPI 文档，即 REST API 卖点）
+fastapi>=0.110,<0.120
+
+# ASGI 服务器
+uvicorn[standard]>=0.27,<0.35
+
+# 模板渲染
+jinja2>=3.1,<4.0
+
+# 表单解析
+python-multipart>=0.0.9,<0.1
+
+# 调用云端 LLM（OpenAI 兼容协议，不引入 openai SDK 以保持轻量）
+httpx>=0.27,<0.29
+
+# 分享链接签名
+itsdangerous>=2.1,<3.0

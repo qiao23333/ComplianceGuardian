@@ -242,9 +242,32 @@ def get_colors():
     return COLORS_LIGHT
 
 
+#: 跨平台中文字体：按运行平台选择系统自带字体。
+#:
+#: 历史问题：此处曾硬编码 `"SF Pro Display"`（macOS 专有），在 Windows 上
+#: 该字体不存在，Tk 会静默回退到默认字体，导致中文排版与预期不一致。
+#: emoji 也曾硬编码 `"Apple Color Emoji"`，在 Windows 上会显示成豆腐块。
+import sys as _sys
+
+if _sys.platform == "win32":
+    FONT_FAMILY = "Microsoft YaHei UI"   # Windows 系统自带简体中文
+    EMOJI_FAMILY = "Segoe UI Emoji"      # Windows 系统自带 emoji
+elif _sys.platform == "darwin":
+    FONT_FAMILY = "PingFang SC"          # macOS 系统自带简体中文
+    EMOJI_FAMILY = "Apple Color Emoji"   # macOS 系统自带 emoji
+else:
+    FONT_FAMILY = "Noto Sans CJK SC"     # Linux 常见中文字体
+    EMOJI_FAMILY = "Noto Color Emoji"
+
+
 def font_safe(size=14, weight="normal"):
-    """统一字体规范（SF Pro Display）"""
-    return ("SF Pro Display", size, weight)
+    """统一字体规范（跨平台）"""
+    return (FONT_FAMILY, size, weight)
+
+
+def font_emoji(size=14):
+    """emoji 专用字体（跨平台，避免 Windows 上显示成豆腐块）"""
+    return (EMOJI_FAMILY, size)
 
 
 def font_typo(key="body"):

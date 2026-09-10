@@ -22,6 +22,8 @@ try:
 except ImportError:
     AHO_AVAILABLE = False
 
+from guardian.context_guard import apply_guard, should_auto_replace
+
 
 class ComplianceDetector:
     """多平台内容合规检测器（v2.1）
@@ -687,6 +689,10 @@ class ComplianceDetector:
         # 去重（同一位置同一关键词只保留最长的）
         violations = self._deduplicate(violations)
 
+        # 反误杀守卫：上下文排除 + 短词降级 + 禁止自动改写
+        # 解决"最近"被判违规、且被改写成"近"的 P0 问题
+        violations = apply_guard(violations, text)
+
         # 重新编号
         for i, v in enumerate(violations):
             v["id"] = i + 1
@@ -974,6 +980,10 @@ class ComplianceDetector:
         sorted_v = sorted(violations, key=lambda x: x["start"], reverse=True)
         modified = text
         for v in sorted_v:
+            # 安全网：短词与被标记为 allow_auto_replace=False 的项绝不自动改写，
+            # 只允许给提示。这是防止"最近"→"近"这类原文被改坏事故的最后防线。
+            if not should_auto_replace(v):
+                continue
             suggestion = v.get("suggestion", "")
             keyword = v["keyword"]
             # 尝试提取建议中的替换词

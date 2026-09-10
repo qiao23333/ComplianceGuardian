@@ -5,7 +5,7 @@ import json
 import os
 import tempfile
 import pytest
-from core.config import ConfigManager, DEFAULT_CONFIG
+from guardian.config import ConfigManager, DEFAULT_CONFIG
 
 
 @pytest.fixture

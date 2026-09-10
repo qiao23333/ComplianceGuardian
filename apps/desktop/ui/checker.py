@@ -16,17 +16,17 @@ from tkinter import messagebox
 
 import customtkinter as ctk
 
-from ui.theme import (
-    get_colors, font_safe, font_typo, SPACING, CORNER_RADIUS,
+from apps.desktop.ui.theme import (
+    get_colors, font_safe, font_emoji, font_typo, SPACING, CORNER_RADIUS,
     primary_button_style, secondary_button_style, card_frame_style,
     glass_card_style, elevated_card_style, gradient_button_style,
     status_pill_style,
 )
-from ui.widgets import (
+from apps.desktop.ui.widgets import (
     ProgressRing, ScoreRing, GlassCard, StatusPill,
     HoverTooltip, SegmentedControl, ToastNotification,
 )
-from core.detector import ComplianceDetector
+from guardian.detector import ComplianceDetector
 
 
 class CheckerPage(ctk.CTkFrame):
@@ -226,7 +226,7 @@ class CheckerPage(ctk.CTkFrame):
         # 空状态
         self.empty_frame = ctk.CTkFrame(right_card, fg_color="transparent")
         self.empty_frame.pack(fill="both", expand=True, padx=SPACING["lg"], pady=SPACING["lg"])
-        ctk.CTkLabel(self.empty_frame, text="📋", font=("Apple Color Emoji", 40)).pack(pady=(30, SPACING["xs"]))
+        ctk.CTkLabel(self.empty_frame, text="📋", font=font_emoji(40)).pack(pady=(30, SPACING["xs"]))
         ctk.CTkLabel(self.empty_frame, text="等待检测", font=font_typo("h2"),
                      text_color=colors["text_secondary"]).pack(pady=(0, SPACING["xs"]))
         ctk.CTkLabel(self.empty_frame, text="粘贴文案后点击「开始检测」\n或「AI深度检测」获取语义分析",

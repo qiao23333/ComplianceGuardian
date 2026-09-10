@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "compliance-guardian"
+version = "3.0.0"
+description = "合规卫士 · 本地优先的内容合规检测工具（桌面端 + Web 端共享内核）"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10,<3.14"
+keywords = ["合规", "广告法", "违禁词", "敏感词", "内容审核", "小红书", "抖音"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+[project.optional-dependencies]
+desktop = [
+    "customtkinter>=5.2.2,<6.0",
+    "pyahocorasick>=2.2.0,<3.0",
+    "pillow>=10.0,<12.0",
+    "jinja2>=3.1,<4.0",
+    "opencc-python-reimplemented>=0.1.7,<0.2.0",
+    "pypinyin>=0.51,<0.55",
+]
+web = [
+    "fastapi>=0.110,<0.120",
+    "uvicorn[standard]>=0.27,<0.35",
+    "jinja2>=3.1,<4.0",
+    "python-multipart>=0.0.9,<0.1",
+    "httpx>=0.27,<0.29",
+    "itsdangerous>=2.1,<3.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["guardian*", "apps*"]
+
+# ---------------- pytest ----------------
+[tool.pytest.ini_options]
+minversion = "7.4"
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+markers = [
+    "slow: 较慢的测试（如打包、大文本）",
+]
+
+# ---------------- ruff ----------------
+# 一条命令替代 black + flake8 + isort，配置集中在此处
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = [
+    ".git", ".venv", "build", "dist", "__pycache__",
+    "*.egg-info", ".pytest_cache", ".ruff_cache",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle 错误
+    "F",    # pyflakes（未使用导入/变量等）
+    "W",    # pycodestyle 警告
+    "I",    # isort 导入排序
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+]
+ignore = [
+    "E501",  # 行长度交给 formatter 处理
+    "B008",  # 函数调用作为默认值（常见于依赖注入）
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["F401", "F811"]   # 测试允许重复导入与未使用导入
+"scripts/*" = ["E402"]          # 脚本允许在 import 前加 sys.path 处理
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

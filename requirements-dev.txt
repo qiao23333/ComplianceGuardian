@@ -1,11 +1,17 @@
+# ===== 合规卫士 · 开发依赖 =====
+# 安装：pip install -r requirements-dev.txt
+
 # 测试
-pytest>=7.0
-pytest-cov>=4.0
+pytest>=7.4,<9.0
+pytest-cov>=4.1,<7.0
 
-# 代码质量
-flake8>=6.0
-black>=23.0
-mypy>=1.0
+# 代码质量：ruff 一条命令替代 black + flake8 + isort
+#   ruff check .    检查
+#   ruff format .   格式化
+ruff>=0.5,<0.9
 
-# 打包
-pyinstaller>=6.0
+# 打包（Windows exe / macOS app）
+pyinstaller>=6.3,<7.0
+
+# 类型检查（阶段 5 再启用，避免早期噪音）
+mypy>=1.8,<2.0

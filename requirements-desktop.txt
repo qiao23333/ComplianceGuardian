@@ -1,0 +1,22 @@
+# ===== 合规卫士 · 桌面端运行依赖 =====
+# 安装：pip install -r requirements-desktop.txt
+
+# GUI 框架
+customtkinter>=5.2.2,<6.0
+
+# 高性能关键词匹配（Aho-Corasick 自动机）
+# Windows 有 cp310~cp314 官方预编译 wheel，无需 C 编译器。
+# 若安装失败，内核会自动降级到纯 Python 实现（guardian/matcher/pure.py）
+pyahocorasick>=2.2.0,<3.0
+
+# 图标生成 / 报告图片导出
+pillow>=10.0,<12.0
+
+# 报告模板渲染（HTML / Markdown）
+jinja2>=3.1,<4.0
+
+# 繁体转简体（变体抗规避检测用，纯 Python 无需编译）
+opencc-python-reimplemented>=0.1.7,<0.2.0
+
+# 拼音变体生成（可选，装不上可跳过，内核自动降级）
+pypinyin>=0.51,<0.55

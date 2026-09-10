@@ -11,20 +11,21 @@ from pathlib import Path
 
 import customtkinter as ctk
 
-project_root = Path(__file__).parent.resolve()
+# apps/desktop/app.py → 上溯三级到项目根（apps/desktop/app.py → desktop → apps → 根）
+project_root = Path(__file__).resolve().parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
-from core.config import ConfigManager
-from ui.theme import (
+from guardian.config import ConfigManager
+from apps.desktop.ui.theme import (
     get_colors, font_safe, font_typo, SPACING, CORNER_RADIUS,
     apply_root_theme, sidebar_button_style, sidebar_button_active_style,
     gradient_button_style,
 )
-from ui.dashboard import DashboardPage
-from ui.checker import CheckerPage
-from ui.rules_manager import RulesManagerPage
-from ui.settings import SettingsPage
+from apps.desktop.ui.dashboard import DashboardPage
+from apps.desktop.ui.checker import CheckerPage
+from apps.desktop.ui.rules_manager import RulesManagerPage
+from apps.desktop.ui.settings import SettingsPage
 
 
 class ComplianceApp:

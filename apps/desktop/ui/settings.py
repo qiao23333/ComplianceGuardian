@@ -12,13 +12,13 @@ import threading
 import customtkinter as ctk
 from tkinter import messagebox
 
-from ui.theme import (
+from apps.desktop.ui.theme import (
     get_colors, font_safe, font_typo, SPACING, CORNER_RADIUS,
     primary_button_style, secondary_button_style, card_frame_style,
     glass_card_style, gradient_button_style,
 )
-from ui.widgets import GradientCard, GlassCard, ToastNotification
-from core.detector import ComplianceDetector
+from apps.desktop.ui.widgets import GradientCard, GlassCard, ToastNotification
+from guardian.detector import ComplianceDetector
 
 
 class SettingsPage(ctk.CTkFrame):
