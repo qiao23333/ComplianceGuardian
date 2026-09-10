@@ -43,6 +43,12 @@ htmlcov/
 data/
 rules/backup/
 
+# 例外：web/data/ 是构建产物（词库编译成 JS），必须入库 —— 这是体验页
+# "双击即可离线运行、文案不出浏览器"的前提。data/ 不带前导斜杠，会命中
+# 任意层级的 data 目录，所以这里必须显式否定回来。
+!web/data/
+!web/data/**
+
 # Packaging / build artifacts
 *.spec
 build/

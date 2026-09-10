@@ -156,6 +156,26 @@ class DetectionEngine:
                                  variant_of=keyword, conf=0.8)
                 variant_hits.append(h)
 
+            # 2a) 正则通道（归一化文本）
+            #     正则只跑原文会漏掉"用花招写出的组合型违规"：
+            #     １００％（全角）、全網最低價（繁体）、首 创（跳字）。
+            #     这类写法恰恰是人工复核最容易漏的，必须和字面通道一样
+            #     能吃归一化后的文本。回映射逻辑与变体通道完全一致。
+            for rule in regex_rules:
+                try:
+                    pat = re.compile(rule.keyword)
+                except re.error:
+                    continue
+                for m in pat.finditer(norm.text):
+                    if m.end() <= m.start():
+                        continue
+                    o_s, o_e = norm.original_span(m.start(), m.end())
+                    # 归一化命中片段 == 原文片段 → 原文通道已产出同一命中，跳过
+                    if text[o_s:o_e] == m.group(0):
+                        continue
+                    h = self._mk_hit(o_s, o_e, rule.keyword, rule, "regex")
+                    variant_hits.append(h)
+
             # 2b) 拼音变体（可选，依赖 pypinyin；仅全拼 + 字符边界对齐）
             pidx = pinyin_index(rules)
             if pidx:
@@ -271,7 +291,16 @@ class DetectionEngine:
         severity = rule.severity_for(self._account())
         allow = rule.allow_auto_replace
         if match_type == "variant":
-            severity = _downgrade(severity)
+            # ⚠️ 变体**不降级严重度**。
+            #
+            # 曾经的实现把变体命中降一级，结果出现逻辑反转：
+            #   "全网最低价"   → 低风险（medium）
+            #   "全 网 最 低 价" → 基本合规（low）
+            # 等于告诉用户"加间隔符更安全"——而规避写法在平台侧只会**更**
+            # 被判定为恶意，绝不会更轻。工具给出反向建议是危险的。
+            #
+            # 不确定性改由 confidence 表达（变体 0.8），UI 据此标注"疑似规避
+            # 写法"，而不是靠压低严重度。
             allow = False  # 变体绝不自动改写，交人工确认
         return {
             "start": start, "end": end, "keyword": keyword,

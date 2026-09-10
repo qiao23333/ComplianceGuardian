@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>合规卫士 · 文案合规检测（在线体验）</title>
+<meta name="description" content="移民 / 留学行业文案合规检测：1000 条规则、变体抗规避识别、四级风险评分。纯浏览器运行，文案不出本机。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================ 顶栏 -->
+<header class="topbar">
+  <div class="brand">
+    <svg class="brand__mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 2.2 4 5.4v6.1c0 4.7 3.3 8.9 8 10.3 4.7-1.4 8-5.6 8-10.3V5.4L12 2.2Z"
+            fill="currentColor" opacity=".13"/>
+      <path d="M12 2.2 4 5.4v6.1c0 4.7 3.3 8.9 8 10.3 4.7-1.4 8-5.6 8-10.3V5.4L12 2.2Z"
+            stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" opacity=".55"/>
+      <path d="M8.4 12.1l2.5 2.5 4.7-5.1" stroke="currentColor" stroke-width="1.9"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    合规卫士
+    <span class="brand__sub">AdCompli · 移民 / 留学文案合规检测</span>
+  </div>
+  <div class="topbar__right">
+    <span class="privacy" title="检测全部在浏览器内完成，不发任何网络请求">
+      <span class="privacy__dot"></span>数据不出本机 · 无网络请求
+    </span>
+    <button class="iconbtn" id="themeBtn" type="button" aria-label="切换主题">浅色</button>
+  </div>
+</header>
+
+<!-- ============================================================ 引导 -->
+<div class="hero">
+  <h1>粘一段文案，立刻知道哪里会被平台判违规</h1>
+  <p>
+    覆盖<b>移民 / 留学</b>行业红线与《广告法》极限词，共 <b id="heroRuleCount">…</b> 条规则。
+    不仅能认出关键词本身，还能识破<b>谐音、跳字、全角、繁体</b>这类"规避写法"——
+    正是这些写法最容易被人工漏掉。检测在浏览器本地完成，<b>文案不上传</b>。
+  </p>
+</div>
+
+<!-- ============================================================ 主布局 -->
+<main class="layout">
+
+  <!-- ---------- 左：输入 ---------- -->
+  <section class="panel">
+    <div class="panel__head">
+      <h2 class="panel__title">待检文案</h2>
+      <div class="controls">
+        <select id="platform" aria-label="目标平台">
+          <option value="all">全部平台</option>
+          <option value="xiaohongshu">小红书</option>
+          <option value="douyin">抖音</option>
+          <option value="weixin">微信</option>
+        </select>
+        <select id="accountType" aria-label="账号类型">
+          <option value="non_blue_v">普通账号</option>
+          <option value="blue_v">蓝 V 认证</option>
+        </select>
+        <select id="industry" aria-label="行业词库">
+          <option value="all">移民 + 留学</option>
+          <option value="immigration">仅移民</option>
+          <option value="study_abroad">仅留学</option>
+          <option value="none">仅通用词库</option>
+        </select>
+        <label class="switch" title="识别谐音 / 跳字 / 全角 / 繁体等规避写法">
+          <input type="checkbox" id="variants" checked>变体检测
+        </label>
+        <label class="switch" title="生成一版改好的文案（只改写词库给出替换词的命中）">
+          <input type="checkbox" id="autoReplace">自动改写
+        </label>
+      </div>
+    </div>
+
+    <textarea id="input" spellcheck="false"
+      placeholder="把准备发布的文案粘到这里，边打边检测……"></textarea>
+
+    <div class="samples" id="samples">
+      <span>试一下：</span>
+      <button class="chip" type="button" data-sample="0">移民 · 高危违规</button>
+      <button class="chip" type="button" data-sample="1">规避写法演示</button>
+      <button class="chip" type="button" data-sample="2">留学 · 承诺类</button>
+      <button class="chip" type="button" data-sample="3">合规文案（应 0 命中）</button>
+    </div>
+
+    <div class="panel__foot">
+      <span id="counter">0 字</span>
+      <span id="engineInfo">正在加载词库…</span>
+    </div>
+  </section>
+
+  <!-- ---------- 右：结果 ---------- -->
+  <section class="panel">
+    <div class="panel__head">
+      <h2 class="panel__title">检测结果</h2>
+      <span class="risk-sub" id="engineMeta"></span>
+    </div>
+
+    <div class="score">
+      <div class="ring">
+        <svg width="96" height="96" viewBox="0 0 96 96" aria-hidden="true">
+          <circle class="ring__track" cx="48" cy="48" r="42" fill="none" stroke-width="8"></circle>
+          <circle class="ring__value" id="ringValue" cx="48" cy="48" r="42" fill="none"
+                  stroke-width="8" stroke-dasharray="263.894" stroke-dashoffset="0"></circle>
+        </svg>
+        <div class="ring__label">
+          <div class="ring__num" id="scoreNum">100</div>
+          <div class="ring__unit">合规分</div>
+        </div>
+      </div>
+      <div class="score__meta">
+        <div class="riskline">
+          <span class="risk-badge" id="riskBadge" data-risk="基本合规">基本合规</span>
+          <span class="risk-sub" id="riskSub">等待输入文案</span>
+        </div>
+        <div class="counts" id="counts"></div>
+      </div>
+    </div>
+
+    <div class="findings" id="findings"></div>
+
+    <div class="preview" id="preview" hidden></div>
+    <div id="safeBox"></div>
+
+    <div class="actions">
+      <button class="btn" id="exportBtn" type="button">导出检测报告</button>
+      <button class="btn btn--ghost" id="copyBtn" type="button">复制命中清单</button>
+      <button class="btn btn--ghost" id="clearBtn" type="button">清空</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================ 页脚 -->
+<footer class="footer">
+  <div class="footer__stats">
+    <span>规则 <b id="fRuleCount">…</b> 条</span>
+    <span>行业包：移民 / 留学</span>
+    <span>匹配引擎：Aho-Corasick 多模式匹配</span>
+    <span>纯前端 · 零依赖 · 零后端</span>
+  </div>
+  <div>
+    四级风险：<code>高危 10 分</code>（法律后果严重，如虚假承诺 / 买卖签证） ·
+    <code>中危 5 分</code>（《广告法》极限词等，最高可罚 20 万） ·
+    <code>低危 2 分</code>（平台限流风险） ·
+    <code>提示 0 分</code>（建议留意，不计分）。
+  </div>
+  <div>
+    本页只覆盖关键词与规则匹配，不构成法律意见；实际发布前请结合平台最新规则复核。
+    检测引擎与桌面端共用同一套词库（<code>rules/</code>），本页为浏览器端等价实现，
+    已知差异：<b>不含拼音变体通道</b>（需拼音库、体积不划算且误报率高），拼音规避请用桌面端。
+  </div>
+</footer>
+
+<!-- 词库（编译为 JS，双击打开本文件也能直接跑） -->
+<script src="data/rules.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

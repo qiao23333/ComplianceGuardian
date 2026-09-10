@@ -148,3 +148,60 @@ def test_severity_tiers_are_actually_used():
     assert dist["critical"] < len(RuleBank().all) * 0.5, (
         f"critical 占比仍过高（过度报警）：{dist.most_common()}"
     )
+
+
+# ------------------------------------------------- 归一化文本上的正则通道
+#
+# 阶段 B 自检发现的缺口：正则通道只跑**原文**，于是"用花招写出的组合型极限词"
+# 整条漏掉。典型是 `[国家世界宇宙天地全球全行]级` —— 词库里没有"全球级/宇宙级"
+# 这样的精确词条，只有正则；而 "全 球 级" 里字符被空格隔开，正则直接匹配不上。
+# 修复：正则通道补跑一遍归一化文本，命中坐标按 index_map 回映射到原文。
+
+
+@pytest.mark.parametrize("text", [
+    "全 球 级 认证",          # 跳字：归一化后 = 全球级
+    "我们提供全 球 级服务",
+])
+def test_normalized_regex_channel_catches_jump_char_extremes(engine, text):
+    """跳字写出的组合型极限词必须检出（修复前实测为 0 命中）。"""
+    r = engine.detect_text(text, DetectionOptions(industries=["immigration"]))
+    assert any(f.match_type == "regex" for f in r.findings), (
+        f"归一化正则通道未生效：{text!r} -> "
+        f"{[(f.matched_text, f.match_type) for f in r.findings]}"
+    )
+    assert r.summary["risk_level"] != "基本合规"
+
+
+@pytest.mark.parametrize("text", [
+    "全 球 级 认证",    # 跳字
+    "成功率１００％",    # 全角数字：归一化后 = 100%
+    "全 網 最 低 價",   # 繁体 + 跳字
+])
+def test_normalized_channel_remaps_to_original_span(engine, text):
+    """命中区间必须落在**原文**上，这是高亮不跑偏的前提。
+
+    回映射用 index_map 把归一化坐标还原成原文字符下标，任何一个环节错位，
+    UI 高亮就会框住无关的字。
+    """
+    r = engine.detect_text(text, DetectionOptions(industries=["immigration"]))
+    assert r.findings, f"应命中：{text!r}"
+    for f in r.findings:
+        assert text[f.start:f.end] == f.matched_text, (
+            f"回映射跑偏：text[{f.start}:{f.end}]={text[f.start:f.end]!r} "
+            f"!= matched={f.matched_text!r}"
+        )
+
+
+@pytest.mark.parametrize("text", [
+    "我们提供全程中文服务",
+    "专注澳洲技术移民与投资移民服务",
+    "费用透明，明细公开",
+    "团队有十年从业经验",
+    "移民局最新政策解读",
+])
+def test_normalized_regex_channel_no_false_positive(engine, text):
+    """补通道不能顺手引入误报——这是阶段 A 治理成果的底线。"""
+    r = engine.detect_text(text, DetectionOptions(industries=["immigration"]))
+    assert not r.findings, (
+        f"出现误报：{[(f.matched_text, f.match_type) for f in r.findings]}"
+    )
