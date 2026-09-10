@@ -24,6 +24,8 @@ from apps.desktop.ui.theme import (
 )
 from apps.desktop.ui.dashboard import DashboardPage
 from apps.desktop.ui.checker import CheckerPage
+from apps.desktop.ui.history import HistoryPage
+from apps.desktop.ui.batch import BatchPage
 from apps.desktop.ui.rules_manager import RulesManagerPage
 from apps.desktop.ui.settings import SettingsPage
 
@@ -31,7 +33,7 @@ from apps.desktop.ui.settings import SettingsPage
 class ComplianceApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("视频合规卫士 · 内容合规检测工具 v2.3")
+        self.root.title("合规卫士 · 内容合规检测工具 v3.0")
         self.root.geometry("1320x880")
         self.root.minsize(1100, 740)
 
@@ -91,6 +93,8 @@ class ComplianceApp:
         nav_items = [
             ("dashboard", "📊", "仪表盘"),
             ("checker", "🔍", "合规检测"),
+            ("batch", "📁", "批量检测"),
+            ("history", "🕘", "历史记录"),
             ("rules", "📚", "词库管理"),
             ("settings", "⚙️", "设置"),
         ]
@@ -124,7 +128,7 @@ class ComplianceApp:
         ctk.CTkLabel(footer, text="本地检测 · 隐私安全",
                      font=font_typo("micro"),
                      text_color=colors["text_tertiary"]).pack(anchor="w")
-        ctk.CTkLabel(footer, text="v2.3 优化版",
+        ctk.CTkLabel(footer, text="v3.0",
                      font=font_typo("micro"),
                      text_color=colors["text_tertiary"]).pack(anchor="w")
 
@@ -179,6 +183,8 @@ class ComplianceApp:
         page_classes = {
             "dashboard": DashboardPage,
             "checker": CheckerPage,
+            "batch": BatchPage,
+            "history": HistoryPage,
             "rules": RulesManagerPage,
             "settings": SettingsPage,
         }
@@ -188,7 +194,8 @@ class ComplianceApp:
         self.pages[page_key].pack_forget()
 
     def show_page(self, page_key):
-        if page_key not in ["dashboard", "checker", "rules", "settings"]:
+        if page_key not in ["dashboard", "checker", "batch", "history",
+                            "rules", "settings"]:
             return
 
         self._create_page(page_key)

@@ -2,9 +2,12 @@
 # -*- coding: utf-8 -*-
 """规则库加载：把 rules/ 下各类 JSON 加载为统一的 Rule 对象列表。
 
-兼容当前（v2.4 遗留）词库格式，并预留 v3 新 schema（带 "id" 字段）的直接读取。
-迁移脚本（scripts/migrate_from_v24.py）会把遗留格式转成新 schema，
-但本加载器两种都能读，保证过渡期两套词库都能跑。
+**单一数据源**：一律以实时的 ``rules/`` 目录为准。桌面端"词库管理"页面
+编辑的也是这同一批文件，因此编辑后 reload 即刻生效，不存在"两份词库"。
+
+结构化替换词（自动改写用）来自 ``rules/overrides/replacements.json``
+（关键词 → 替换词列表的覆盖表），由 ``scripts/migrate_from_v24.py`` 从
+旧 suggestion 文本中提取生成；加载时按关键词合并进对应 Rule。
 
 加载范围
 --------
@@ -13,6 +16,7 @@
 * ``blue_v_only.json``       仅蓝V可发（含 blue_v / non_blue_v 双严重度）
 * ``user_custom.json``       用户自定义（source=custom）
 * ``industry_packs/<id>/rules.json``  行业包（source=industry:<id>）
+* ``overrides/replacements.json``     关键词 → 替换词覆盖表（可选）
 
 线程安全：RuleBank 是不可变快照，加载后只读。重新加载请新建实例。
 """
@@ -28,11 +32,8 @@ from guardian.schema import Rule, normalize_severity
 # 内置词库目录（相对项目根）
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 _BUILTIN_RULES_DIR = _PROJECT_ROOT / "rules"
-#: 迁移产出的 v3 新 schema 词库（带稳定 ID / 四级严重度 / 结构化 replacements）
-_BUILTIN_V3_DIR = _PROJECT_ROOT / "rules_v3"
-#: v3 扁平列表文件名（按来源分文件，每个都是 Rule.to_dict 的数组）
-_V3_FILES = ("ad_law.json", "platform.json", "blue_v.json",
-             "industry_packs.json", "custom.json")
+#: 替换词覆盖表相对路径（相对词库目录）
+_REPLACEMENTS_OVERRIDE = Path("overrides") / "replacements.json"
 
 
 def _load_json(path: Path):
@@ -68,52 +69,31 @@ def _from_blue_v_entry(raw: dict, source: str, index: int) -> Rule:
 
 
 class RuleBank:
-    """不可变规则快照。
+    """不可变规则快照（单一数据源：``rules/``）。
 
-    加载策略（默认）
-    ----------------
-    * 若项目根存在 ``rules_v3/`` 且非空 → **优先**加载 v3 新 schema
-      （含迁移脚本补全的结构化 replacements，自动改写能力才生效）。
-    * 否则回退到遗留 ``rules/`` 格式（``Rule.from_legacy`` 兼容加载）。
-    * 显式传入 ``rules_dir`` 时（测试/自定义），只加载该目录，不做 v3 偏好。
+    加载顺序：先按来源读 ``rules/`` 各类文件，再套用
+    ``rules/overrides/replacements.json`` 覆盖表补全替换词。
     """
 
-    def __init__(self, rules_dir: Optional[Path | str] = None, prefer_v3: bool = True):
-        self.schema_version: str = "legacy"
+    def __init__(self, rules_dir: Optional[Path | str] = None):
+        self.rules_dir = Path(rules_dir) if rules_dir else _BUILTIN_RULES_DIR
         self._all: list[Rule] = []
-        if rules_dir is not None:
-            # 显式指定目录：按该目录实际格式加载（优先尝试 v3 扁平列表）
-            self.rules_dir = Path(rules_dir)
-            if prefer_v3 and self._load_v3(self.rules_dir):
-                self.schema_version = "v3"
-            else:
-                self._load()
-        else:
-            self.rules_dir = _BUILTIN_RULES_DIR
-            if prefer_v3 and _BUILTIN_V3_DIR.is_dir() and self._load_v3(_BUILTIN_V3_DIR):
-                self.rules_dir = _BUILTIN_V3_DIR
-                self.schema_version = "v3"
-            else:
-                self._load()
+        self._load()
+        self._apply_replacement_overrides()
         # ID 索引（去重 / 审计用）
         self._by_id: dict[str, Rule] = {r.id: r for r in self._all}
 
-    # ------------------------------------------------ v3 加载
+    # ------------------------------------------------ 替换词覆盖表
 
-    def _load_v3(self, d: Path) -> bool:
-        """加载 v3 扁平列表（rules_v3/*.json），成功加载到规则返回 True。"""
-        loaded = 0
-        for fname in _V3_FILES:
-            data = _load_json(d / fname)
-            if isinstance(data, list):
-                for x in data:
-                    try:
-                        self._all.append(Rule.from_dict(x))
-                        loaded += 1
-                    except (TypeError, ValueError):
-                        # 单条损坏不拖垮整体；跳过并继续
-                        continue
-        return loaded > 0
+    def _apply_replacement_overrides(self) -> None:
+        """把 overrides/replacements.json（关键词→替换词）合并进规则。"""
+        data = _load_json(self.rules_dir / _REPLACEMENTS_OVERRIDE)
+        if not isinstance(data, dict):
+            return
+        for r in self._all:
+            repl = data.get(r.keyword)
+            if isinstance(repl, list) and repl and not r.replacements:
+                r.replacements = [str(x) for x in repl]
 
     # ------------------------------------------------ 加载
 
@@ -136,6 +116,10 @@ class RuleBank:
         data = _load_json(d / "blue_v_only.json")
         if isinstance(data, list):
             self._all += [_from_blue_v_entry(x, "blue_v", i) for i, x in enumerate(data)]
+        # 正则兜底（"最X""极X""第X"等组合型极限词）
+        data = _load_json(d / "regex_patterns.json")
+        if isinstance(data, list):
+            self._all += [Rule.from_legacy(x, "regex", i) for i, x in enumerate(data)]
         # 用户自定义
         data = _load_json(d / "user_custom.json")
         if isinstance(data, list):

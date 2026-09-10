@@ -104,10 +104,19 @@ def romanize(normalized_text: str) -> RomanizedText:
     return RomanizedText(text="".join(out), idx=idx, normalized=normalized_text)
 
 
+def _is_all_cjk(s: str) -> bool:
+    """判断字符串是否**全部由汉字组成**（不含数字/字母/标点/空格）。"""
+    return bool(s) and all("\u4e00" <= ch <= "\u9fff" for ch in s)
+
+
 def pinyin_index(rules: list[Rule]) -> KeywordIndex:
     """从规则关键词生成**全拼**索引（变体抗规避的可选增强）。
 
     设计取舍：
+    * **只收纯汉字关键词**：含数字/符号/字母的关键词（如 "100%有效"）跳过。
+      原因：``lazy_pinyin`` 会让非汉字原样透传，导致 "100%有效" →
+      "100%youxiao"，其中 "100" 段会在拼音空间里被当成命中，回映射后
+      产出 "100" 这种伪变体（实测踩过）。
     * 只保留**全拼**（如 "微信" → "weixin"），**丢弃首字母**。
       原因：2 字母首字母（"wx"/"zh"/"sh"）在连写拼音串里碰撞极多——
       例如 "zh" 会落进「这」(zhe) 的拼音内部，造成单字级误报。
@@ -126,6 +135,8 @@ def pinyin_index(rules: list[Rule]) -> KeywordIndex:
     for rule in rules:
         kw = rule.keyword.strip()
         if len(kw) < 2:  # 单字拼音变体噪声太大，跳过
+            continue
+        if not _is_all_cjk(kw):  # 混合关键词（含数字/符号）交给字面通道
             continue
         parts = lp(kw, strict=False, errors="default")
         if not parts:

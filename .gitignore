@@ -39,8 +39,8 @@ ENV/
 htmlcov/
 .tox/
 
-# Data & config
-data/config.json
+# Data & config（运行期数据：配置 / 历史库 / 词库备份）
+data/
 rules/backup/
 
 # Packaging / build artifacts

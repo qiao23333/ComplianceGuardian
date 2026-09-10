@@ -15,7 +15,10 @@ DEFAULT_CONFIG = {
     "last_platform": "小红书",
     "last_account_type": "personal",
     "llm_enabled": False,
+    "llm_mode": "local",            # local（Ollama）| cloud（OpenAI 兼容）
     "llm_api_key": "",
+    "llm_base_url": "https://api.deepseek.com/v1",
+    "llm_local_base": "http://localhost:11434",
     "llm_model": "qwen2.5:7b",
     "total_checks": 0,
     "total_violations": 0,

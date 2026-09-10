@@ -59,14 +59,15 @@ def _downgrade(severity: str) -> str:
 def _replacement_for(rule: Rule) -> Optional[str]:
     """计算自动改写时用来替换原文的字符串。
 
-    * replacements 非空 → 用第一个
-    * suggestion 含"删除" → 删除（置空）
-    * 其他 → 不自动改写（返回 None）
+    **只认显式替换词**：``replacements`` 非空 → 用第一个；否则不自动改写。
+
+    历史教训：曾用"建议文本含'删除'就把命中改写为空串"的启发式，结果
+    "全网最低价"这类规则会把命中片段整段删掉（"最X"正则命中"最好"→删除，
+    句子变成"这是的服务"）。自动改写必须由词库明确给出替换词，
+    没有替换词就只高亮、由人工处理（与 P0 保守防线一致）。
     """
     if rule.replacements:
         return rule.replacements[0]
-    if "删除" in rule.suggestion:
-        return ""
     return None
 
 
@@ -229,8 +230,29 @@ class DetectionEngine:
         return "non_blue_v"
 
     def _dedupe(self, hits: list[dict]) -> list[dict]:
-        """同位置保留最长 / 高严重度，去除重叠重复。"""
+        """合并去重：字面/变体命中优先，正则仅作"兜底网"。
+
+        * 字面（keyword）与变体先按 位置→最长→类型→严重度 贪心选取；
+        * 正则命中只在**不与被选命中重叠**时补充进来——即"词库没覆盖到的
+          组合"才由正则兜底，避免正则抢掉带 suggestion/replacements 的
+          精确规则（否则自动改写会因正则规则无替换词而失效）。
+        """
+        curated = [h for h in hits if h["match_type"] != "regex"]
+        fallback = [h for h in hits if h["match_type"] == "regex"]
+
+        kept = self._greedy_pick(curated)
+        for h in sorted(fallback, key=lambda x: (x["start"], -len(x["keyword"]),
+                                                 -severity_weight(x["severity"]))):
+            if not any(h["start"] < k["end"] and h["end"] > k["start"] for k in kept):
+                kept.append(h)
+        return sorted(kept, key=lambda h: h["start"])
+
+    @staticmethod
+    def _greedy_pick(hits: list[dict]) -> list[dict]:
+        """贪心保留不重叠命中：位置 → 最长 → 类型(字面>变体) → 高严重度。"""
+        rank = {"keyword": 0, "variant": 1, "regex": 2}
         hits = sorted(hits, key=lambda h: (h["start"], -len(h["keyword"]),
+                                           rank.get(h["match_type"], 9),
                                            -severity_weight(h["severity"])))
         kept: list[dict] = []
         for h in hits:
@@ -318,16 +340,34 @@ class DetectionEngine:
 # ============================================================ 单例管理
 
 _engine: Optional[DetectionEngine] = None
+#: 按 rules_dir 分桶缓存（默认目录用 None 作键）——不同词库目录互不串味，
+#: 同一目录内仍复用同一引擎实例（线程安全由 RuleBank 不可变性保证）。
+_engines: dict[str, DetectionEngine] = {}
 
 
 def get_engine(rules_dir: Optional[str] = None) -> DetectionEngine:
-    """进程内单例（线程安全由 RuleBank 不可变性保证）。"""
-    global _engine
-    if _engine is None:
-        _engine = DetectionEngine(rules_dir=rules_dir)
-    return _engine
+    """进程内单例（按 rules_dir 分桶）。
+
+    * 相同 ``rules_dir``（含均为 None）→ 返回同一个引擎实例。
+    * 不同 ``rules_dir`` → 各自独立引擎（测试 / 多词库场景隔离）。
+    """
+    key = str(rules_dir) if rules_dir else ""
+    eng = _engines.get(key)
+    if eng is None:
+        eng = DetectionEngine(rules_dir=rules_dir)
+        _engines[key] = eng
+    return eng
 
 
-def reset_engine() -> None:
+def reset_engine(rules_dir: Optional[str] = None) -> None:
+    """失效缓存引擎。
+
+    * 传 ``rules_dir`` → 只清该词库目录的缓存（精准热更新）。
+    * 不传 → 清空全部（测试隔离用）。
+    """
     global _engine
-    _engine = None
+    if rules_dir is None:
+        _engine = None
+        _engines.clear()
+    else:
+        _engines.pop(str(rules_dir), None)

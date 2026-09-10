@@ -10,7 +10,9 @@
 5. 暗色模式完整支持
 """
 import bisect
+import os
 import threading
+from pathlib import Path
 import tkinter as tk
 from tkinter import messagebox
 
@@ -27,6 +29,10 @@ from apps.desktop.ui.widgets import (
     HoverTooltip, SegmentedControl, ToastNotification,
 )
 from guardian.detector import ComplianceDetector
+from guardian.engine import DetectionEngine
+from guardian.schema import DetectionOptions
+from guardian.export_report import build_payload, export_all
+from guardian.storage import HistoryStore, HistoryRecord
 
 
 class CheckerPage(ctk.CTkFrame):
@@ -457,6 +463,9 @@ class CheckerPage(ctk.CTkFrame):
                                     self.app.config_manager.get("total_violations", 0) + result["summary"]["violations"])
         self.toggle_btn.configure(state="normal")
 
+        # 自动存入历史（失败不影响检测）
+        self._auto_save_history(result, text, plat_key)
+
     def _on_cross_platform_done(self, results):
         """跨平台对比检测完成"""
         colors = get_colors()
@@ -599,6 +608,10 @@ class CheckerPage(ctk.CTkFrame):
             btn_frame.pack(fill="x", pady=(SPACING["xs"], 0))
             ctk.CTkButton(btn_frame, text="复制修改后文案", width=140,
                           command=self._copy_modified, **secondary_button_style()).pack(side="left", padx=(0, SPACING["sm"]))
+            ctk.CTkButton(btn_frame, text="一键改写", width=90,
+                          command=self._auto_rewrite, **secondary_button_style()).pack(side="left", padx=(0, SPACING["sm"]))
+            ctk.CTkButton(btn_frame, text="导出报告", width=90,
+                          command=self._export_report, **secondary_button_style()).pack(side="left", padx=(0, SPACING["sm"]))
             ctk.CTkButton(btn_frame, text="重新检测", width=90,
                           command=self._run_detection, **secondary_button_style()).pack(side="left")
         else:
@@ -903,6 +916,87 @@ class CheckerPage(ctk.CTkFrame):
             root.clipboard_append(self.current_result["modified_text"])
             toast = ToastNotification(self, "已复制修改后文案")
             toast.show(self)
+
+    # ============================================================
+    # 阶段3 新增：一键改写 / 导出报告 / 自动历史
+    # ============================================================
+
+    def _auto_rewrite(self):
+        """一键改写：用引擎 auto_replace 生成合规改写文案。"""
+        colors = get_colors()
+        text = self.textbox.get("1.0", "end-1c")
+        if not text.strip():
+            return
+        plat_key = {"小红书": "xiaohongshu", "抖音": "douyin",
+                    "微信视频号": "weixin", "all": "all"}.get(
+                        self.platform_var.get(), "xiaohongshu")
+        account_type = self.account_var.get()
+        try:
+            rewritten = self.detector.detect(text, plat_key, account_type,
+                                             auto_replace=True)
+            self.current_result = rewritten
+            self.textbox.delete("1.0", "end")
+            self.textbox.insert("1.0", rewritten["modified_text"])
+            toast = ToastNotification(self, "已应用一键改写")
+            toast.show(self)
+        except Exception as e:
+            messagebox.showerror("改写失败", f"自动改写出错：\n{e}")
+
+    def _export_report(self):
+        """导出检测报告为 HTML / PNG / PDF。"""
+        text = self.textbox.get("1.0", "end-1c")
+        if not text.strip():
+            return
+        plat_key = {"小红书": "xiaohongshu", "抖音": "douyin",
+                    "微信视频号": "weixin", "all": "all"}.get(
+                        self.platform_var.get(), "xiaohongshu")
+        account_type = self.account_var.get()
+        try:
+            engine = DetectionEngine()
+            opts = DetectionOptions(platform=plat_key, account_type=account_type,
+                                    use_variants=True)
+            result = engine.detect_text(text, opts)
+            payload = build_payload(result, platform=plat_key)
+            out_dir = tk.filedialog.askdirectory(title="选择报告保存目录")
+            if not out_dir:
+                return
+            paths = export_all(payload, Path(out_dir) / "合规检测报告")
+            toast = ToastNotification(self, "报告已导出（HTML/PNG/PDF）")
+            toast.show(self)
+            # 尝试打开目录（Windows）
+            try:
+                os.startfile(out_dir)  # type: ignore[attr-defined]
+            except Exception:
+                pass
+        except Exception as e:
+            messagebox.showerror("导出失败", f"生成报告出错：\n{e}")
+
+    def _auto_save_history(self, result, text, platform):
+        """检测完成后自动写入本地历史库（存 4 级严重度，供回看与导出）。"""
+        try:
+            engine = DetectionEngine()
+            opts = DetectionOptions(platform=platform,
+                                    account_type=self.account_var.get(),
+                                    use_variants=True)
+            eng_result = engine.detect_text(text, opts)
+            payload = build_payload(eng_result, platform=platform)
+            rec = HistoryRecord(
+                text=payload["text"],
+                risk_level=payload["risk_level"],
+                score=payload["score"],
+                counts=payload["counts"],
+                findings=payload["findings"],
+                safe_text=payload["safe_text"],
+                platform=platform,
+                account_type=self.account_var.get(),
+                source="single",
+            )
+            store = HistoryStore()
+            store.add(rec)
+            store.close()
+        except Exception:
+            # 历史写入失败不应影响检测主流程
+            pass
 
     def refresh(self):
         """刷新页面"""

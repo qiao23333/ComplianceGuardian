@@ -144,6 +144,9 @@ class Rule:
         """
         keyword = raw.get("keyword", "")
         category = raw.get("category", "未分类")
+        match_mode = raw.get("match_mode", "exact") or "exact"
+        if match_mode not in VALID_MATCH_MODES:
+            match_mode = "exact"
         severity = normalize_severity(
             raw.get("severity", "violation"), category, len(keyword)
         )
@@ -165,6 +168,7 @@ class Rule:
         return cls(
             id=rule_id,
             keyword=keyword,
+            match_mode=match_mode,
             source=source,
             industry=industry,
             platforms=platforms,
@@ -172,6 +176,9 @@ class Rule:
             severity=severity,
             severity_by_account=raw.get("severity_by_account"),
             suggestion=raw.get("suggestion", ""),
+            # 结构化替换词：优先取规则自带的 replacements 字段
+            # （迁移/词库维护可写入；旧词库无此字段则为空 → 不自动改写）
+            replacements=list(raw.get("replacements") or []),
             law_ref=raw.get("law_ref", ""),
             note=raw.get("note", ""),
             # 单字极限词不允许自动改写（与 context_guard 的运行时防线呼应）

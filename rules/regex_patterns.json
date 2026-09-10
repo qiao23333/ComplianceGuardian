@@ -1,0 +1,110 @@
+[
+  {
+    "keyword": "最[^\\W\\s，。！？、；：（）【】\\[\\]{}.,!?;:]",
+    "match_mode": "regex",
+    "category": "极限词",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "删除'最'字或改为程度较弱的表述",
+    "note": "正则兜底：含'最'字的极限用语"
+  },
+  {
+    "keyword": "极[^\\W\\s，。！？、；：（）【】\\[\\]{}.,!?;:]",
+    "match_mode": "regex",
+    "category": "极限词",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "删除'极'字或改为'非常'",
+    "note": "正则兜底：含'极'字的极限用语"
+  },
+  {
+    "keyword": "第[一二三四五六七八九十\\d]+",
+    "match_mode": "regex",
+    "category": "极限词",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "删除排名类表述",
+    "note": "正则兜底：第X排名类极限用语"
+  },
+  {
+    "keyword": "[国家世界宇宙天地全球全行]级",
+    "match_mode": "regex",
+    "category": "极限词",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "删除'X级'表述",
+    "note": "正则兜底：X级极限用语"
+  },
+  {
+    "keyword": "(全网|全国|全球|全行|史上)(最低|最便宜|最优惠|首发|第一|首款|首创|最早|最强|最好|最大)",
+    "match_mode": "regex",
+    "category": "极限词",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "删除极限排名表述",
+    "note": "正则兜底：全网/全国/全球+极限词组合"
+  },
+  {
+    "keyword": "首[创发家款次个批]",
+    "match_mode": "regex",
+    "category": "极限词",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "删除'首X'表述",
+    "note": "正则兜底：首X类极限用语"
+  },
+  {
+    "keyword": "独[家创有特无]",
+    "match_mode": "regex",
+    "category": "极限词",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "删除'独X'表述或改为'特色'",
+    "note": "正则兜底：独X类极限用语"
+  },
+  {
+    "keyword": "唯[一独家]",
+    "match_mode": "regex",
+    "category": "极限词",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "删除'唯X'表述或改为'少有'",
+    "note": "正则兜底：唯X类极限用语"
+  },
+  {
+    "keyword": "顶[级尖配流端]",
+    "match_mode": "regex",
+    "category": "极限词",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "删除'顶X'表述或改为'高端'",
+    "note": "正则兜底：顶X类极限用语"
+  },
+  {
+    "keyword": "\\d+第一|第\\d+",
+    "match_mode": "regex",
+    "category": "极限词",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "删除排名类表述",
+    "note": "正则兜底：数字+第一或第X排名类"
+  },
+  {
+    "keyword": "100%|百分之百|百分百",
+    "match_mode": "regex",
+    "category": "绝对化用语",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "改为'高比例'或具体数据",
+    "note": "正则兜底：100%类绝对化用语"
+  },
+  {
+    "keyword": "永[久远]",
+    "match_mode": "regex",
+    "category": "绝对化用语",
+    "severity": "critical",
+    "law_ref": "《广告法》第九条",
+    "suggestion": "改为'长期'并标注具体期限",
+    "note": "正则兜底：永远/永久类绝对化用语"
+  }
+]

@@ -138,21 +138,27 @@ def test_industry_pack_loaded(engine):
     assert immigration_related & kw, "移民行业包似乎未加载"
 
 
-# ---------------------------------------------------------------- v3 词库集成
+# ---------------------------------------------------------------- 单一数据源 + 替换词覆盖表
 
 
-def test_default_bank_loads_v3(engine):
-    """默认引擎应加载 v3 新 schema 词库（含结构化 replacements）。"""
-    assert engine.bank.schema_version == "v3", (
-        f"期望加载 v3 词库，实际：{engine.bank.schema_version}（rules_v3 缺失？）"
-    )
-    # v3 应带来一批带替换词的规则（自动改写能力才可用）
+def test_default_bank_loads_rules_with_overrides(engine):
+    """默认引擎加载 rules/ 单一数据源，并套用 overrides/replacements.json。
+
+    词库本体不含结构化 replacements，替换词来自覆盖表（派生数据），
+    因此加载后应有一批规则获得替换词，自动改写能力才可用。
+    """
+    assert len(engine.bank.all) > 0, "默认词库未加载"
+    # 覆盖表应带来一批带替换词的规则
     with_repl = [r for r in engine.bank.all if r.replacements]
-    assert len(with_repl) >= 200, f"v3 带替换词规则过少：{len(with_repl)}"
+    assert len(with_repl) >= 200, f"带替换词规则过少：{len(with_repl)}"
+    # 抽样核对覆盖表已生效
+    by_kw = {r.keyword: r for r in engine.bank.all}
+    if "最好" in by_kw:
+        assert by_kw["最好"].replacements == ["良好"]
 
 
-def test_v3_replacement_flows_into_safe_text(engine):
-    """v3 替换词应端到端生效：'最佳'→'优质'（开启 auto_replace 时）。"""
+def test_replacement_flows_into_safe_text(engine):
+    """覆盖表替换词应端到端生效：'最佳'→'优质'（开启 auto_replace 时）。"""
     r = det(engine, "这是最佳的选择", auto_replace=True)
     assert any(f.matched_text == "最佳" for f in r.findings)
     assert r.safe_text == "这是优质的选择", r.safe_text
