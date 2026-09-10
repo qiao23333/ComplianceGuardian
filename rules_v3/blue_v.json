@@ -1,0 +1,1427 @@
+[
+  {
+    "id": "blue_v:0000:386449",
+    "version": 1,
+    "keyword": "治疗效果",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V账号不可使用医疗效果表述；蓝V账号需确保有医疗资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "医疗健康类效果声明仅限认证账号",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0001:e9ad1e",
+    "version": 1,
+    "keyword": "治愈",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用治愈表述；蓝V需有医疗资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "治愈类表述仅限认证账号",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0002:cf9567",
+    "version": 1,
+    "keyword": "药效",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用药效表述；蓝V需有药品相关资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "药效类表述仅限认证账号",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0003:eb88e0",
+    "version": 1,
+    "keyword": "临床验证",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用临床验证表述；蓝V需提供临床数据",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "临床验证类表述需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0004:655510",
+    "version": 1,
+    "keyword": "处方",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及处方相关内容",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "处方相关内容需医疗认证",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0005:a54475",
+    "version": 1,
+    "keyword": "保证收益",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可做收益保证；蓝V也需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "金融投资类承诺需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0006:fb7674",
+    "version": 1,
+    "keyword": "稳赚",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用稳赚表述；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "投资收益承诺需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0007:a74ed2",
+    "version": 1,
+    "keyword": "保本",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用保本表述",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "保本承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0008:3c3ca2",
+    "version": 1,
+    "keyword": "投资建议",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可提供投资建议",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "投资建议需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0009:3570d1",
+    "version": 1,
+    "keyword": "理财推荐",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可做理财推荐",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "理财推荐需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0010:9f064f",
+    "version": 1,
+    "keyword": "包过",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "教育承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用包过承诺",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "教育包过承诺需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0011:38a410",
+    "version": 1,
+    "keyword": "保录",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "教育承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用保录承诺",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "保录承诺需教育认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0012:899bd9",
+    "version": 1,
+    "keyword": "包就业",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "教育承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用包就业承诺",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "就业承诺需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0013:324c8f",
+    "version": 1,
+    "keyword": "法律意见",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "法律服务",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可提供法律意见",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "法律意见需法律认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0014:4a0279",
+    "version": 1,
+    "keyword": "代为诉讼",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "法律服务",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可代理诉讼",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "诉讼代理需法律认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0015:6b794c",
+    "version": 1,
+    "keyword": "专业代理",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "法律服务",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用专业代理表述",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "专业代理需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0016:ed6ab6",
+    "version": 1,
+    "keyword": "疗效",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用疗效表述；蓝V需提供医疗资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "疗效类表述仅限认证账号",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0017:b03b6c",
+    "version": 1,
+    "keyword": "医学验证",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用医学验证表述；蓝V需提供验证报告",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "医学验证类表述需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0018:8cb3c7",
+    "version": 1,
+    "keyword": "临床数据",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用临床数据表述；蓝V需提供临床数据",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "临床数据类表述需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0019:5454d0",
+    "version": 1,
+    "keyword": "医学认证",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用医学认证表述；蓝V需提供认证文件",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "医学认证类表述需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0020:513056",
+    "version": 1,
+    "keyword": "医师推荐",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用医师推荐表述；蓝V需提供资质和授权",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "医师推荐类表述需医疗资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0021:d7d84d",
+    "version": 1,
+    "keyword": "老中医推荐",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用老中医推荐表述；蓝V需提供资质和授权",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "老中医推荐类表述需医疗资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0022:bb7cda",
+    "version": 1,
+    "keyword": "名医推荐",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用名医推荐表述；蓝V需提供资质和授权",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "名医推荐类表述需医疗资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0023:942b92",
+    "version": 1,
+    "keyword": "祖传秘方",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用祖传秘方表述；蓝V需提供医疗资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "祖传秘方类表述需医疗资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0024:a3e883",
+    "version": 1,
+    "keyword": "宫廷秘方",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗声明",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用宫廷秘方表述；蓝V需提供医疗资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "宫廷秘方类表述需医疗资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0025:0c7cfd",
+    "version": 1,
+    "keyword": "保本保息",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用保本保息表述；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "保本保息承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0026:807782",
+    "version": 1,
+    "keyword": "零风险",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用零风险表述；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "零风险承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0027:5b6325",
+    "version": 1,
+    "keyword": "无风险",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用无风险表述；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "无风险承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0028:29e0b7",
+    "version": 1,
+    "keyword": "日赚千元",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用日赚千元表述；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "日赚千元类承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0029:a1abac",
+    "version": 1,
+    "keyword": "日赚百元",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用日赚百元表述；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "日赚百元类承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0030:bdaace",
+    "version": 1,
+    "keyword": "月入过万",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用月入过万表述；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "月入过万类承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0031:63aecc",
+    "version": 1,
+    "keyword": "年化收益20%",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用年化收益表述；蓝V需提供数据并加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "年化收益类承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0032:3ada37",
+    "version": 1,
+    "keyword": "投资零风险",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用投资零风险表述；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "投资零风险承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0033:7bfe96",
+    "version": 1,
+    "keyword": "100%收益",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用100%收益表述；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "100%收益承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0034:44a093",
+    "version": 1,
+    "keyword": "无风险投资",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "金融承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用无风险投资表述；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "无风险投资承诺需金融认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0035:6bb306",
+    "version": 1,
+    "keyword": "包拿证",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "教育承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用包拿证承诺；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "包拿证承诺需教育认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0036:1c13c4",
+    "version": 1,
+    "keyword": "保过",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "教育承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用保过承诺；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "保过承诺需教育认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0037:755054",
+    "version": 1,
+    "keyword": "100%升学",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "教育承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用100%升学承诺；蓝V需提供数据并加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "100%升学承诺需教育认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0038:1438c8",
+    "version": 1,
+    "keyword": "名校保录",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "教育承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用名校保录承诺；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "名校保录承诺需教育认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0039:563658",
+    "version": 1,
+    "keyword": "押题率",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "教育承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用押题率承诺；蓝V需提供数据并加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "押题率承诺需教育认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0040:7b7f78",
+    "version": 1,
+    "keyword": "一次过",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "教育承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用一次过承诺；蓝V需加风险提示",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "一次过承诺需教育认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0041:727d69",
+    "version": 1,
+    "keyword": "考不过退费",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "教育承诺",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用考不过退费承诺；蓝V需标注退费条件",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "考不过退费承诺需教育认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0042:9ec510",
+    "version": 1,
+    "keyword": "律师函",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "法律服务",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用律师函表述；蓝V需提供法律服务资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "律师函类表述需法律认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0043:8e2074",
+    "version": 1,
+    "keyword": "法律咨询",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "法律服务",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用法律咨询表述；蓝V需提供法律服务资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "法律咨询类表述需法律认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0044:3587d0",
+    "version": 1,
+    "keyword": "代理维权",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "法律服务",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可使用代理维权表述；蓝V需提供法律服务资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "代理维权类表述需法律认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0045:fd9010",
+    "version": 1,
+    "keyword": "医疗器械",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗器械",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及医疗器械；蓝V需提供医疗器械资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "医疗器械类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0046:706c9e",
+    "version": 1,
+    "keyword": "理疗",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗器械",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及理疗；蓝V需提供医疗器械资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "理疗类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0047:d8d44d",
+    "version": 1,
+    "keyword": "康复设备",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "医疗器械",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及康复设备；蓝V需提供医疗器械资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "康复设备类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0048:10d0d8",
+    "version": 1,
+    "keyword": "处方药",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "药品",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及处方药；蓝V需提供药品经营资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "处方药类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0049:a63904",
+    "version": 1,
+    "keyword": "非处方药",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "药品",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及非处方药；蓝V需提供药品经营资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "非处方药类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0050:a129e0",
+    "version": 1,
+    "keyword": "中药",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "药品",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及中药；蓝V需提供药品经营资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "中药类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0051:e8611d",
+    "version": 1,
+    "keyword": "西药",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "药品",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及西药；蓝V需提供药品经营资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "西药类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0052:b4321c",
+    "version": 1,
+    "keyword": "保健食品",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "保健品",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及保健食品；蓝V需提供保健品经营资质并按规标注",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "保健食品类内容需认证资质，需标注'本品不能代替药物'",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0053:b5a71d",
+    "version": 1,
+    "keyword": "营养补充剂",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "保健品",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及营养补充剂；蓝V需提供保健品经营资质",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "营养补充剂类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0054:1a104a",
+    "version": 1,
+    "keyword": "功效声称",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "保健品",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及功效声称；蓝V需提供保健品经营资质并按规标注",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "功效声称类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0055:83e3b3",
+    "version": 1,
+    "keyword": "婴幼儿配方食品",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "特殊食品",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及婴幼儿配方食品；蓝V需提供注册证",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "婴幼儿配方食品类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  },
+  {
+    "id": "blue_v:0056:8f2cdb",
+    "version": 1,
+    "keyword": "特殊医学用途食品",
+    "match_mode": "exact",
+    "source": "blue_v",
+    "industry": null,
+    "platforms": [
+      "*"
+    ],
+    "category": "特殊食品",
+    "severity": "critical",
+    "severity_by_account": {
+      "non_blue_v": "critical",
+      "blue_v": "medium"
+    },
+    "context_excludes": [],
+    "suggestion": "非蓝V不可涉及特殊医学用途食品；蓝V需提供注册证",
+    "replacements": [],
+    "allow_auto_replace": true,
+    "law_ref": "",
+    "note": "特殊医学用途食品类内容需认证资质",
+    "enabled": true,
+    "updated": ""
+  }
+]

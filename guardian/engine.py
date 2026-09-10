@@ -1,0 +1,333 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""检测引擎（v3 新内核）。
+
+职责
+----
+把"规则 + 文本 → 检测结果"这条主链路编排清楚，取代 v2.4 里
+detector.py 那个 1171 行、检测/LLM/规则CRUD/备份职责混杂的单体类。
+
+主链路（detect_text）
+--------------------
+1. 按选项过滤规则（平台 / 账号 / 行业 / 最低严重度）
+2. 构建关键词索引（精确词 → Aho 自动机；正则词 → 单独 re 通道）
+3. 字面命中（raw text）
+4. 变体命中（归一化后文本：谐音/跳字/繁简/全角）+ 可选拼音变体
+5. 去重（同位置保留最长）
+6. 反误杀守卫（context_guard：上下文豁免 + 短词降级）
+7. 生成 Finding 列表、合规分 summary、safe_text（只改写 allow_auto_replace 项）
+8. 可选 LLM 语义增强（无可用 Provider 时自动跳过，纯规则引擎完整工作）
+
+设计约束
+--------
+本模块属于内核层，禁止 import tkinter / customtkinter / fastapi。
+"""
+
+from __future__ import annotations
+
+import re
+import time
+from typing import Optional
+
+from guardian import context_guard
+from guardian.matcher import create_matcher
+from guardian.matcher.base import Hit, KeywordIndex
+from guardian.normalize import normalize, romanize, pinyin_index
+from guardian.rulebank import RuleBank
+from guardian.schema import (
+    SEVERITY_LEVELS,
+    DetectionOptions,
+    DetectionResult,
+    Finding,
+    Rule,
+    severity_weight,
+)
+
+_ENGINE_VERSION = "3.0.0-alpha"
+
+
+def _downgrade(severity: str) -> str:
+    """变体命中时把严重度降一级。"""
+    order = ["critical", "high", "medium", "low"]
+    try:
+        i = order.index(severity)
+        return order[min(i + 1, len(order) - 1)]
+    except ValueError:
+        return "low"
+
+
+def _replacement_for(rule: Rule) -> Optional[str]:
+    """计算自动改写时用来替换原文的字符串。
+
+    * replacements 非空 → 用第一个
+    * suggestion 含"删除" → 删除（置空）
+    * 其他 → 不自动改写（返回 None）
+    """
+    if rule.replacements:
+        return rule.replacements[0]
+    if "删除" in rule.suggestion:
+        return ""
+    return None
+
+
+class DetectionEngine:
+    """检测引擎（不可变快照，线程安全单例由 get_engine() 管理）。"""
+
+    def __init__(self, rulebank: Optional[RuleBank] = None,
+                 rules_dir: Optional[str] = None):
+        self.bank = rulebank or RuleBank(rules_dir)
+        self._cache: dict[str, object] = {}
+
+    # ------------------------------------------------ 索引构建
+
+    def _index_key(self, options: DetectionOptions) -> str:
+        ind = options.industries or []
+        return f"{options.platform}|{options.account_type}|{sorted(ind)}|{options.min_severity}"
+
+    def _get_matcher(self, rules: list[Rule]):
+        exact: KeywordIndex = {}
+        regex: list[Rule] = []
+        for r in rules:
+            if r.match_mode == "regex":
+                regex.append(r)
+            else:
+                exact.setdefault(r.keyword, []).append(r)
+        matcher = create_matcher(exact)
+        return matcher, exact, regex
+
+    # ------------------------------------------------ 入口
+
+    def detect_text(self, text: str, options: Optional[DetectionOptions] = None) \
+            -> DetectionResult:
+        options = options or DetectionOptions()
+        t0 = time.time()
+
+        if not text or not text.strip():
+            return DetectionResult(text=text, summary={"counts": {}, "score": 100,
+                                "risk_level": "基本合规", "text_length": len(text)},
+                                  safe_text=text, meta={"engine_version": _ENGINE_VERSION})
+
+        text = text[: options.max_text_len] if len(text) > options.max_text_len else text
+
+        rules = self.bank.filter(
+            platform=options.platform,
+            account_type=options.account_type,
+            industries=options.industries,
+            min_severity=options.min_severity,
+        )
+        matcher, exact_idx, regex_rules = self._get_matcher(rules)
+
+        # 1) 字面命中
+        raw_hits: list[dict] = []
+        for start, end, keyword, rule in matcher.iter_hits(text):
+            raw_hits.append(self._mk_hit(start, end, keyword, rule, "keyword"))
+
+        # 正则通道
+        for rule in regex_rules:
+            try:
+                pat = re.compile(rule.keyword)
+            except re.error:
+                continue
+            for m in pat.finditer(text):
+                raw_hits.append(self._mk_hit(m.start(), m.end(), rule.keyword, rule, "regex"))
+
+        # 2) 变体命中（归一化后）
+        variant_hits: list[dict] = []
+        if options.use_variants:
+            norm = normalize(text)
+            for start, end, keyword, rule in matcher.iter_hits(norm.text):
+                o_s, o_e = norm.original_span(start, end)
+                orig_sub = text[o_s:o_e]
+                # 字面也能匹配到的（orig_sub==keyword）属重复，跳过
+                if orig_sub == keyword:
+                    continue
+                h = self._mk_hit(o_s, o_e, keyword, rule, "variant",
+                                 variant_of=keyword, conf=0.8)
+                variant_hits.append(h)
+
+            # 2b) 拼音变体（可选，依赖 pypinyin；仅全拼 + 字符边界对齐）
+            pidx = pinyin_index(rules)
+            if pidx:
+                from guardian.matcher import create_matcher as _cm
+                pmatcher = _cm(pidx)
+                rom = romanize(norm.text)
+                if rom.text:
+                    for s, e, keyword, rule in pmatcher.iter_hits(rom.text):
+                        cs = rom.char_span(s, e)
+                        if cs is None:
+                            continue  # 没对齐到整字边界 → 误报，丢弃
+                        n_s, n_e = cs
+                        if n_e > len(norm.index_map):
+                            continue
+                        o_s = norm.index_map[n_s]
+                        o_e = norm.index_map[n_e - 1] + 1
+                        orig_sub = text[o_s:o_e]
+                        # 字面已能命中（orig_sub == 关键词）属重复，跳过
+                        if orig_sub == rule.keyword:
+                            continue
+                        h = self._mk_hit(o_s, o_e, keyword, rule, "variant",
+                                         variant_of=rule.keyword, conf=0.7)
+                        variant_hits.append(h)
+
+        # 3) 合并 + 去重
+        all_hits = raw_hits + variant_hits
+        all_hits = self._dedupe(all_hits)
+
+        # 4) 反误杀守卫
+        exempt_spans = context_guard.find_exempt_spans(text)
+        guarded = context_guard.apply_guard(all_hits, text, exempt_spans)
+
+        # 5) 转 Finding + 生成改写文案
+        findings = [self._to_finding(i, h, text) for i, h in enumerate(guarded, 1)]
+        safe_text = self._build_safe_text(text, findings, options)
+
+        # 6) summary
+        summary = self._build_summary(findings, len(text))
+
+        # 7) 可选 LLM
+        llm_analysis = None
+        meta = {
+            "engine_version": _ENGINE_VERSION,
+            "matcher_backend": matcher.backend,
+            "rule_count": len(rules),
+            "elapsed_ms": round((time.time() - t0) * 1000, 2),
+        }
+        if options.use_llm:
+            llm_analysis, provider_name = self._maybe_llm(text, findings)
+            meta["llm_provider"] = provider_name
+            meta["llm_used"] = llm_analysis is not None
+
+        return DetectionResult(
+            text=text, findings=findings, summary=summary,
+            safe_text=safe_text, llm_analysis=llm_analysis, meta=meta,
+        )
+
+    # ------------------------------------------------ 内部工具
+
+    def _mk_hit(self, start, end, keyword, rule, match_type,
+                variant_of=None, conf=1.0) -> dict:
+        severity = rule.severity_for(self._account())
+        allow = rule.allow_auto_replace
+        if match_type == "variant":
+            severity = _downgrade(severity)
+            allow = False  # 变体绝不自动改写，交人工确认
+        return {
+            "start": start, "end": end, "keyword": keyword,
+            "rule_id": rule.id, "category": rule.category,
+            "severity": severity, "source": rule.source,
+            "industry": rule.industry, "platform": rule.platforms[0]
+            if rule.platforms != ["*"] else "*",
+            "suggestion": rule.suggestion,
+            "replacements": rule.replacements,
+            "allow_auto_replace": allow,
+            "match_type": match_type, "variant_of": variant_of,
+            "confidence": conf,
+        }
+
+    def _account(self) -> str:
+        # 简化：引擎内部用 non_blue_v 取默认严重度（调用方已通过 filter 控制）
+        return "non_blue_v"
+
+    def _dedupe(self, hits: list[dict]) -> list[dict]:
+        """同位置保留最长 / 高严重度，去除重叠重复。"""
+        hits = sorted(hits, key=lambda h: (h["start"], -len(h["keyword"]),
+                                           -severity_weight(h["severity"])))
+        kept: list[dict] = []
+        for h in hits:
+            if any(h["start"] < k["end"] and h["end"] > k["start"] for k in kept):
+                continue
+            kept.append(h)
+        return kept
+
+    def _to_finding(self, fid: int, h: dict, text: str) -> Finding:
+        return Finding(
+            id=fid, start=h["start"], end=h["end"],
+            matched_text=text[h["start"]:h["end"]],
+            rule_id=h["rule_id"], keyword=h["keyword"],
+            category=h["category"], severity=h["severity"],
+            source=h["source"], platform=h["platform"],
+            suggestion=h["suggestion"], replacements=list(h["replacements"]),
+            allow_auto_replace=h["allow_auto_replace"],
+            match_type=h["match_type"], variant_of=h["variant_of"],
+            confidence=h["confidence"],
+        )
+
+    def _build_safe_text(self, text: str, findings: list[Finding],
+                         options: DetectionOptions) -> str:
+        """只替换 allow_auto_replace=True 的字面命中（变体一律不自动改写）。
+
+        默认 ``options.auto_replace=False`` → 返回原文（仅高亮，保守不改写）；
+        显式开启后才执行自动改写。这样避免默认就露出半成品改写文案
+        （例如规则 keyword 比常见短语短一截时会残留尾字）。UI 的"一键改写"
+        按钮显式开启该开关并提供预览。
+        """
+        if not options.auto_replace:
+            return text
+        edits = [(f.start, f.end, f) for f in findings
+                 if f.allow_auto_replace and f.match_type in ("keyword", "regex")]
+        if not edits:
+            return text
+        edits.sort(key=lambda x: x[0], reverse=True)
+        out = text
+        for s, e, f in edits:
+            rule = self.bank.get(f.rule_id)
+            if rule is None:
+                continue
+            repl = _replacement_for(rule)
+            if repl is None:
+                continue
+            out = out[:s] + repl + out[e:]
+        return out
+
+    def _build_summary(self, findings: list[Finding], text_len: int) -> dict:
+        counts = {k: 0 for k in SEVERITY_LEVELS}
+        for f in findings:
+            counts[f.severity] = counts.get(f.severity, 0) + 1
+        penalty = sum(severity_weight(f.severity) for f in findings)
+        score = max(0, 100 - penalty)
+        if counts["critical"] > 0:
+            risk = "高风险"
+        elif counts["high"] > 0:
+            risk = "中风险"
+        elif counts["medium"] > 0:
+            risk = "低风险"
+        else:
+            risk = "基本合规"
+        return {"score": score, "risk_level": risk, "counts": counts,
+                "text_length": text_len}
+
+    def _maybe_llm(self, text: str, findings: list[Finding]):
+        from guardian.llm import create_provider
+        from guardian.llm.base import LLMRequest
+
+        provider = create_provider(self._llm_config or {})
+        if not provider.is_configured():
+            return None, provider.name
+        req = LLMRequest(text=text, findings=[
+            {"keyword": f.keyword, "category": f.category} for f in findings])
+        res = provider.analyze(req)
+        return (res.analysis if res.ok else None), provider.name
+
+    # LLM 配置（由 set_llm_config 注入，默认空 → NullProvider）
+    _llm_config: dict = {}
+
+    def set_llm_config(self, config: dict) -> None:
+        self._llm_config = config or {}
+
+
+# ============================================================ 单例管理
+
+_engine: Optional[DetectionEngine] = None
+
+
+def get_engine(rules_dir: Optional[str] = None) -> DetectionEngine:
+    """进程内单例（线程安全由 RuleBank 不可变性保证）。"""
+    global _engine
+    if _engine is None:
+        _engine = DetectionEngine(rules_dir=rules_dir)
+    return _engine
+
+
+def reset_engine() -> None:
+    global _engine
+    _engine = None
