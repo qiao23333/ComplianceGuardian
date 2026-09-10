@@ -42,9 +42,11 @@ def test_empty_text(engine):
 def test_basic_keyword(engine):
     r = det(engine, "这是最好的产品")
     assert any(f.matched_text == "最好" for f in r.findings)
-    # 最好 在 ad_law 是 violation → 新四级 critical
+    # 最好 属"极限词"类目。《广告法》第 57 条对"最高级/最佳"等用语规定了
+    # 20 万元起罚款，故分级为 high（中危·限流/法律风险）；critical 留给
+    # 伪造材料、医疗功效宣称这类真正的硬性禁令/刑律风险词。
     sev = {f.matched_text: f.severity for f in r.findings}
-    assert sev["最好"] == "critical"
+    assert sev["最好"] == "high"
 
 
 def test_summary_structure(engine):
@@ -56,9 +58,12 @@ def test_summary_structure(engine):
 
 
 def test_risk_levels(engine):
-    # 无违规 → 基本合规；有 critical → 高风险
+    """四级严重度必须真正映射到四档风险等级（曾因词库只有两档而形同虚设）。"""
     assert det(engine, "你好世界").summary["risk_level"] == "基本合规"
-    assert det(engine, "最好的产品").summary["risk_level"] == "高风险"
+    # 极限词 → high → 中风险
+    assert det(engine, "最好的产品").summary["risk_level"] == "中风险"
+    # 医疗功效宣称（ad_law 医疗限制）→ critical → 高风险
+    assert det(engine, "这款药可以治疗疾病").summary["risk_level"] == "高风险"
 
 
 # ---------------------------------------------------------------- 改写安全网

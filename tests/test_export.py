@@ -69,6 +69,7 @@ def test_build_payload_from_engine_result():
     r = eng.detect_text("这是最好的服务", DetectionOptions())
     payload = build_payload(r, platform="xiaohongshu")
     assert payload["text"] == "这是最好的服务"
-    assert payload["risk_level"] == "高风险"
+    # 极限词 → high → 中风险（见词库质量治理：严重度按类目重分级）
+    assert payload["risk_level"] == "中风险"
     assert any(f["keyword"] == "最好" for f in payload["findings"])
     assert payload["platform"] == "xiaohongshu"

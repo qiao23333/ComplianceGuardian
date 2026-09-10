@@ -56,6 +56,16 @@ def _downgrade(severity: str) -> str:
         return "low"
 
 
+def _contains_non_cjk(s: str) -> bool:
+    """字符串里是否含非汉字字符（字母/数字/标点）。
+
+    拼音变体通道的准入闸门：只有源文本真的混入了非汉字（用户写了拼音或
+    字母），才认定这是"刻意规避"。纯中文文本一律拒绝——否则相邻汉字的
+    拼音会跨字拼出别的关键词，产生大面积误报（详见调用处注释）。
+    """
+    return any(not ("\u4e00" <= ch <= "\u9fff") for ch in s)
+
+
 def _replacement_for(rule: Rule) -> Optional[str]:
     """计算自动改写时用来替换原文的字符串。
 
@@ -166,6 +176,17 @@ class DetectionEngine:
                         # 字面已能命中（orig_sub == 关键词）属重复，跳过
                         if orig_sub == rule.keyword:
                             continue
+                        # ⚠️ 拼音通道只接受"用户真的写了拼音"的命中。
+                        #
+                        # 纯中文文本里，相邻两字的拼音会跨字拼出别的关键词——
+                        # 实测事故："澳洲雇主担保签证" 中「担保签证」的拼音
+                        # dan-bao-qian-zheng 含子串 baoqianzheng，正好等于
+                        # 关键词「包签证」的全拼，于是把一句完全正常的话判成
+                        # 虚假承诺。这类跨字碰撞无法靠"边界对齐"消除（每个
+                        # 汉字本身就是一个对齐单位），必须要求源文本里真的
+                        # 混有非汉字字符（拼音/字母），才认定是刻意规避写法。
+                        if not _contains_non_cjk(orig_sub):
+                            continue
                         h = self._mk_hit(o_s, o_e, keyword, rule, "variant",
                                          variant_of=rule.keyword, conf=0.7)
                         variant_hits.append(h)
@@ -174,18 +195,21 @@ class DetectionEngine:
         all_hits = raw_hits + variant_hits
         all_hits = self._dedupe(all_hits)
 
-        # 4) 反误杀守卫
+        # 4) 规则级上下文豁免（rule.context_excludes，比全局表更精确）
+        all_hits = self._apply_rule_excludes(all_hits, text)
+
+        # 5) 反误杀守卫
         exempt_spans = context_guard.find_exempt_spans(text)
         guarded = context_guard.apply_guard(all_hits, text, exempt_spans)
 
-        # 5) 转 Finding + 生成改写文案
+        # 6) 转 Finding + 生成改写文案
         findings = [self._to_finding(i, h, text) for i, h in enumerate(guarded, 1)]
         safe_text = self._build_safe_text(text, findings, options)
 
-        # 6) summary
+        # 7) summary
         summary = self._build_summary(findings, len(text))
 
-        # 7) 可选 LLM
+        # 8) 可选 LLM
         llm_analysis = None
         meta = {
             "engine_version": _ENGINE_VERSION,
@@ -204,6 +228,43 @@ class DetectionEngine:
         )
 
     # ------------------------------------------------ 内部工具
+
+    def _apply_rule_excludes(self, hits: list[dict], text: str) -> list[dict]:
+        """规则级上下文豁免：命中落在该规则自己的 ``context_excludes`` 词组内 → 丢弃。
+
+        为什么需要（而不只用全局 EXEMPT_PHRASES）
+        ----------------------------------------
+        像 ``微信`` 这类词，在广告文案里是导流信号（该报），但在
+        "微信支付 / 微信公众号 / 微信视频号" 里是正常表述（不该报）。
+        这种"取决于具体搭配"的豁免，由词库维护者在规则上直接声明最自然，
+        也比往全局表里塞词更不容易误伤别的规则。
+        """
+        if not hits:
+            return hits
+        cache: dict[str, list[tuple[int, int]]] = {}
+        kept: list[dict] = []
+        for h in hits:
+            rule = self.bank.get(h["rule_id"])
+            excludes = getattr(rule, "context_excludes", None) if rule else None
+            if not excludes:
+                kept.append(h)
+                continue
+            spans = cache.get(rule.id)
+            if spans is None:
+                spans = []
+                for phrase in excludes:
+                    if not phrase:
+                        continue
+                    pos = text.find(phrase)
+                    while pos != -1:
+                        spans.append((pos, pos + len(phrase)))
+                        pos = text.find(phrase, pos + 1)
+                cache[rule.id] = spans
+            s, e = h["start"], h["end"]
+            if any(s >= ps and e <= pe for ps, pe in spans):
+                continue
+            kept.append(h)
+        return kept
 
     def _mk_hit(self, start, end, keyword, rule, match_type,
                 variant_of=None, conf=1.0) -> dict:

@@ -2,7 +2,7 @@
   {
     "keyword": "最",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除'最'字或改为程度较弱的表述",
     "note": "禁止使用'最'字级极限用语"
@@ -10,7 +10,7 @@
   {
     "keyword": "极为",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'非常'或'较为'",
     "note": "'极'字级极限用语"
@@ -18,7 +18,7 @@
   {
     "keyword": "极品",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'精品'或'优质'",
     "note": "禁止使用极品类极限用语"
@@ -26,7 +26,7 @@
   {
     "keyword": "极大",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较大'或具体数据",
     "note": "禁止使用极大类极限用语"
@@ -34,7 +34,7 @@
   {
     "keyword": "极高",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较高'或具体数据",
     "note": "禁止使用极高级极限用语"
@@ -42,7 +42,7 @@
   {
     "keyword": "极低",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较低'或具体数据",
     "note": "禁止使用极低级极限用语"
@@ -50,7 +50,7 @@
   {
     "keyword": "极佳",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'优良'或'出色'",
     "note": "禁止使用极佳类极限用语"
@@ -58,7 +58,7 @@
   {
     "keyword": "极度",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'高度'或'非常'",
     "note": "禁止使用极度类极限用语"
@@ -66,7 +66,7 @@
   {
     "keyword": "极致",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'出色'或'优秀'",
     "note": "禁止使用极致类极限用语"
@@ -74,7 +74,7 @@
   {
     "keyword": "第一",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'领先'或'优秀'",
     "note": "禁止使用排名第一类表述"
@@ -82,7 +82,7 @@
   {
     "keyword": "首个",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较早'或具体时间",
     "note": "禁止使用首个类极限表述"
@@ -90,7 +90,7 @@
   {
     "keyword": "首次",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'新'或具体时间",
     "note": "禁止使用首次类极限表述"
@@ -98,7 +98,7 @@
   {
     "keyword": "首款",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'新款'",
     "note": "禁止使用首款类极限表述"
@@ -106,7 +106,7 @@
   {
     "keyword": "首创",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'创新'",
     "note": "禁止使用首创类极限表述"
@@ -114,7 +114,7 @@
   {
     "keyword": "首发",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'新品上市'",
     "note": "禁止使用首发类极限表述"
@@ -122,7 +122,7 @@
   {
     "keyword": "首家",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'早期'",
     "note": "禁止使用首家类极限表述"
@@ -130,7 +130,7 @@
   {
     "keyword": "唯一",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'少有'或'罕见'",
     "note": "禁止使用唯一性表述"
@@ -138,7 +138,7 @@
   {
     "keyword": "独家",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'特色'或'专有'",
     "note": "禁止使用独家类极限表述"
@@ -146,7 +146,7 @@
   {
     "keyword": "独创",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'原创'或'创新'",
     "note": "禁止使用独创类极限表述"
@@ -154,7 +154,7 @@
   {
     "keyword": "独有",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'特有'或'具有'",
     "note": "禁止使用独有类极限表述"
@@ -162,7 +162,7 @@
   {
     "keyword": "独一无二",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'各有特色'",
     "note": "禁止使用独一无二类极限表述"
@@ -170,7 +170,7 @@
   {
     "keyword": "顶级",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'高端'或'优质'",
     "note": "禁止使用顶级类表述"
@@ -178,7 +178,7 @@
   {
     "keyword": "顶尖",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'领先'",
     "note": "禁止使用顶尖类表述"
@@ -186,7 +186,7 @@
   {
     "keyword": "顶配",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'高配'或'优质配置'",
     "note": "禁止使用顶配类极限表述"
@@ -194,7 +194,7 @@
   {
     "keyword": "顶流",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'热门'或'受关注'",
     "note": "禁止使用顶流类极限表述"
@@ -202,7 +202,7 @@
   {
     "keyword": "国家级",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除或改为'行业级'",
     "note": "禁止使用国家级表述"
@@ -210,7 +210,7 @@
   {
     "keyword": "国家级产品",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除'国家级'",
     "note": "禁止使用国家级表述"
@@ -218,7 +218,7 @@
   {
     "keyword": "世界级",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'国际水准'",
     "note": "禁止使用世界级表述"
@@ -226,7 +226,7 @@
   {
     "keyword": "世界领先",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'行业领先'",
     "note": "禁止使用世界领先类极限表述"
@@ -234,7 +234,7 @@
   {
     "keyword": "国际领先",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'行业先进'",
     "note": "禁止使用国际领先类极限表述"
@@ -242,7 +242,7 @@
   {
     "keyword": "行业领先",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供数据支撑，否则删除",
     "note": "行业领先类表述需有据可查"
@@ -250,7 +250,7 @@
   {
     "keyword": "全国第一",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除排名表述",
     "note": "禁止使用全国第一类极限表述"
@@ -258,7 +258,7 @@
   {
     "keyword": "无敌",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'强大'或'出色'",
     "note": "禁止使用无敌类极限用语"
@@ -266,7 +266,7 @@
   {
     "keyword": "无双",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'出众'",
     "note": "禁止使用无双类极限用语"
@@ -274,7 +274,7 @@
   {
     "keyword": "无与伦比",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'出众'或'优秀'",
     "note": "禁止使用无与伦比类极限用语"
@@ -282,7 +282,7 @@
   {
     "keyword": "首屈一指",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'出色'",
     "note": "禁止使用首屈一指类极限用语"
@@ -290,7 +290,7 @@
   {
     "keyword": "史无前例",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除",
     "note": "禁止使用史无前例类极限用语"
@@ -298,7 +298,7 @@
   {
     "keyword": "前无古人",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除",
     "note": "禁止使用前无古人类极限用语"
@@ -306,7 +306,7 @@
   {
     "keyword": "绝版",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'限量'",
     "note": "禁止使用绝版类极限用语"
@@ -314,7 +314,7 @@
   {
     "keyword": "绝世",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除",
     "note": "禁止使用绝世类极限用语"
@@ -322,7 +322,7 @@
   {
     "keyword": "万能",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'多功能'",
     "note": "禁止使用万能类绝对化用语"
@@ -330,7 +330,7 @@
   {
     "keyword": "神器",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'好物'或'利器'",
     "note": "禁止使用神器类夸张用语"
@@ -338,7 +338,7 @@
   {
     "keyword": "永久",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'长期'并标注具体期限",
     "note": "禁止使用永久类绝对化用语"
@@ -346,7 +346,7 @@
   {
     "keyword": "终身",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'长期'并标注条件",
     "note": "禁止使用终身类绝对化用语"
@@ -354,7 +354,7 @@
   {
     "keyword": "终生",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'长期'",
     "note": "禁止使用终生类绝对化用语"
@@ -362,7 +362,7 @@
   {
     "keyword": "驰名商标",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《商标法》第十四条",
     "suggestion": "删除'驰名商标'表述",
     "note": "禁止用于广告宣传"
@@ -370,7 +370,7 @@
   {
     "keyword": "特供",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除'特供'表述",
     "note": "禁止使用特供等表述"
@@ -378,7 +378,7 @@
   {
     "keyword": "专供",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除'专供'表述",
     "note": "禁止使用专供等表述"
@@ -386,7 +386,7 @@
   {
     "keyword": "最佳",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'优质'",
     "note": "禁止使用最佳类表述"
@@ -394,7 +394,7 @@
   {
     "keyword": "最优",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'优良'",
     "note": "禁止使用最优类表述"
@@ -402,7 +402,7 @@
   {
     "keyword": "最低",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较低'或具体价格",
     "note": "禁止使用最低价表述"
@@ -410,7 +410,7 @@
   {
     "keyword": "最强",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'强劲'",
     "note": "禁止使用最强类表述"
@@ -418,7 +418,7 @@
   {
     "keyword": "最快",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'迅捷'或具体数据",
     "note": "禁止使用最快类表述"
@@ -426,7 +426,7 @@
   {
     "keyword": "最好",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'良好'",
     "note": "禁止使用最好类表述"
@@ -434,7 +434,7 @@
   {
     "keyword": "最大",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'大型'",
     "note": "禁止使用最大类表述"
@@ -442,7 +442,7 @@
   {
     "keyword": "最先进",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'先进'",
     "note": "禁止使用最先进类表述"
@@ -450,7 +450,7 @@
   {
     "keyword": "最便宜",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'实惠'或'性价比高'",
     "note": "禁止使用最便宜类表述"
@@ -458,7 +458,7 @@
   {
     "keyword": "最受欢迎",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'受用户喜爱'",
     "note": "禁止使用最受欢迎类表述"
@@ -466,7 +466,7 @@
   {
     "keyword": "最值得信赖",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'值得信赖'",
     "note": "禁止使用最值得信赖类表述"
@@ -474,7 +474,7 @@
   {
     "keyword": "最优惠",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'优惠'",
     "note": "禁止使用最优惠类表述"
@@ -482,15 +482,31 @@
   {
     "keyword": "最新",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'新款'或'近期'",
-    "note": "禁止使用最新类表述"
+    "note": "禁止使用最新类表述",
+    "context_excludes": [
+      "最新政策",
+      "最新消息",
+      "最新资讯",
+      "最新动态",
+      "最新公告",
+      "最新进展",
+      "最新情况",
+      "最新规定",
+      "最新要求",
+      "最新通知",
+      "最新数据",
+      "最新更新",
+      "最新的",
+      "最新版"
+    ]
   },
   {
     "keyword": "最热门",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'热门'",
     "note": "禁止使用最热门类表述"
@@ -498,7 +514,7 @@
   {
     "keyword": "最专业",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'专业'",
     "note": "禁止使用最专业类表述"
@@ -506,7 +522,7 @@
   {
     "keyword": "最安全",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'安全'",
     "note": "禁止使用最安全类表述"
@@ -514,7 +530,7 @@
   {
     "keyword": "最有效",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'有效'",
     "note": "禁止使用最有效类表述"
@@ -522,15 +538,27 @@
   {
     "keyword": "绝对",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除或改为'相对'",
-    "note": "禁止使用绝对化用语"
+    "note": "禁止使用绝对化用语",
+    "context_excludes": [
+      "绝对按照",
+      "绝对遵守",
+      "绝对服从",
+      "绝对保密",
+      "绝对真实",
+      "绝对不迟到",
+      "绝对不骗人",
+      "绝对要",
+      "绝对会",
+      "绝对能"
+    ]
   },
   {
     "keyword": "绝无仅有",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'罕见'或'少有'",
     "note": "禁止使用绝无仅有类绝对化用语"
@@ -538,7 +566,7 @@
   {
     "keyword": "百分之百",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'高比例'或具体数据",
     "note": "禁止使用百分之百类绝对化用语"
@@ -546,7 +574,7 @@
   {
     "keyword": "百分百",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'高比例'",
     "note": "禁止使用百分百类绝对化用语"
@@ -554,23 +582,51 @@
   {
     "keyword": "彻底",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'有效'或'显著'",
-    "note": "禁止使用彻底类绝对化用语"
+    "note": "禁止使用彻底类绝对化用语",
+    "context_excludes": [
+      "彻底改变",
+      "彻底明白",
+      "彻底理解",
+      "彻底清理",
+      "彻底打扫",
+      "彻底解决自己的",
+      "彻底解决了我的",
+      "彻底解决了",
+      "彻底解决这个",
+      "彻底解决该",
+      "彻底解决他的",
+      "彻底解决了他"
+    ]
   },
   {
     "keyword": "完全",
     "category": "绝对化用语",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'有效'或具体表述",
-    "note": "完全类表述需谨慎使用，可能涉嫌绝对化"
+    "note": "完全类表述需谨慎使用，可能涉嫌绝对化",
+    "context_excludes": [
+      "完全按照",
+      "完全符合",
+      "完全满足",
+      "完全理解",
+      "完全掌握",
+      "完全同意",
+      "完全明白",
+      "完全支持",
+      "完全真实",
+      "完全免费",
+      "完全来得及",
+      "完全没问题"
+    ]
   },
   {
     "keyword": "100%有效",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "删除或改为'效果显著'",
     "note": "禁止使用绝对化效果承诺"
@@ -578,7 +634,7 @@
   {
     "keyword": "包治百病",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用包治百病等虚假承诺"
@@ -586,7 +642,7 @@
   {
     "keyword": "药到病除",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用药到病除等虚假承诺"
@@ -594,7 +650,7 @@
   {
     "keyword": "根除",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "改为'改善'或'缓解'",
     "note": "禁止使用根除等绝对化医疗承诺"
@@ -602,7 +658,7 @@
   {
     "keyword": "彻底治愈",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "改为'辅助改善'",
     "note": "禁止使用彻底治愈等虚假承诺"
@@ -610,7 +666,7 @@
   {
     "keyword": "永不复发",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除",
     "note": "禁止使用永不复发等虚假承诺"
@@ -618,7 +674,7 @@
   {
     "keyword": "零风险",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "改为'风险较低'并加风险提示",
     "note": "禁止使用零风险等绝对化承诺"
@@ -626,7 +682,7 @@
   {
     "keyword": "无风险",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "改为'风险可控'并加风险提示",
     "note": "禁止使用无风险等绝对化承诺"
@@ -634,7 +690,7 @@
   {
     "keyword": "无副作用",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，需提供临床数据",
     "note": "禁止使用无副作用等绝对化医疗承诺"
@@ -642,7 +698,7 @@
   {
     "keyword": "安全无毒",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，需提供检测报告",
     "note": "禁止使用安全无毒等绝对化承诺"
@@ -650,7 +706,7 @@
   {
     "keyword": "立竿见影",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "改为'效果明显'并标注条件",
     "note": "禁止使用立竿见影等效果承诺"
@@ -658,7 +714,7 @@
   {
     "keyword": "见效快",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "改为具体见效周期",
     "note": "禁止使用见效快等模糊效果承诺"
@@ -666,7 +722,7 @@
   {
     "keyword": "立即见效",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "改为'持续使用有效'",
     "note": "禁止使用立即见效等效果承诺"
@@ -674,7 +730,7 @@
   {
     "keyword": "包退",
     "category": "虚假承诺",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第八条",
     "suggestion": "需标注退换货条件和期限",
     "note": "包退承诺需明确条件"
@@ -682,7 +738,7 @@
   {
     "keyword": "包换",
     "category": "虚假承诺",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第八条",
     "suggestion": "需标注换货条件和期限",
     "note": "包换承诺需明确条件"
@@ -690,7 +746,7 @@
   {
     "keyword": "稳赚不赔",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除并加风险提示",
     "note": "禁止使用稳赚不赔等投资承诺"
@@ -698,7 +754,7 @@
   {
     "keyword": "保本保息",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除并加风险提示",
     "note": "禁止使用保本保息等投资承诺"
@@ -706,7 +762,7 @@
   {
     "keyword": "史上最低",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'限时优惠'",
     "note": "禁止使用史上最低等误导性表述"
@@ -714,7 +770,7 @@
   {
     "keyword": "全网最低",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'价格实惠'",
     "note": "禁止使用全网最低等极限表述"
@@ -722,7 +778,7 @@
   {
     "keyword": "全网首发",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'新品上市'",
     "note": "禁止使用全网首发类极限表述"
@@ -730,7 +786,7 @@
   {
     "keyword": "抄底价",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'优惠价'",
     "note": "禁止使用抄底价等误导性表述"
@@ -738,7 +794,7 @@
   {
     "keyword": "清仓价",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'特惠价'",
     "note": "禁止使用清仓价等误导性表述"
@@ -746,7 +802,7 @@
   {
     "keyword": "跳楼价",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'折扣价'",
     "note": "禁止使用跳楼价等误导性表述"
@@ -754,7 +810,7 @@
   {
     "keyword": "亏本甩卖",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'限时促销'",
     "note": "禁止使用亏本甩卖等误导性表述"
@@ -762,7 +818,7 @@
   {
     "keyword": "内部价",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'会员价'或'优惠价'",
     "note": "禁止使用内部价等误导性表述"
@@ -770,7 +826,7 @@
   {
     "keyword": "成本价",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'特惠价'",
     "note": "禁止使用成本价等误导性表述"
@@ -778,7 +834,7 @@
   {
     "keyword": "底价",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'优惠价'",
     "note": "禁止使用底价等误导性表述"
@@ -786,7 +842,7 @@
   {
     "keyword": "仅此一次",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'限时活动'",
     "note": "仅此一次类表述需确保真实"
@@ -794,7 +850,7 @@
   {
     "keyword": "最后机会",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'限时优惠'",
     "note": "最后机会类表述需确保真实"
@@ -802,7 +858,7 @@
   {
     "keyword": "最后一天",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'限时'并标注截止日期",
     "note": "最后一天类表述需标注真实截止日期"
@@ -810,15 +866,18 @@
   {
     "keyword": "免费送",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第八条",
     "suggestion": "需标注实际条件，如'满XX元免费送'",
-    "note": "免费送需标注条件，否则涉嫌误导"
+    "note": "免费送需标注条件，否则涉嫌误导",
+    "context_excludes": [
+      "免费送资料"
+    ]
   },
   {
     "keyword": "专家推荐",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需标注专家身份和资质",
     "note": "专家推荐需有据可查"
@@ -826,7 +885,7 @@
   {
     "keyword": "最多",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除'最'字或改为'很多'",
     "note": "禁止使用最多类极限用语"
@@ -834,7 +893,7 @@
   {
     "keyword": "最少",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较少'",
     "note": "禁止使用最少类极限用语"
@@ -842,7 +901,7 @@
   {
     "keyword": "最长",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较长'",
     "note": "禁止使用最长类极限用语"
@@ -850,7 +909,7 @@
   {
     "keyword": "最短",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较短'",
     "note": "禁止使用最短类极限用语"
@@ -858,7 +917,7 @@
   {
     "keyword": "最慢",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较慢'",
     "note": "谨慎使用最慢类表述"
@@ -866,7 +925,7 @@
   {
     "keyword": "最高",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较高'",
     "note": "禁止使用最高类极限用语"
@@ -874,7 +933,7 @@
   {
     "keyword": "最坏",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较差'",
     "note": "谨慎使用最坏类表述"
@@ -882,7 +941,7 @@
   {
     "keyword": "最小",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较小'",
     "note": "禁止使用最小类极限用语"
@@ -890,7 +949,7 @@
   {
     "keyword": "最差",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'欠佳'",
     "note": "谨慎使用最差类表述"
@@ -898,7 +957,7 @@
   {
     "keyword": "最美",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'漂亮'",
     "note": "禁止使用最美类极限用语"
@@ -906,7 +965,7 @@
   {
     "keyword": "最丑",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'欠佳'",
     "note": "谨慎使用最丑类表述"
@@ -914,7 +973,7 @@
   {
     "keyword": "最牛",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'出色'",
     "note": "禁止使用最牛类极限用语"
@@ -922,7 +981,7 @@
   {
     "keyword": "最火",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'热门'",
     "note": "禁止使用最火类极限用语"
@@ -930,7 +989,7 @@
   {
     "keyword": "最潮",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'时尚'",
     "note": "禁止使用最潮类极限用语"
@@ -938,7 +997,7 @@
   {
     "keyword": "最红",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'热门'",
     "note": "禁止使用最红类极限用语"
@@ -946,7 +1005,7 @@
   {
     "keyword": "最省",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'实惠'",
     "note": "禁止使用最省类极限用语"
@@ -954,7 +1013,7 @@
   {
     "keyword": "最赚",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'收益可观'",
     "note": "禁止使用最赚类极限用语"
@@ -962,7 +1021,7 @@
   {
     "keyword": "最新款",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'新款'",
     "note": "禁止使用最新款类极限用语"
@@ -970,7 +1029,7 @@
   {
     "keyword": "最独家",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'特色'",
     "note": "禁止使用最独家类极限用语"
@@ -978,7 +1037,7 @@
   {
     "keyword": "最全面",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较全面'",
     "note": "禁止使用最全面类极限用语"
@@ -986,7 +1045,7 @@
   {
     "keyword": "最健康",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'健康'",
     "note": "禁止使用最健康类极限用语"
@@ -994,7 +1053,7 @@
   {
     "keyword": "最天然",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供认证，否则删除'最'字",
     "note": "最天然类表述需有据可查"
@@ -1002,7 +1061,7 @@
   {
     "keyword": "最环保",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供认证，否则删除'最'字",
     "note": "最环保类表述需有据可查"
@@ -1010,7 +1069,7 @@
   {
     "keyword": "最流行",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'流行'",
     "note": "禁止使用最流行类极限用语"
@@ -1018,7 +1077,7 @@
   {
     "keyword": "最经典",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'经典'",
     "note": "禁止使用最经典类极限用语"
@@ -1026,7 +1085,7 @@
   {
     "keyword": "最珍贵",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'珍贵'",
     "note": "禁止使用最珍贵类极限用语"
@@ -1034,7 +1093,7 @@
   {
     "keyword": "最耐用",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'耐用'",
     "note": "禁止使用最耐用类极限用语"
@@ -1042,7 +1101,7 @@
   {
     "keyword": "最舒适",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'舒适'",
     "note": "禁止使用最舒适类极限用语"
@@ -1050,7 +1109,7 @@
   {
     "keyword": "最方便",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'方便'",
     "note": "禁止使用最方便类极限用语"
@@ -1058,7 +1117,7 @@
   {
     "keyword": "最划算",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'划算'",
     "note": "禁止使用最划算类极限用语"
@@ -1066,7 +1125,7 @@
   {
     "keyword": "最隆重",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'隆重'",
     "note": "谨慎使用最隆重类表述"
@@ -1074,7 +1133,7 @@
   {
     "keyword": "最震撼",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'震撼'",
     "note": "谨慎使用最震撼类表述"
@@ -1082,7 +1141,7 @@
   {
     "keyword": "最先",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较早'",
     "note": "禁止使用最先类极限用语"
@@ -1090,7 +1149,7 @@
   {
     "keyword": "最久",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'持久'",
     "note": "禁止使用最久类极限用语"
@@ -1098,7 +1157,7 @@
   {
     "keyword": "最浓",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'浓郁'",
     "note": "谨慎使用最浓类表述"
@@ -1106,7 +1165,7 @@
   {
     "keyword": "最香",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'香气浓郁'",
     "note": "谨慎使用最香类表述"
@@ -1114,7 +1173,7 @@
   {
     "keyword": "极小",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'较小'",
     "note": "谨慎使用极小类表述"
@@ -1122,7 +1181,7 @@
   {
     "keyword": "极差",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'欠佳'",
     "note": "谨慎使用极差类表述"
@@ -1130,7 +1189,7 @@
   {
     "keyword": "极简",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "如为设计风格可使用，否则删除'极'字",
     "note": "极简类表述需视情况使用"
@@ -1138,7 +1197,7 @@
   {
     "keyword": "极繁",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'繁复'",
     "note": "谨慎使用极繁类表述"
@@ -1146,7 +1205,7 @@
   {
     "keyword": "极轻",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'轻便'",
     "note": "谨慎使用极轻类表述"
@@ -1154,7 +1213,7 @@
   {
     "keyword": "极重",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'沉重'",
     "note": "谨慎使用极重类表述"
@@ -1162,7 +1221,7 @@
   {
     "keyword": "极薄",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'轻薄'",
     "note": "谨慎使用极薄类表述"
@@ -1170,7 +1229,7 @@
   {
     "keyword": "极厚",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'厚实'",
     "note": "谨慎使用极厚类表述"
@@ -1178,7 +1237,7 @@
   {
     "keyword": "极端",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'非常'",
     "note": "禁止使用极端类极限用语"
@@ -1186,7 +1245,7 @@
   {
     "keyword": "极速",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'迅速'并标注具体时间",
     "note": "极速类表述需有依据"
@@ -1194,7 +1253,7 @@
   {
     "keyword": "极鲜",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'新鲜'",
     "note": "谨慎使用极鲜类表述"
@@ -1202,7 +1261,7 @@
   {
     "keyword": "极纯",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供纯度证明，否则删除'极'字",
     "note": "极纯类表述需有据可查"
@@ -1210,7 +1269,7 @@
   {
     "keyword": "极香",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'香气浓郁'",
     "note": "谨慎使用极香类表述"
@@ -1218,7 +1277,7 @@
   {
     "keyword": "首推",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'推荐'",
     "note": "禁止使用首推类极限表述"
@@ -1226,7 +1285,7 @@
   {
     "keyword": "首映",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需确保真实，否则删除",
     "note": "首映类表述需确保真实"
@@ -1234,7 +1293,7 @@
   {
     "keyword": "首播",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需确保真实，否则删除",
     "note": "首播类表述需确保真实"
@@ -1242,7 +1301,7 @@
   {
     "keyword": "独特",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'有特色'",
     "note": "谨慎使用独特类表述"
@@ -1250,7 +1309,7 @@
   {
     "keyword": "独门",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'特色'",
     "note": "谨慎使用独门类表述"
@@ -1258,7 +1317,7 @@
   {
     "keyword": "独享",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'专享'",
     "note": "谨慎使用独享类表述"
@@ -1266,7 +1325,7 @@
   {
     "keyword": "唯独",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'只有'",
     "note": "谨慎使用唯独类表述"
@@ -1274,7 +1333,7 @@
   {
     "keyword": "顶端",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'高端'",
     "note": "谨慎使用顶端类表述"
@@ -1282,39 +1341,23 @@
   {
     "keyword": "顶格",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'优质'",
     "note": "谨慎使用顶格类表述"
   },
   {
-    "keyword": "一定是",
-    "category": "绝对化用语",
-    "severity": "violation",
-    "law_ref": "《广告法》第九条",
-    "suggestion": "删除'一定'或改为'可能'",
-    "note": "禁止使用一定类等绝对化用语"
-  },
-  {
     "keyword": "必定",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'可能'或'有望'",
     "note": "禁止使用必定类绝对化用语"
   },
   {
-    "keyword": "肯定",
-    "category": "绝对化用语",
-    "severity": "violation",
-    "law_ref": "《广告法》第九条",
-    "suggestion": "改为'可能'或'有望'",
-    "note": "禁止使用肯定类绝对化用语"
-  },
-  {
     "keyword": "绝对没问题",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除'绝对'或改为'相对'",
     "note": "禁止使用绝对没问题类绝对化用语"
@@ -1322,7 +1365,7 @@
   {
     "keyword": "绝对有保障",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除'绝对'或改为'有保障'",
     "note": "禁止使用绝对有保障类绝对化用语"
@@ -1330,7 +1373,7 @@
   {
     "keyword": "绝对有效",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除'绝对'或改为'有效'",
     "note": "禁止使用绝对有效类绝对化用语"
@@ -1338,7 +1381,7 @@
   {
     "keyword": "绝对安全",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除'绝对'或提供安全认证",
     "note": "禁止使用绝对安全类绝对化用语"
@@ -1346,7 +1389,7 @@
   {
     "keyword": "绝对正品",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'正品保证'并提供凭证",
     "note": "禁止使用绝对正品类绝对化用语"
@@ -1354,7 +1397,7 @@
   {
     "keyword": "绝对划算",
     "category": "绝对化用语",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'很划算'",
     "note": "谨慎使用绝对划算类表述"
@@ -1362,7 +1405,7 @@
   {
     "keyword": "绝对值得",
     "category": "绝对化用语",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'很值得'",
     "note": "谨慎使用绝对值得类表述"
@@ -1370,7 +1413,7 @@
   {
     "keyword": "完全没问题",
     "category": "绝对化用语",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'基本没问题'",
     "note": "完全没问题类表述需谨慎使用"
@@ -1378,7 +1421,7 @@
   {
     "keyword": "完全有效",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'有效'或提供数据",
     "note": "禁止使用完全有效类绝对化用语"
@@ -1386,7 +1429,7 @@
   {
     "keyword": "完全治愈",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用完全治愈等虚假承诺"
@@ -1394,7 +1437,7 @@
   {
     "keyword": "完全无毒",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，需提供检测报告",
     "note": "禁止使用完全无毒等绝对化承诺"
@@ -1402,7 +1445,7 @@
   {
     "keyword": "100%",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'高比例'或具体数据",
     "note": "禁止使用100%类绝对化用语"
@@ -1410,7 +1453,7 @@
   {
     "keyword": "100%正品",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'正品保证'并提供凭证",
     "note": "禁止使用100%正品类绝对化用语"
@@ -1418,7 +1461,7 @@
   {
     "keyword": "100%纯天然",
     "category": "绝对化用语",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供认证，否则删除'100%'",
     "note": "100%纯天然类表述需有据可查"
@@ -1426,7 +1469,7 @@
   {
     "keyword": "100%无添加",
     "category": "绝对化用语",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供检测报告，否则删除'100%'",
     "note": "100%无添加类表述需有据可查"
@@ -1434,7 +1477,7 @@
   {
     "keyword": "毫无例外",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'大多'或'通常'",
     "note": "禁止使用毫无例外类绝对化用语"
@@ -1442,7 +1485,7 @@
   {
     "keyword": "从不",
     "category": "绝对化用语",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'很少'",
     "note": "谨慎使用从不类绝对化表述"
@@ -1450,7 +1493,7 @@
   {
     "keyword": "任何人都",
     "category": "绝对化用语",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'大多数人'",
     "note": "谨慎使用任何人都类绝对化表述"
@@ -1458,7 +1501,7 @@
   {
     "keyword": "所有人都说",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'很多人认为'",
     "note": "禁止使用所有人都说类绝对化用语"
@@ -1466,15 +1509,20 @@
   {
     "keyword": "彻底解决",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'有效改善'",
-    "note": "禁止使用彻底解决类绝对化用语"
+    "note": "禁止使用彻底解决类绝对化用语",
+    "context_excludes": [
+      "彻底解决了",
+      "彻底解决掉",
+      "彻底解决完了"
+    ]
   },
   {
     "keyword": "彻底清除",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'有效清除'",
     "note": "禁止使用彻底清除类绝对化用语"
@@ -1482,7 +1530,7 @@
   {
     "keyword": "彻底根治",
     "category": "绝对化用语",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用彻底根治等虚假承诺"
@@ -1490,7 +1538,7 @@
   {
     "keyword": "一针见效",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用一针见效等虚假承诺"
@@ -1498,7 +1546,7 @@
   {
     "keyword": "三天见效",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "改为'持续使用有效果'并标注条件",
     "note": "禁止使用三天见效等效果承诺"
@@ -1506,7 +1554,7 @@
   {
     "keyword": "七天根治",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用七天根治等虚假承诺"
@@ -1514,7 +1562,7 @@
   {
     "keyword": "十天瘦二十斤",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除或提供临床数据",
     "note": "禁止使用具体瘦身效果承诺"
@@ -1522,7 +1570,7 @@
   {
     "keyword": "一个月美白",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除或提供临床数据",
     "note": "禁止使用具体美白效果承诺"
@@ -1530,7 +1578,7 @@
   {
     "keyword": "快速美白",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "改为'有助美白'并标注条件",
     "note": "禁止使用快速美白等效果承诺"
@@ -1538,7 +1586,7 @@
   {
     "keyword": "速效减肥",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除或提供临床数据",
     "note": "禁止使用速效减肥等效果承诺"
@@ -1546,7 +1594,7 @@
   {
     "keyword": "根除痔疮",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用根除痔疮等虚假医疗承诺"
@@ -1554,7 +1602,7 @@
   {
     "keyword": "根治胃病",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用根治胃病等虚假医疗承诺"
@@ -1562,7 +1610,7 @@
   {
     "keyword": "降压药根治",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用降压药根治等虚假医疗承诺"
@@ -1570,7 +1618,7 @@
   {
     "keyword": "中药根治",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用中药根治等虚假医疗承诺"
@@ -1578,7 +1626,7 @@
   {
     "keyword": "偏方根治",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用偏方根治等虚假医疗承诺"
@@ -1586,7 +1634,7 @@
   {
     "keyword": "祖传秘方",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供医疗资质，否则删除",
     "note": "祖传秘方类表述需医疗资质"
@@ -1594,7 +1642,7 @@
   {
     "keyword": "宫廷秘方",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供医疗资质，否则删除",
     "note": "宫廷秘方类表述需医疗资质"
@@ -1602,7 +1650,7 @@
   {
     "keyword": "老中医推荐",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供医疗资质和授权，否则删除",
     "note": "老中医推荐类表述需医疗资质"
@@ -1610,7 +1658,7 @@
   {
     "keyword": "名医推荐",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供医疗资质和授权，否则删除",
     "note": "名医推荐类表述需医疗资质"
@@ -1618,7 +1666,7 @@
   {
     "keyword": "疗效显著",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供临床数据，否则删除",
     "note": "疗效显著类表述需临床数据支持"
@@ -1626,7 +1674,7 @@
   {
     "keyword": "换肝",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "换肝类表述需医疗资质"
@@ -1634,7 +1682,7 @@
   {
     "keyword": "换肾",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "换肾类表述需医疗资质"
@@ -1642,7 +1690,7 @@
   {
     "keyword": "换心",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "换心类表述需医疗资质"
@@ -1650,7 +1698,7 @@
   {
     "keyword": "日赚千元",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除并加风险提示",
     "note": "禁止使用日赚千元等投资承诺"
@@ -1658,7 +1706,7 @@
   {
     "keyword": "日赚百元",
     "category": "虚假承诺",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "需标注风险提示和条件",
     "note": "日赚百元类表述需风险提示"
@@ -1666,7 +1714,7 @@
   {
     "keyword": "月入过万",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除并加风险提示",
     "note": "禁止使用月入过万等投资承诺"
@@ -1674,7 +1722,7 @@
   {
     "keyword": "年化收益20%",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "需提供数据支撑并加风险提示",
     "note": "年化收益类承诺需风险提示"
@@ -1682,7 +1730,7 @@
   {
     "keyword": "保本理财",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除并加风险提示",
     "note": "禁止使用保本理财等投资承诺"
@@ -1690,7 +1738,7 @@
   {
     "keyword": "稳赚",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除或加风险提示",
     "note": "禁止使用稳赚等投资承诺"
@@ -1698,7 +1746,7 @@
   {
     "keyword": "只赚不赔",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除并加风险提示",
     "note": "禁止使用只赚不赔等投资承诺"
@@ -1706,7 +1754,7 @@
   {
     "keyword": "投资零风险",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "改为'风险较低'并加风险提示",
     "note": "禁止使用投资零风险等绝对化承诺"
@@ -1714,7 +1762,7 @@
   {
     "keyword": "100%收益",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除并加风险提示",
     "note": "禁止使用100%收益等投资承诺"
@@ -1722,7 +1770,7 @@
   {
     "keyword": "无风险投资",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "改为'低风险投资'并加风险提示",
     "note": "禁止使用无风险投资等绝对化承诺"
@@ -1730,7 +1778,7 @@
   {
     "keyword": " guaranteed return",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除并加风险提示",
     "note": "禁止使用中英文混合的投资保证表述"
@@ -1738,7 +1786,7 @@
   {
     "keyword": "一天见效",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除或提供临床数据",
     "note": "禁止使用一天见效等效果承诺"
@@ -1746,7 +1794,7 @@
   {
     "keyword": "即刻见效",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除或提供临床数据",
     "note": "禁止使用即刻见效等效果承诺"
@@ -1754,7 +1802,7 @@
   {
     "keyword": "速效",
     "category": "虚假承诺",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供数据支撑，否则删除",
     "note": "速效类表述需有据可查"
@@ -1762,7 +1810,7 @@
   {
     "keyword": "瞬间美白",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除或提供临床数据",
     "note": "禁止使用瞬间美白等效果承诺"
@@ -1770,7 +1818,7 @@
   {
     "keyword": " overnight美白",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除或提供临床数据",
     "note": "禁止使用overnight美白等效果承诺"
@@ -1778,7 +1826,7 @@
   {
     "keyword": "一次就好",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除或标注具体条件",
     "note": "禁止使用一次就好等效果承诺"
@@ -1786,7 +1834,7 @@
   {
     "keyword": "三次根治",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用三次根治等虚假医疗承诺"
@@ -1794,7 +1842,7 @@
   {
     "keyword": "七天美白",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除或提供临床数据",
     "note": "禁止使用七天美白等效果承诺"
@@ -1802,7 +1850,7 @@
   {
     "keyword": "十天祛斑",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除或提供临床数据",
     "note": "禁止使用十天祛斑等效果承诺"
@@ -1810,7 +1858,7 @@
   {
     "keyword": "出厂价",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'特惠价'并提供凭证",
     "note": "禁止使用出厂价等误导性表述"
@@ -1818,7 +1866,7 @@
   {
     "keyword": "一手货",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保真实，否则删除",
     "note": "一手货类表述需确保真实"
@@ -1826,7 +1874,7 @@
   {
     "keyword": "厂家直销",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保真实，否则删除",
     "note": "厂家直销类表述需确保真实"
@@ -1834,7 +1882,7 @@
   {
     "keyword": "源头厂家",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保真实，否则删除",
     "note": "源头厂家类表述需确保真实"
@@ -1842,15 +1890,21 @@
   {
     "keyword": "免费领",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第八条",
     "suggestion": "需标注实际条件",
-    "note": "免费领需标注条件，否则涉嫌误导"
+    "note": "免费领需标注条件，否则涉嫌误导",
+    "context_excludes": [
+      "免费领取政策",
+      "免费领取资料",
+      "免费领取手册",
+      "免费领取指南"
+    ]
   },
   {
     "keyword": "免费试用",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第八条",
     "suggestion": "需标注试用条件和期限",
     "note": "免费试用需标注条件"
@@ -1858,7 +1912,7 @@
   {
     "keyword": "免费体验",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第八条",
     "suggestion": "需标注体验条件和期限",
     "note": "免费体验需标注条件"
@@ -1866,7 +1920,7 @@
   {
     "keyword": "0元购",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需标注所有条件和费用",
     "note": "0元购类表述需确保无隐藏费用"
@@ -1874,7 +1928,7 @@
   {
     "keyword": "1元购",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需标注所有条件和费用",
     "note": "1元购类表述需确保无隐藏费用"
@@ -1882,7 +1936,7 @@
   {
     "keyword": "全额退款",
     "category": "误导性表述",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第八条",
     "suggestion": "需标注退款条件和期限",
     "note": "全额退款类承诺需标注条件"
@@ -1890,7 +1944,7 @@
   {
     "keyword": "无效退款",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供效果数据支撑，否则删除",
     "note": "无效退款类承诺需有据可查"
@@ -1898,7 +1952,7 @@
   {
     "keyword": "不瘦退款",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供数据支撑，否则删除",
     "note": "不瘦退款类承诺需有据可查"
@@ -1906,111 +1960,15 @@
   {
     "keyword": "美白无效退款",
     "category": "虚假承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供临床数据，否则删除",
     "note": "美白无效退款类承诺需有据可查"
   },
   {
-    "keyword": "比XX好",
-    "category": "贬低对比",
-    "severity": "violation",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "删除对比表述或确保有数据支撑",
-    "note": "禁止贬低其他经营者商品或服务"
-  },
-  {
-    "keyword": "秒杀XX",
-    "category": "贬低对比",
-    "severity": "violation",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "删除或改为'表现优秀'",
-    "note": "禁止使用秒杀等贬低性对比表述"
-  },
-  {
-    "keyword": "碾压XX",
-    "category": "贬低对比",
-    "severity": "violation",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "删除或改为'表现优秀'",
-    "note": "禁止使用碾压等贬低性对比表述"
-  },
-  {
-    "keyword": "吊打XX",
-    "category": "贬低对比",
-    "severity": "violation",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "删除或改为'表现优秀'",
-    "note": "禁止使用吊打等贬低性对比表述"
-  },
-  {
-    "keyword": "甩XX几条街",
-    "category": "贬低对比",
-    "severity": "violation",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "删除或改为'表现优秀'",
-    "note": "禁止使用甩几条街等贬低性对比表述"
-  },
-  {
-    "keyword": "完爆XX",
-    "category": "贬低对比",
-    "severity": "violation",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "删除或改为'表现优秀'",
-    "note": "禁止使用完爆等贬低性对比表述"
-  },
-  {
-    "keyword": "完胜XX",
-    "category": "贬低对比",
-    "severity": "warning",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "需确保有数据支撑，否则删除",
-    "note": "完胜类对比表述需数据支撑"
-  },
-  {
-    "keyword": "远胜于XX",
-    "category": "贬低对比",
-    "severity": "violation",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "删除或改为'表现优秀'",
-    "note": "禁止使用远胜于等贬低性对比表述"
-  },
-  {
-    "keyword": "远超XX",
-    "category": "贬低对比",
-    "severity": "warning",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "需确保有数据支撑，否则删除",
-    "note": "远超类对比表述需数据支撑"
-  },
-  {
-    "keyword": "优于XX",
-    "category": "贬低对比",
-    "severity": "warning",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "需确保有数据支撑，否则删除",
-    "note": "优于类对比表述需数据支撑"
-  },
-  {
-    "keyword": "胜过XX",
-    "category": "贬低对比",
-    "severity": "warning",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "需确保有数据支撑，否则删除",
-    "note": "胜过类对比表述需数据支撑"
-  },
-  {
-    "keyword": "比XX强",
-    "category": "贬低对比",
-    "severity": "warning",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "需确保有数据支撑，否则删除",
-    "note": "比XX强类对比表述需数据支撑"
-  },
-  {
     "keyword": "销量第一",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供销量数据证明，否则删除",
     "note": "销量第一类表述需有据可查"
@@ -2018,7 +1976,7 @@
   {
     "keyword": "市场占有率第一",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供市场数据证明，否则删除",
     "note": "市场占有率第一类表述需有据可查"
@@ -2026,7 +1984,7 @@
   {
     "keyword": "用户量第一",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供用户数据证明，否则删除",
     "note": "用户量第一类表述需有据可查"
@@ -2034,7 +1992,7 @@
   {
     "keyword": "好评率最高",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供好评率数据证明，否则删除",
     "note": "好评率最高类表述需有据可查"
@@ -2042,7 +2000,7 @@
   {
     "keyword": "评分最高",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供评分数据证明，否则删除",
     "note": "评分最高类表述需有据可查"
@@ -2050,7 +2008,7 @@
   {
     "keyword": "复购率最高",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供复购率数据证明，否则删除",
     "note": "复购率最高类表述需有据可查"
@@ -2058,7 +2016,7 @@
   {
     "keyword": "销量领先",
     "category": "数据无依据",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供销量数据证明，否则删除",
     "note": "销量领先类表述需有据可查"
@@ -2066,7 +2024,7 @@
   {
     "keyword": "行业第一",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供行业数据证明，否则删除",
     "note": "行业第一类表述需有据可查"
@@ -2074,7 +2032,7 @@
   {
     "keyword": "品类第一",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供品类数据证明，否则删除",
     "note": "品类第一类表述需有据可查"
@@ -2082,7 +2040,7 @@
   {
     "keyword": "全网销量第一",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供全网销量数据证明，否则删除",
     "note": "全网销量第一类表述需有据可查"
@@ -2090,7 +2048,7 @@
   {
     "keyword": "天猫销量第一",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供天猫销量数据证明，否则删除",
     "note": "天猫销量第一类表述需有据可查"
@@ -2098,7 +2056,7 @@
   {
     "keyword": "抖音销量第一",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供抖音销量数据证明，否则删除",
     "note": "抖音销量第一类表述需有据可查"
@@ -2106,7 +2064,7 @@
   {
     "keyword": "小红书销量第一",
     "category": "数据无依据",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供小红书销量数据证明，否则删除",
     "note": "小红书销量第一类表述需有据可查"
@@ -2114,15 +2072,20 @@
   {
     "keyword": "获奖",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供获奖证明，否则删除",
-    "note": "获奖类表述需提供证明"
+    "note": "获奖类表述需提供证明",
+    "context_excludes": [
+      "获奖经历",
+      "获奖情况",
+      "获奖作品可作为"
+    ]
   },
   {
     "keyword": "国家认证",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供认证文件，否则删除",
     "note": "国家认证类表述需提供证明"
@@ -2130,7 +2093,7 @@
   {
     "keyword": "专利技术",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供专利证书，否则删除",
     "note": "专利技术类表述需提供证明"
@@ -2138,7 +2101,7 @@
   {
     "keyword": "发明专利",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供专利证书，否则删除",
     "note": "发明专利类表述需提供证明"
@@ -2146,7 +2109,7 @@
   {
     "keyword": "国际认证",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供国际认证文件，否则删除",
     "note": "国际认证类表述需提供证明"
@@ -2154,7 +2117,7 @@
   {
     "keyword": "ISO认证",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供ISO认证文件，否则删除",
     "note": "ISO认证类表述需提供证明"
@@ -2162,7 +2125,7 @@
   {
     "keyword": "绿色认证",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供绿色认证文件，否则删除",
     "note": "绿色认证类表述需提供证明"
@@ -2170,7 +2133,7 @@
   {
     "keyword": "有机认证",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供有机认证文件，否则删除",
     "note": "有机认证类表述需提供证明"
@@ -2178,7 +2141,7 @@
   {
     "keyword": "获奖产品",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供获奖证明，否则删除",
     "note": "获奖产品类表述需提供证明"
@@ -2186,7 +2149,7 @@
   {
     "keyword": "国家推荐",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供推荐文件，否则删除",
     "note": "国家推荐类表述需提供证明"
@@ -2194,7 +2157,7 @@
   {
     "keyword": "政府推荐",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供推荐文件，否则删除",
     "note": "政府推荐类表述需提供证明"
@@ -2202,7 +2165,7 @@
   {
     "keyword": "央企背书",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供授权文件，否则删除",
     "note": "央企背书类表述需提供证明"
@@ -2210,7 +2173,7 @@
   {
     "keyword": "国企背书",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供授权文件，否则删除",
     "note": "国企背书类表述需提供证明"
@@ -2218,7 +2181,7 @@
   {
     "keyword": "排毒",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "改为'清理'或提供医疗资质",
     "note": "排毒类表述需医疗资质"
@@ -2226,7 +2189,7 @@
   {
     "keyword": "减肥",
     "category": "医疗保健限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保无医疗效果声称",
     "note": "减肥类表述需注意不涉及医疗效果"
@@ -2234,7 +2197,7 @@
   {
     "keyword": "瘦身",
     "category": "医疗保健限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保无医疗效果声称",
     "note": "瘦身类表述需注意不涉及医疗效果"
@@ -2242,7 +2205,7 @@
   {
     "keyword": "壮阳",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "壮阳类表述需医疗资质"
@@ -2250,7 +2213,7 @@
   {
     "keyword": "补肾",
     "category": "医疗保健限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保无医疗效果声称",
     "note": "补肾类表述需注意不涉及医疗效果"
@@ -2258,7 +2221,7 @@
   {
     "keyword": "抗癌",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "抗癌类表述需医疗资质"
@@ -2266,7 +2229,7 @@
   {
     "keyword": "抗肿瘤",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "抗肿瘤类表述需医疗资质"
@@ -2274,7 +2237,7 @@
   {
     "keyword": "降血压",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "降血压类表述需医疗资质"
@@ -2282,7 +2245,7 @@
   {
     "keyword": "降血糖",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "降血糖类表述需医疗资质"
@@ -2290,7 +2253,7 @@
   {
     "keyword": "降血脂",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "降血脂类表述需医疗资质"
@@ -2298,7 +2261,7 @@
   {
     "keyword": "改善睡眠",
     "category": "医疗保健限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保无医疗效果声称",
     "note": "改善睡眠类表述需注意不涉及医疗效果"
@@ -2306,7 +2269,7 @@
   {
     "keyword": "助眠",
     "category": "医疗保健限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保无医疗效果声称",
     "note": "助眠类表述需注意不涉及医疗效果"
@@ -2314,7 +2277,7 @@
   {
     "keyword": "增高",
     "category": "医疗保健限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保无医疗效果声称",
     "note": "增高类表述需注意不涉及医疗效果"
@@ -2322,7 +2285,7 @@
   {
     "keyword": "丰胸",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "丰胸类表述需医疗资质"
@@ -2330,7 +2293,7 @@
   {
     "keyword": "瘦身针",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "瘦身针类表述需医疗资质"
@@ -2338,7 +2301,7 @@
   {
     "keyword": "美白针",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "美白针类表述需医疗资质"
@@ -2346,7 +2309,7 @@
   {
     "keyword": "抗皱",
     "category": "医疗保健限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保无医疗效果声称",
     "note": "抗皱类表述需注意不涉及医疗效果"
@@ -2354,7 +2317,7 @@
   {
     "keyword": "抗衰老",
     "category": "医疗保健限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保无医疗效果声称",
     "note": "抗衰老类表述需注意不涉及医疗效果"
@@ -2362,7 +2325,7 @@
   {
     "keyword": "返老还童",
     "category": "医疗保健限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "返老还童类表述需医疗资质"
@@ -2370,7 +2333,7 @@
   {
     "keyword": "再不买就晚了",
     "category": "引诱消费",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'优惠限时'",
     "note": "禁止使用再不买就晚了类等误导性表述"
@@ -2378,7 +2341,7 @@
   {
     "keyword": "错过不再",
     "category": "引诱消费",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'优惠限时'",
     "note": "禁止使用错过不再类等误导性表述"
@@ -2386,7 +2349,7 @@
   {
     "keyword": "后悔一辈子",
     "category": "引诱消费",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "删除",
     "note": "禁止使用后悔一辈子类等误导性表述"
@@ -2394,7 +2357,7 @@
   {
     "keyword": "仅此一次机会",
     "category": "引诱消费",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'限时活动'",
     "note": "禁止使用仅此一次机会类等误导性表述"
@@ -2402,7 +2365,7 @@
   {
     "keyword": "手慢无",
     "category": "引诱消费",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保库存真实，否则删除",
     "note": "手慢无类表述需确保真实"
@@ -2410,7 +2373,7 @@
   {
     "keyword": "马上抢",
     "category": "引诱消费",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保库存真实，否则删除",
     "note": "马上抢类表述需确保真实"
@@ -2418,7 +2381,7 @@
   {
     "keyword": "秒杀",
     "category": "引诱消费",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保库存和价格真实，否则删除",
     "note": "秒杀类表述需确保真实"
@@ -2426,7 +2389,7 @@
   {
     "keyword": "限量",
     "category": "引诱消费",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需标注具体限量数量，否则删除",
     "note": "限量类表述需标注具体数量"
@@ -2434,7 +2397,7 @@
   {
     "keyword": "限购",
     "category": "引诱消费",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需标注具体限购条件，否则删除",
     "note": "限购类表述需标注具体条件"
@@ -2442,7 +2405,7 @@
   {
     "keyword": "先到先得",
     "category": "引诱消费",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保真实，否则删除",
     "note": "先到先得类表述需确保真实"
@@ -2450,7 +2413,7 @@
   {
     "keyword": "纯天然无添加",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供检测报告，否则删除'纯天然'和'无添加'声称",
     "note": "纯天然无添加类表述需检测报告支撑"
@@ -2458,7 +2421,7 @@
   {
     "keyword": "零添加",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供检测报告，否则删除'零添加'声称",
     "note": "零添加类表述需检测报告支撑"
@@ -2466,7 +2429,7 @@
   {
     "keyword": "无添加",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供检测报告，否则删除'无添加'声称",
     "note": "无添加类表述需检测报告支撑"
@@ -2474,7 +2437,7 @@
   {
     "keyword": "绿色食品",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供绿色食品认证，否则删除",
     "note": "绿色食品类表述需认证支撑"
@@ -2482,7 +2445,7 @@
   {
     "keyword": "有机食品",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供有机食品认证，否则删除",
     "note": "有机食品类表述需认证支撑"
@@ -2490,7 +2453,7 @@
   {
     "keyword": "非转基因",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供检测报告，否则删除'非转基因'声称",
     "note": "非转基因类表述需检测报告支撑"
@@ -2498,7 +2461,7 @@
   {
     "keyword": "无激素",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供检测报告，否则删除'无激素'声称",
     "note": "无激素类表述需检测报告支撑"
@@ -2506,7 +2469,7 @@
   {
     "keyword": "无农残",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供检测报告，否则删除'无农残'声称",
     "note": "无农残类表述需检测报告支撑"
@@ -2514,7 +2477,7 @@
   {
     "keyword": "国宴",
     "category": "涉政敏感",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供授权，否则删除",
     "note": "国宴类表述需授权"
@@ -2522,7 +2485,7 @@
   {
     "keyword": "国宾",
     "category": "涉政敏感",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供授权，否则删除",
     "note": "国宾类表述需授权"
@@ -2530,7 +2493,7 @@
   {
     "keyword": "人民大会堂",
     "category": "涉政敏感",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除，需提供授权",
     "note": "人民大会堂类表述需授权"
@@ -2538,7 +2501,7 @@
   {
     "keyword": "中南海",
     "category": "涉政敏感",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除",
     "note": "禁止在中南海相关表述"
@@ -2546,7 +2509,7 @@
   {
     "keyword": "内供",
     "category": "误导性表述",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除'内供'表述",
     "note": "禁止使用内供等表述"
@@ -2554,7 +2517,7 @@
   {
     "keyword": "军用",
     "category": "涉政敏感",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供授权，否则删除",
     "note": "军用类表述需授权"
@@ -2562,7 +2525,7 @@
   {
     "keyword": "武警",
     "category": "涉政敏感",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供授权，否则删除",
     "note": "武警类表述需授权"
@@ -2570,7 +2533,7 @@
   {
     "keyword": "最先进工艺",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'先进工艺'",
     "note": "禁止使用最先进类极限用语"
@@ -2578,7 +2541,7 @@
   {
     "keyword": "最优质服务",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'优质服务'",
     "note": "禁止使用最优质类极限用语"
@@ -2586,7 +2549,7 @@
   {
     "keyword": "最贴心服务",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'贴心服务'",
     "note": "谨慎使用最贴心类表述"
@@ -2594,7 +2557,7 @@
   {
     "keyword": "最快捷",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'快捷'或具体时间",
     "note": "禁止使用最快捷类极限用语"
@@ -2602,7 +2565,7 @@
   {
     "keyword": "最便利",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'便利'",
     "note": "禁止使用最便利类极限用语"
@@ -2610,7 +2573,7 @@
   {
     "keyword": "最智能",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供依据，否则删除'最'字",
     "note": "最智能类表述需有据可查"
@@ -2618,7 +2581,7 @@
   {
     "keyword": "最智慧",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'智慧'或提供依据",
     "note": "最智慧类表述需有据可查"
@@ -2626,7 +2589,7 @@
   {
     "keyword": "最节能",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供检测数据，否则删除'最'字",
     "note": "最节能类表述需检测数据支撑"
@@ -2634,7 +2597,7 @@
   {
     "keyword": "最美观",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'美观'",
     "note": "谨慎使用最美观类表述"
@@ -2642,7 +2605,7 @@
   {
     "keyword": "最值得",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'值得'",
     "note": "禁止使用最值得类极限用语"
@@ -2650,7 +2613,7 @@
   {
     "keyword": "最信赖",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'值得信赖'",
     "note": "禁止使用最信赖类极限用语"
@@ -2658,7 +2621,7 @@
   {
     "keyword": "最知名",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供知名度证明，否则删除'最'字",
     "note": "最知名类表述需有据可查"
@@ -2666,7 +2629,7 @@
   {
     "keyword": "最畅销",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供销量数据，否则删除'最'字",
     "note": "最畅销类表述需有据可查"
@@ -2674,7 +2637,7 @@
   {
     "keyword": "最抢手",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'热销'",
     "note": "禁止使用最抢手类极限用语"
@@ -2682,7 +2645,7 @@
   {
     "keyword": "最全款式",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'款式丰富'",
     "note": "禁止使用最全款式类极限用语"
@@ -2690,7 +2653,7 @@
   {
     "keyword": "最全品类",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'品类丰富'",
     "note": "禁止使用最全品类类极限用语"
@@ -2698,7 +2661,7 @@
   {
     "keyword": "最完善售后",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'售后完善'",
     "note": "谨慎使用最完善类表述"
@@ -2706,7 +2669,7 @@
   {
     "keyword": "最快速送达",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "标注具体送达时间",
     "note": "最快速送达类表述需标注具体时间"
@@ -2714,7 +2677,7 @@
   {
     "keyword": "最新鲜",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供新鲜度证明，否则删除'最'字",
     "note": "最新鲜类表述需有据可查"
@@ -2722,7 +2685,7 @@
   {
     "keyword": "最正宗",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供正宗性证明，否则删除'最'字",
     "note": "最正宗类表述需有据可查"
@@ -2730,7 +2693,7 @@
   {
     "keyword": "最顶级",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'高端'或'优质'",
     "note": "禁止使用最顶级类极限用语"
@@ -2738,7 +2701,7 @@
   {
     "keyword": "最尖端",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供技术证明，否则删除'最'字",
     "note": "最尖端类表述需技术证明"
@@ -2746,7 +2709,7 @@
   {
     "keyword": "最前沿",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供前沿性证明，否则删除'最'字",
     "note": "最前沿类表述需有据可查"
@@ -2754,7 +2717,7 @@
   {
     "keyword": "最潮流",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'潮流'",
     "note": "禁止使用最潮流类极限用语"
@@ -2762,7 +2725,7 @@
   {
     "keyword": "最火爆",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'热门'",
     "note": "禁止使用最火爆类极限用语"
@@ -2770,7 +2733,7 @@
   {
     "keyword": "最靠谱",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'可靠'",
     "note": "谨慎使用最靠谱类表述"
@@ -2778,7 +2741,7 @@
   {
     "keyword": "最超值",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'超值'",
     "note": "禁止使用最超值类极限用语"
@@ -2786,7 +2749,7 @@
   {
     "keyword": "最顶级工艺",
     "category": "极限词",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'高端工艺'",
     "note": "禁止使用最顶级工艺类极限用语"
@@ -2794,7 +2757,7 @@
   {
     "keyword": "最严格品控",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'严格品控'并提供依据",
     "note": "最严格品控类表述需提供依据"
@@ -2802,7 +2765,7 @@
   {
     "keyword": "最新鲜日期",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "标注具体生产日期",
     "note": "最新鲜日期类表述需标注具体日期"
@@ -2810,7 +2773,7 @@
   {
     "keyword": "最优质原料",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供原料优质证明，否则删除'最'字",
     "note": "最优质原料类表述需提供依据"
@@ -2818,7 +2781,7 @@
   {
     "keyword": "治疗疾病",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可涉及疾病治疗",
     "note": "广告法禁止非医疗资质涉及疾病治疗功能"
@@ -2826,7 +2789,7 @@
   {
     "keyword": "预防疾病",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可涉及疾病预防",
     "note": "广告法禁止非医疗资质涉及疾病预防功能"
@@ -2834,7 +2797,7 @@
   {
     "keyword": "治疗功能",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可涉及治疗功能",
     "note": "广告法禁止非医疗资质涉及治疗功能"
@@ -2842,7 +2805,7 @@
   {
     "keyword": "医疗作用",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称医疗作用",
     "note": "广告法禁止非医疗资质声称医疗作用"
@@ -2850,7 +2813,7 @@
   {
     "keyword": "药用价值",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称药用价值",
     "note": "广告法禁止非医疗资质声称药用价值"
@@ -2858,7 +2821,7 @@
   {
     "keyword": "消炎",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称消炎效果",
     "note": "消炎类表述需医疗资质"
@@ -2866,7 +2829,7 @@
   {
     "keyword": "止痛",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称止痛效果",
     "note": "止痛类表述需医疗资质"
@@ -2874,7 +2837,7 @@
   {
     "keyword": "止痒",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称止痒效果",
     "note": "止痒类表述需医疗资质"
@@ -2882,7 +2845,7 @@
   {
     "keyword": "杀菌",
     "category": "医疗限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "提供杀菌检测报告，否则删除",
     "note": "杀菌类表述需检测报告支撑"
@@ -2890,7 +2853,7 @@
   {
     "keyword": "抗菌",
     "category": "医疗限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "提供抗菌检测报告，否则删除",
     "note": "抗菌类表述需检测报告支撑"
@@ -2898,7 +2861,7 @@
   {
     "keyword": "抑菌",
     "category": "医疗限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "提供抑菌检测报告，否则删除",
     "note": "抑菌类表述需检测报告支撑"
@@ -2906,7 +2869,7 @@
   {
     "keyword": "退烧",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称退烧效果",
     "note": "退烧类表述需医疗资质"
@@ -2914,7 +2877,7 @@
   {
     "keyword": "止咳",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称止咳效果",
     "note": "止咳类表述需医疗资质"
@@ -2922,7 +2885,7 @@
   {
     "keyword": "止泻",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称止泻效果",
     "note": "止泻类表述需医疗资质"
@@ -2930,7 +2893,7 @@
   {
     "keyword": "增强免疫力",
     "category": "医疗限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "保健食品需标注'本品不能代替药物'",
     "note": "增强免疫力类表述需按规定标注"
@@ -2938,7 +2901,7 @@
   {
     "keyword": "提高免疫",
     "category": "医疗限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "保健食品需标注'本品不能代替药物'",
     "note": "提高免疫类表述需按规定标注"
@@ -2946,7 +2909,7 @@
   {
     "keyword": "体检正常",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称体检效果",
     "note": "体检正常类表述需医疗资质"
@@ -2954,7 +2917,7 @@
   {
     "keyword": "专治",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称专治效果",
     "note": "专治类表述需医疗资质"
@@ -2962,7 +2925,7 @@
   {
     "keyword": "立治",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，非医疗资质不可声称立治效果",
     "note": "立治类表述需医疗资质"
@@ -2970,7 +2933,7 @@
   {
     "keyword": "一针就灵",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用一针就灵等虚假医疗承诺"
@@ -2978,7 +2941,7 @@
   {
     "keyword": "三天根治",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "禁止使用三天根治等虚假医疗承诺"
@@ -2986,7 +2949,7 @@
   {
     "keyword": "保健食品",
     "category": "特殊食品限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十八条",
     "suggestion": "需标注'本品不能代替药物'",
     "note": "保健食品广告需按规定标注"
@@ -2994,7 +2957,7 @@
   {
     "keyword": "保健品",
     "category": "特殊食品限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十八条",
     "suggestion": "需标注'本品不能代替药物'",
     "note": "保健品广告需按规定标注"
@@ -3002,7 +2965,7 @@
   {
     "keyword": "特医食品",
     "category": "特殊食品限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十八条",
     "suggestion": "需提供特殊医学用途配方食品注册证",
     "note": "特医食品广告需资质"
@@ -3010,7 +2973,7 @@
   {
     "keyword": "婴幼儿配方食品",
     "category": "特殊食品限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十八条",
     "suggestion": "需提供婴幼儿配方食品注册证",
     "note": "婴幼儿配方食品广告需资质"
@@ -3018,7 +2981,7 @@
   {
     "keyword": "功能保健",
     "category": "特殊食品限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十八条",
     "suggestion": "需标注'本品不能代替药物'",
     "note": "功能保健类表述需按规定标注"
@@ -3026,7 +2989,7 @@
   {
     "keyword": "养生保健",
     "category": "特殊食品限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十八条",
     "suggestion": "需确保不涉及医疗效果声称",
     "note": "养生保健类表述需注意不涉及医疗效果"
@@ -3034,7 +2997,7 @@
   {
     "keyword": "排毒养颜",
     "category": "特殊食品限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保不涉及医疗效果声称",
     "note": "排毒养颜类表述需注意不涉及医疗效果"
@@ -3042,7 +3005,7 @@
   {
     "keyword": "祛斑美白",
     "category": "特殊食品限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保不涉及医疗效果声称",
     "note": "祛斑美白类表述需注意不涉及医疗效果"
@@ -3050,7 +3013,7 @@
   {
     "keyword": "防脱发",
     "category": "特殊食品限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保不涉及医疗效果声称",
     "note": "防脱发类表述需注意不涉及医疗效果"
@@ -3058,7 +3021,7 @@
   {
     "keyword": "乌发",
     "category": "特殊食品限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保不涉及医疗效果声称",
     "note": "乌发类表述需注意不涉及医疗效果"
@@ -3066,7 +3029,7 @@
   {
     "keyword": "包过",
     "category": "教育承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "删除，教育广告不得对考试通过作保证承诺",
     "note": "教育广告禁止对考试通过作保证承诺"
@@ -3074,7 +3037,7 @@
   {
     "keyword": "保录",
     "category": "教育承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "删除，教育广告不得对录取作保证承诺",
     "note": "教育广告禁止对录取作保证承诺"
@@ -3082,7 +3045,7 @@
   {
     "keyword": "包就业",
     "category": "教育承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "删除，教育广告不得对就业作保证承诺",
     "note": "教育广告禁止对就业作保证承诺"
@@ -3090,7 +3053,7 @@
   {
     "keyword": "100%升学率",
     "category": "教育承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "提供升学率数据，否则删除",
     "note": "100%升学率类表述需有据可查"
@@ -3098,7 +3061,7 @@
   {
     "keyword": "名师授课",
     "category": "教育承诺",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "提供名师资质证明，否则删除",
     "note": "名师授课类表述需提供依据"
@@ -3106,7 +3069,7 @@
   {
     "keyword": "命题老师",
     "category": "教育承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "删除，禁止利用命题人员名义作推荐",
     "note": "禁止利用命题人员名义作推荐"
@@ -3114,7 +3077,7 @@
   {
     "keyword": "阅卷老师",
     "category": "教育承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "删除，禁止利用阅卷人员名义作推荐",
     "note": "禁止利用阅卷人员名义作推荐"
@@ -3122,7 +3085,7 @@
   {
     "keyword": "押题率",
     "category": "教育承诺",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "提供押题率数据，否则删除",
     "note": "押题率类表述需有据可查"
@@ -3130,7 +3093,7 @@
   {
     "keyword": "必考知识点",
     "category": "教育承诺",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "确保真实，否则删除",
     "note": "必考知识点类表述需确保真实"
@@ -3138,7 +3101,7 @@
   {
     "keyword": "一次过",
     "category": "教育承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "删除，教育广告不得对考试通过作保证承诺",
     "note": "一次过类表述属于考试保证承诺"
@@ -3146,7 +3109,7 @@
   {
     "keyword": "考不过退费",
     "category": "教育承诺",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "需标注退费条件和期限",
     "note": "考不过退费类承诺需标注条件"
@@ -3154,23 +3117,15 @@
   {
     "keyword": "保分",
     "category": "教育承诺",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十四条",
     "suggestion": "删除，教育广告不得对考试分数作保证承诺",
     "note": "保分类表述属于考试保证承诺"
   },
   {
-    "keyword": "提分 guarantee",
-    "category": "教育承诺",
-    "severity": "violation",
-    "law_ref": "《广告法》第二十四条",
-    "suggestion": "删除，教育广告不得对提分作保证承诺",
-    "note": "提分类表述属于考试保证承诺"
-  },
-  {
     "keyword": "升值",
     "category": "房地产限制",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十六条",
     "suggestion": "删除，房地产广告不得承诺升值",
     "note": "房地产广告禁止承诺升值"
@@ -3178,7 +3133,7 @@
   {
     "keyword": "投资回报",
     "category": "房地产限制",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十六条",
     "suggestion": "删除，房地产广告不得承诺投资回报",
     "note": "房地产广告禁止承诺投资回报"
@@ -3186,7 +3141,7 @@
   {
     "keyword": "租金收益",
     "category": "房地产限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十六条",
     "suggestion": "需标注收益风险提示",
     "note": "租金收益类表述需风险提示"
@@ -3194,7 +3149,7 @@
   {
     "keyword": "买房稳赚",
     "category": "房地产限制",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十六条",
     "suggestion": "删除，房地产广告不得承诺收益",
     "note": "买房稳赚类表述属于收益承诺"
@@ -3202,7 +3157,7 @@
   {
     "keyword": "学区房",
     "category": "房地产限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十六条",
     "suggestion": "确保学区真实，否则删除",
     "note": "学区房类表述需确保真实"
@@ -3210,7 +3165,7 @@
   {
     "keyword": "地铁房",
     "category": "房地产限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十六条",
     "suggestion": "确保距离真实，否则删除",
     "note": "地铁房类表述需确保真实"
@@ -3218,7 +3173,7 @@
   {
     "keyword": "名校旁",
     "category": "房地产限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十六条",
     "suggestion": "确保名校信息真实，否则删除",
     "note": "名校旁类表述需确保真实"
@@ -3226,7 +3181,7 @@
   {
     "keyword": "即刻入住",
     "category": "房地产限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十六条",
     "suggestion": "确保交房时间真实",
     "note": "即刻入住类表述需确保真实"
@@ -3234,7 +3189,7 @@
   {
     "keyword": "即买即住",
     "category": "房地产限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十六条",
     "suggestion": "确保交房时间真实",
     "note": "即买即住类表述需确保真实"
@@ -3242,7 +3197,7 @@
   {
     "keyword": "零首付",
     "category": "房地产限制",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十六条",
     "suggestion": "确保真实，否则删除",
     "note": "零首付类表述需确保真实并标注条件"
@@ -3250,7 +3205,7 @@
   {
     "keyword": "吸烟有害健康",
     "category": "烟酒限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十二条",
     "suggestion": "烟草广告需标注'吸烟有害健康'",
     "note": "烟草广告需按规定标注"
@@ -3258,7 +3213,7 @@
   {
     "keyword": "少喝一点",
     "category": "烟酒限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十三条",
     "suggestion": "酒类广告不得诱导、怂恿饮酒",
     "note": "酒类广告需注意不涉及诱导饮酒"
@@ -3266,7 +3221,7 @@
   {
     "keyword": "不喝白不喝",
     "category": "烟酒限制",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十三条",
     "suggestion": "删除，酒类广告不得诱导、怂恿饮酒",
     "note": "不喝白不喝类表述属于诱导饮酒"
@@ -3274,7 +3229,7 @@
   {
     "keyword": "男人就该喝",
     "category": "烟酒限制",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十三条",
     "suggestion": "删除，酒类广告不得诱导、怂恿饮酒",
     "note": "男人就该喝类表述属于诱导饮酒"
@@ -3282,7 +3237,7 @@
   {
     "keyword": "每天一杯",
     "category": "烟酒限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十三条",
     "suggestion": "酒类广告不得诱导日常饮酒",
     "note": "每天一杯类表述需注意不涉及诱导饮酒"
@@ -3290,7 +3245,7 @@
   {
     "keyword": "升值空间大",
     "category": "收藏品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需提供升值依据，否则删除",
     "note": "升值空间大类表述需提供依据"
@@ -3298,7 +3253,7 @@
   {
     "keyword": "具有投资价值",
     "category": "收藏品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需提供投资价值依据，否则删除",
     "note": "具有投资价值类表述需提供依据"
@@ -3306,7 +3261,7 @@
   {
     "keyword": "限量发行",
     "category": "收藏品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需标注具体限量数量",
     "note": "限量发行类表述需标注具体数量"
@@ -3314,7 +3269,7 @@
   {
     "keyword": "天然宝石",
     "category": "收藏品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需提供宝石鉴定证书，否则删除'天然'声称",
     "note": "天然宝石类表述需鉴定证书"
@@ -3322,7 +3277,7 @@
   {
     "keyword": "天然翡翠",
     "category": "收藏品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需提供翡翠鉴定证书，否则删除'天然'声称",
     "note": "天然翡翠类表述需鉴定证书"
@@ -3330,7 +3285,7 @@
   {
     "keyword": "天然和田玉",
     "category": "收藏品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需提供和田玉鉴定证书，否则删除'天然'声称",
     "note": "天然和田玉类表述需鉴定证书"
@@ -3338,7 +3293,7 @@
   {
     "keyword": "治疗",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "非医疗资质不可涉及治疗功能",
     "note": "广告法禁止非医疗资质涉及疾病治疗功能"
@@ -3346,7 +3301,7 @@
   {
     "keyword": "医治",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "非医疗资质不可涉及医治功能",
     "note": "医治类表述需医疗资质"
@@ -3354,7 +3309,7 @@
   {
     "keyword": "诊疗",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "非医疗资质不可涉及诊疗功能",
     "note": "诊疗类表述需医疗资质"
@@ -3362,7 +3317,7 @@
   {
     "keyword": "理疗",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "非医疗资质不可涉及理疗功能",
     "note": "理疗类表述需医疗资质"
@@ -3370,7 +3325,7 @@
   {
     "keyword": "康复",
     "category": "医疗限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "确保不涉及医疗效果声称",
     "note": "康复类表述需注意不涉及医疗效果"
@@ -3378,7 +3333,7 @@
   {
     "keyword": "医治好",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，医疗用语需资质",
     "note": "医治好类表述需医疗资质"
@@ -3386,7 +3341,7 @@
   {
     "keyword": "疗效",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "非医疗资质不可声称疗效",
     "note": "疗效类表述需医疗资质"
@@ -3394,7 +3349,7 @@
   {
     "keyword": "医学验证",
     "category": "医疗限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "提供医学验证报告，否则删除",
     "note": "医学验证类表述需提供依据"
@@ -3402,7 +3357,7 @@
   {
     "keyword": "临床数据",
     "category": "医疗限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "提供临床数据，否则删除",
     "note": "临床数据类表述需提供依据"
@@ -3410,7 +3365,7 @@
   {
     "keyword": "医学认证",
     "category": "医疗限制",
-    "severity": "warning",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "提供医学认证文件，否则删除",
     "note": "医学认证类表述需提供依据"
@@ -3418,7 +3373,7 @@
   {
     "keyword": "医师推荐",
     "category": "医疗限制",
-    "severity": "violation",
+    "severity": "critical",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供医疗资质和授权，否则删除",
     "note": "医师推荐类表述需医疗资质"
@@ -3426,7 +3381,7 @@
   {
     "keyword": "专利",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供专利证书，否则删除",
     "note": "专利类表述需提供证明"
@@ -3434,7 +3389,7 @@
   {
     "keyword": "专利申请号",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需确保专利真实，否则删除",
     "note": "专利申请号类表述需确保真实"
@@ -3442,7 +3397,7 @@
   {
     "keyword": "专利产品",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供专利证书，否则删除",
     "note": "专利产品类表述需提供证明"
@@ -3450,7 +3405,7 @@
   {
     "keyword": "实用新型",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供专利证书，否则删除",
     "note": "实用新型类表述需提供证明"
@@ -3458,7 +3413,7 @@
   {
     "keyword": "外观设计专利",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供专利证书，否则删除",
     "note": "外观设计专利类表述需提供证明"
@@ -3466,7 +3421,7 @@
   {
     "keyword": "国家发明专利",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供专利证书，否则删除",
     "note": "国家发明专利类表述需提供证明"
@@ -3474,7 +3429,7 @@
   {
     "keyword": "国际标准",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供国际标准文件，否则删除",
     "note": "国际标准类表述需提供证明"
@@ -3482,7 +3437,7 @@
   {
     "keyword": "国家标准",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供国家标准文件，否则删除",
     "note": "国家标准类表述需提供证明"
@@ -3490,7 +3445,7 @@
   {
     "keyword": "行业标准",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供行业标准文件，否则删除",
     "note": "行业标准类表述需提供证明"
@@ -3498,7 +3453,7 @@
   {
     "keyword": "欧盟认证",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供欧盟认证文件，否则删除",
     "note": "欧盟认证类表述需提供证明"
@@ -3506,7 +3461,7 @@
   {
     "keyword": "美国FDA认证",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供FDA认证文件，否则删除",
     "note": "美国FDA认证类表述需提供证明"
@@ -3514,7 +3469,7 @@
   {
     "keyword": "日本认证",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供日本认证文件，否则删除",
     "note": "日本认证类表述需提供证明"
@@ -3522,31 +3477,15 @@
   {
     "keyword": "韩国认证",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "需提供韩国认证文件，否则删除",
     "note": "韩国认证类表述需提供证明"
   },
   {
-    "keyword": "比XX便宜",
-    "category": "比较广告",
-    "severity": "warning",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "确保价格对比真实，否则删除",
-    "note": "价格对比类表述需确保真实"
-  },
-  {
-    "keyword": "比XX贵",
-    "category": "比较广告",
-    "severity": "warning",
-    "law_ref": "《广告法》第十三条",
-    "suggestion": "确保价格对比真实，否则删除",
-    "note": "价格对比类表述需确保真实"
-  },
-  {
     "keyword": "优于",
     "category": "比较广告",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第十三条",
     "suggestion": "需确保有数据支撑，否则删除",
     "note": "优于类表述需数据支撑"
@@ -3554,7 +3493,7 @@
   {
     "keyword": "胜过",
     "category": "比较广告",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第十三条",
     "suggestion": "需确保有数据支撑，否则删除",
     "note": "胜过类表述需数据支撑"
@@ -3562,7 +3501,7 @@
   {
     "keyword": "超越",
     "category": "比较广告",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第十三条",
     "suggestion": "需确保有数据支撑，否则删除",
     "note": "超越类表述需数据支撑"
@@ -3570,7 +3509,7 @@
   {
     "keyword": "完爆",
     "category": "比较广告",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十三条",
     "suggestion": "删除或改为'表现优秀'",
     "note": "禁止使用完爆等贬低性对比表述"
@@ -3578,7 +3517,7 @@
   {
     "keyword": "完胜",
     "category": "比较广告",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第十三条",
     "suggestion": "需确保有数据支撑，否则删除",
     "note": "完胜类对比表述需数据支撑"
@@ -3586,7 +3525,7 @@
   {
     "keyword": "碾压",
     "category": "比较广告",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十三条",
     "suggestion": "删除或改为'表现优秀'",
     "note": "禁止使用碾压等贬低性对比表述"
@@ -3594,7 +3533,7 @@
   {
     "keyword": "吊打",
     "category": "比较广告",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十三条",
     "suggestion": "删除或改为'表现优秀'",
     "note": "禁止使用吊打等贬低性对比表述"
@@ -3602,23 +3541,15 @@
   {
     "keyword": "甩几条街",
     "category": "比较广告",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十三条",
     "suggestion": "删除或改为'表现优秀'",
     "note": "禁止使用甩几条街等贬低性对比表述"
   },
   {
-    "keyword": "投资有风险",
-    "category": "金融投资限制",
-    "severity": "warning",
-    "law_ref": "《广告法》第二十五条",
-    "suggestion": "需标注风险提示",
-    "note": "金融投资类广告需风险提示"
-  },
-  {
     "keyword": "理财产品",
     "category": "金融投资限制",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "需提供金融资质，并标注风险提示",
     "note": "理财产品类表述需资质+风险提示"
@@ -3626,7 +3557,7 @@
   {
     "keyword": "股票推荐",
     "category": "金融投资限制",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "需提供证券投资咨询资质",
     "note": "股票推荐类表述需资质"
@@ -3634,7 +3565,7 @@
   {
     "keyword": "基金推荐",
     "category": "金融投资限制",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "需提供基金销售资质，并标注风险提示",
     "note": "基金推荐类表述需资质+风险提示"
@@ -3642,7 +3573,7 @@
   {
     "keyword": "虚拟货币",
     "category": "金融投资限制",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除，虚拟货币相关广告需严格审批",
     "note": "虚拟货币类广告需严格审批"
@@ -3650,7 +3581,7 @@
   {
     "keyword": "数字货币",
     "category": "金融投资限制",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除，数字货币相关广告需严格审批",
     "note": "数字货币类广告需严格审批"
@@ -3658,7 +3589,7 @@
   {
     "keyword": "比特币",
     "category": "金融投资限制",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除，比特币相关广告需严格审批",
     "note": "比特币类广告需严格审批"
@@ -3666,7 +3597,7 @@
   {
     "keyword": "以太坊",
     "category": "金融投资限制",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除，以太坊相关广告需严格审批",
     "note": "以太坊类广告需严格审批"
@@ -3674,7 +3605,7 @@
   {
     "keyword": "荐股",
     "category": "金融投资限制",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "需提供证券投资咨询资质",
     "note": "荐股类表述需资质"
@@ -3682,7 +3613,7 @@
   {
     "keyword": "炒股",
     "category": "金融投资限制",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "需标注风险提示",
     "note": "炒股类表述需风险提示"
@@ -3690,7 +3621,7 @@
   {
     "keyword": "配资",
     "category": "金融投资限制",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除，配资类广告需严格审批",
     "note": "配资类广告需严格审批"
@@ -3698,7 +3629,7 @@
   {
     "keyword": "融资融券",
     "category": "金融投资限制",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "需提供金融资质，并标注风险提示",
     "note": "融资融券类表述需资质+风险提示"
@@ -3706,7 +3637,7 @@
   {
     "keyword": "P2P",
     "category": "金融投资限制",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "删除，P2P类广告需严格审批",
     "note": "P2P类广告需严格审批"
@@ -3714,7 +3645,7 @@
   {
     "keyword": "众筹",
     "category": "金融投资限制",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第二十五条",
     "suggestion": "需提供众筹平台资质，并标注风险提示",
     "note": "众筹类表述需资质+风险提示"
@@ -3722,7 +3653,7 @@
   {
     "keyword": "美白",
     "category": "化妆品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供美白特证，否则删除效果声称",
     "note": "美白类表述需特证支撑"
@@ -3730,7 +3661,7 @@
   {
     "keyword": "祛斑",
     "category": "化妆品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供祛斑特证，否则删除效果声称",
     "note": "祛斑类表述需特证支撑"
@@ -3738,7 +3669,7 @@
   {
     "keyword": "祛痘",
     "category": "化妆品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保不涉及医疗效果声称",
     "note": "祛痘类表述需注意不涉及医疗效果"
@@ -3746,7 +3677,7 @@
   {
     "keyword": "除皱",
     "category": "化妆品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需确保不涉及医疗效果声称",
     "note": "除皱类表述需注意不涉及医疗效果"
@@ -3754,7 +3685,7 @@
   {
     "keyword": "防晒",
     "category": "化妆品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "需提供防晒特证，否则删除效果声称",
     "note": "防晒类表述需特证支撑"
@@ -3762,7 +3693,7 @@
   {
     "keyword": "染发",
     "category": "化妆品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《化妆品监督管理条例》",
     "suggestion": "需提供染发特证，否则删除效果声称",
     "note": "染发类表述需特证支撑"
@@ -3770,7 +3701,7 @@
   {
     "keyword": "烫发",
     "category": "化妆品限制",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《化妆品监督管理条例》",
     "suggestion": "需确保不涉及医疗效果声称",
     "note": "烫发类表述需注意不涉及医疗效果"
@@ -3778,7 +3709,7 @@
   {
     "keyword": "育发",
     "category": "化妆品限制",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，育发类属医疗作用表述",
     "note": "育发类表述需医疗资质"
@@ -3786,7 +3717,7 @@
   {
     "keyword": "美乳",
     "category": "化妆品限制",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，美乳类属医疗作用表述",
     "note": "美乳类表述需医疗资质"
@@ -3794,7 +3725,7 @@
   {
     "keyword": "健美",
     "category": "化妆品限制",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第十七条",
     "suggestion": "删除，健美类属医疗作用表述",
     "note": "健美类表述需医疗资质"
@@ -3802,7 +3733,7 @@
   {
     "keyword": "假一赔十",
     "category": "虚假宣传",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保正品保证真实，否则删除",
     "note": "假一赔十类承诺需确保真实"
@@ -3810,7 +3741,7 @@
   {
     "keyword": "正品保证",
     "category": "虚假宣传",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需提供正品凭证，否则删除",
     "note": "正品保证类表述需提供凭证"
@@ -3818,7 +3749,7 @@
   {
     "keyword": "假货退款",
     "category": "虚假宣传",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保正品，否则删除",
     "note": "假货退款类表述需确保正品"
@@ -3826,7 +3757,7 @@
   {
     "keyword": "高仿",
     "category": "虚假宣传",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "删除，高仿类属假冒伪劣宣传",
     "note": "高仿类表述属假冒伪劣宣传"
@@ -3834,7 +3765,7 @@
   {
     "keyword": "A货",
     "category": "虚假宣传",
-    "severity": "violation",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "删除，A货类属假冒伪劣宣传",
     "note": "A货类表述属假冒伪劣宣传"
@@ -3842,7 +3773,7 @@
   {
     "keyword": "尾货",
     "category": "虚假宣传",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保真实，否则删除",
     "note": "尾货类表述需确保真实"
@@ -3850,7 +3781,7 @@
   {
     "keyword": "原单",
     "category": "虚假宣传",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保真实，否则删除",
     "note": "原单类表述需确保真实"
@@ -3858,7 +3789,7 @@
   {
     "keyword": "外贸原单",
     "category": "虚假宣传",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保真实，否则删除",
     "note": "外贸原单类表述需确保真实"
@@ -3866,7 +3797,7 @@
   {
     "keyword": "厂家尾货",
     "category": "虚假宣传",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保真实，否则删除",
     "note": "厂家尾货类表述需确保真实"
@@ -3874,87 +3805,15 @@
   {
     "keyword": "库存清仓",
     "category": "虚假宣传",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "需确保库存真实，否则删除",
     "note": "库存清仓类表述需确保真实"
   },
   {
-    "keyword": "未成年人",
-    "category": "未成年人保护",
-    "severity": "warning",
-    "law_ref": "《广告法》第四十条",
-    "suggestion": "不得利用未成年人名义推荐商品",
-    "note": "广告法保护未成年人权益"
-  },
-  {
-    "keyword": "儿童",
-    "category": "未成年人保护",
-    "severity": "warning",
-    "law_ref": "《广告法》第四十条",
-    "suggestion": "涉及儿童商品需确保安全，不得诱导",
-    "note": "儿童类商品广告需确保安全"
-  },
-  {
-    "keyword": "少儿",
-    "category": "未成年人保护",
-    "severity": "warning",
-    "law_ref": "《广告法》第四十条",
-    "suggestion": "涉及少儿商品需确保安全，不得诱导",
-    "note": "少儿类商品广告需确保安全"
-  },
-  {
-    "keyword": "学生",
-    "category": "未成年人保护",
-    "severity": "warning",
-    "law_ref": "《广告法》第四十条",
-    "suggestion": "涉及学生商品需确保安全，不得诱导",
-    "note": "学生类商品广告需确保安全"
-  },
-  {
-    "keyword": "高考",
-    "category": "未成年人保护",
-    "severity": "warning",
-    "law_ref": "《广告法》第二十四条",
-    "suggestion": "教育广告不得对升学作保证承诺",
-    "note": "高考类教育广告需合规"
-  },
-  {
-    "keyword": "中考",
-    "category": "未成年人保护",
-    "severity": "warning",
-    "law_ref": "《广告法》第二十四条",
-    "suggestion": "教育广告不得对升学作保证承诺",
-    "note": "中考类教育广告需合规"
-  },
-  {
-    "keyword": "补课",
-    "category": "未成年人保护",
-    "severity": "warning",
-    "law_ref": "《广告法》第二十四条",
-    "suggestion": "教育广告不得对升学作保证承诺",
-    "note": "补课类教育广告需合规"
-  },
-  {
-    "keyword": "提分",
-    "category": "未成年人保护",
-    "severity": "warning",
-    "law_ref": "《广告法》第二十四条",
-    "suggestion": "教育广告不得对考试分数作保证承诺",
-    "note": "提分类教育广告需合规"
-  },
-  {
-    "keyword": "名校",
-    "category": "未成年人保护",
-    "severity": "warning",
-    "law_ref": "《广告法》第二十四条",
-    "suggestion": "教育广告不得对录取作保证承诺",
-    "note": "名校类教育广告需合规"
-  },
-  {
     "keyword": "著名商标",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第十四条",
     "suggestion": "删除'著名商标'表述",
     "note": "商标禁止用于广告宣传"
@@ -3962,7 +3821,7 @@
   {
     "keyword": "名牌",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供名牌证明，否则删除",
     "note": "名牌类表述需提供依据"
@@ -3970,7 +3829,7 @@
   {
     "keyword": "王牌",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'主打'或'优质'",
     "note": "王牌类表述需提供依据"
@@ -3978,7 +3837,7 @@
   {
     "keyword": "金牌",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供金牌证明，否则删除",
     "note": "金牌类表述需提供依据"
@@ -3986,7 +3845,7 @@
   {
     "keyword": "银牌",
     "category": "极限词",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供银牌证明，否则删除",
     "note": "银牌类表述需提供依据"
@@ -3994,7 +3853,7 @@
   {
     "keyword": "免检",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除，国家已取消免检制度",
     "note": "免检类表述已无依据"
@@ -4002,7 +3861,7 @@
   {
     "keyword": "国家免检",
     "category": "未审批声称",
-    "severity": "violation",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "删除，国家已取消免检制度",
     "note": "国家免检类表述已无依据"
@@ -4010,7 +3869,7 @@
   {
     "keyword": "质检合格",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供质检报告，否则删除",
     "note": "质检合格类表述需提供依据"
@@ -4018,7 +3877,7 @@
   {
     "keyword": "国家质检",
     "category": "未审批声称",
-    "severity": "warning",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供质检报告，否则删除",
     "note": "国家质检类表述需提供依据"
@@ -4026,7 +3885,7 @@
   {
     "keyword": "0激素",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供检测报告，否则删除'0激素'声称",
     "note": "0激素类表述需检测报告支撑"
@@ -4034,7 +3893,7 @@
   {
     "keyword": "0农残",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供检测报告，否则删除'0农残'声称",
     "note": "0农残类表述需检测报告支撑"
@@ -4042,7 +3901,7 @@
   {
     "keyword": "0污染",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供检测报告，否则删除'0污染'声称",
     "note": "0污染类表述需检测报告支撑"
@@ -4050,7 +3909,7 @@
   {
     "keyword": "有机",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供有机认证，否则删除'有机'声称",
     "note": "有机类表述需认证支撑"
@@ -4058,7 +3917,7 @@
   {
     "keyword": "绿色",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供绿色认证，否则删除'绿色'声称",
     "note": "绿色类表述需认证支撑"
@@ -4066,7 +3925,7 @@
   {
     "keyword": "环保",
     "category": "未验证声称",
-    "severity": "warning",
+    "severity": "medium",
     "law_ref": "《广告法》第九条",
     "suggestion": "提供环保认证，否则删除'环保'声称",
     "note": "环保类表述需认证支撑"

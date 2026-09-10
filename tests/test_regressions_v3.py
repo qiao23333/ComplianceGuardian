@@ -93,3 +93,58 @@ def test_shim_detect_can_disable_industry_packs():
     assert res["summary"]["violations"] == 0, (
         "industries=[] 时不应命中行业规则"
     )
+
+
+# ------------------------------------------------- Bug 3: 拼音通道跨字碰撞
+
+
+@pytest.mark.parametrize("text", [
+    "澳洲雇主担保签证的基本要求",   # 「担保签证」拼音含子串 baoqianzheng = 包签证
+    "高考后留学澳洲的几种路径",     # 「几种」拼音 jizhong = 极重
+])
+def test_pinyin_channel_rejects_pure_cjk_collision(engine, text, ):
+    """纯中文文本里，相邻汉字的拼音会跨字拼出别的关键词。
+
+    实测事故：「担保签证」→ dan-bao-qian-zheng 含 baoqianzheng，
+    等于关键词「包签证」的全拼，把一句完全正常的话判成虚假承诺。
+    这类碰撞无法靠"边界对齐"消除（每个汉字本身就是一个对齐单位），
+    必须要求源文本真的混有非汉字才算"刻意规避"。
+    """
+    r = engine.detect_text(text, DetectionOptions(industries=["immigration"]))
+    variants = [f for f in r.findings if f.match_type == "variant"]
+    assert not variants, (
+        f"纯中文文本出现跨字拼音伪命中：{[f.matched_text for f in variants]}"
+    )
+
+
+@pytest.mark.parametrize("text", ["jiaweixin", "加我wei信", "jiawo-weixin"])
+def test_pinyin_channel_still_accepts_real_latin_evasion(engine, text):
+    """真的写了拼音的规避写法，必须仍然能检出（否则修复矫枉过正）。"""
+    r = engine.detect_text(text, DetectionOptions(industries=["immigration"]))
+    assert any(f.match_type == "variant" for f in r.findings), (
+        f"拼音规避未检出：{text!r} -> "
+        f"{[(f.matched_text, f.match_type) for f in r.findings]}"
+    )
+
+
+# ------------------------------------------------- 严重度四档必须真正分档
+
+
+def test_severity_tiers_are_actually_used():
+    """四级严重度不能退化成两档——曾经 high 档为空、critical 占 62%。
+
+    《广告法》第 57 条对"国家级/最高级/最佳"等用语规定 20 万元起罚款
+    （→ high），而伪造材料、医疗功效宣称才是 critical，两者不该同级。
+    """
+    from collections import Counter
+
+    from guardian.rulebank import RuleBank
+
+    dist = Counter(r.severity for r in RuleBank().all)
+    # 至少三档有实质内容（low 仅保留给单字极限词这类特例）
+    populated = [k for k, v in dist.items() if v > 20]
+    assert len(populated) >= 3, f"严重度分档仍未生效：{dist.most_common()}"
+    assert dist["high"] > 20, f"high 档仍为空：{dist.most_common()}"
+    assert dist["critical"] < len(RuleBank().all) * 0.5, (
+        f"critical 占比仍过高（过度报警）：{dist.most_common()}"
+    )

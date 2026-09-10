@@ -22,8 +22,8 @@ def test_scan_txt_and_md(tmp_path):
     results = runner.scan([tmp_path])
     by_name = {Path(r.path).name: r for r in results}
     assert "a.txt" in by_name and "b.md" in by_name
-    # a.txt 含极限词 → 高风险；b.md 无 → 基本合规
-    assert by_name["a.txt"].risk_level == "高风险"
+    # a.txt 含极限词(high) → 中风险；b.md 无 → 基本合规
+    assert by_name["a.txt"].risk_level == "中风险"
     assert by_name["b.md"].risk_level == "基本合规"
     assert by_name["a.txt"].findings_count >= 2
 
@@ -55,7 +55,10 @@ def test_summarize(tmp_path):
     assert s.total_files == 2
     assert s.scanned == 2
     assert s.risky_files == 1
-    assert s.severity_dist["critical"] >= 2
+    # "最好"属极限词(high)、"全网最低"属误导性表述(medium)——四级体系真正分档
+    assert s.severity_dist["high"] >= 1
+    assert s.severity_dist["medium"] >= 1
+    assert s.severity_dist["critical"] == 0
     assert s.top_keywords  # 有 Top 词统计
 
 

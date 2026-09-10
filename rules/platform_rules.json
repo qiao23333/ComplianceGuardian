@@ -3,77 +3,77 @@
     {
       "keyword": "加微信",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除导流信息",
       "note": "小红书禁止引导加微信等站外联系方式"
     },
     {
       "keyword": "微信号",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除微信号信息",
       "note": "小红书禁止出现微信号"
     },
     {
       "keyword": "加V",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除导流信息",
       "note": "小红书禁止引导加联系方式"
     },
     {
       "keyword": "私信我",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "改为'评论区留言'",
       "note": "小红书限制主动引导私信"
     },
     {
       "keyword": "淘宝链接",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除外部链接",
       "note": "小红书禁止淘宝等外部购物链接"
     },
     {
       "keyword": "拼多多",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除外部平台名称",
       "note": "小红书禁止引导至其他电商平台"
     },
     {
       "keyword": "京东",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "谨慎使用外部平台名称",
       "note": "小红书限制引导至其他电商平台"
     },
     {
       "keyword": "天猫",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "谨慎使用外部平台名称",
       "note": "小红书限制引导至其他电商平台"
     },
     {
       "keyword": "点击购买",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'了解更多'",
       "note": "小红书对直接营销话术有限制"
     },
     {
       "keyword": "立即下单",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'查看详情'",
       "note": "小红书对直接营销话术有限制"
     },
     {
       "keyword": "限时抢购",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'限时优惠'",
       "note": "小红书对紧迫感营销话术有限制"
     },
@@ -115,140 +115,140 @@
     {
       "keyword": "小红书号",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "谨慎使用平台账号名称",
       "note": "小红书对引导关注管控较严"
     },
     {
       "keyword": "快手号",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除外部平台名称",
       "note": "小红书禁止引导至其他平台"
     },
     {
       "keyword": "B站号",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除外部平台名称",
       "note": "小红书禁止引导至其他平台"
     },
     {
       "keyword": "咸鱼",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除外部平台名称",
       "note": "小红书禁止引导至咸鱼"
     },
     {
       "keyword": "转转",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除外部平台名称",
       "note": "小红书禁止引导至转转"
     },
     {
       "keyword": "唯品会",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "谨慎使用外部平台名称",
       "note": "小红书限制引导至其他电商平台"
     },
     {
       "keyword": "苏宁",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "谨慎使用外部平台名称",
       "note": "小红书限制引导至其他电商平台"
     },
     {
       "keyword": "当当",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "谨慎使用外部平台名称",
       "note": "小红书限制引导至其他电商平台"
     },
     {
       "keyword": "考拉",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "谨慎使用外部平台名称",
       "note": "小红书限制引导至其他电商平台"
     },
     {
       "keyword": "海淘",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "谨慎使用外部平台名称",
       "note": "小红书限制引导至其他电商平台"
     },
     {
       "keyword": "代购",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "标注代购风险",
       "note": "小红书对代购内容审核严格"
     },
     {
       "keyword": "海外代购",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "标注代购风险",
       "note": "小红书对海外代购内容审核严格"
     },
     {
       "keyword": "微商",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除微商相关信息",
       "note": "小红书禁止微商导流"
     },
     {
       "keyword": "私域",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "谨慎使用私域相关表述",
       "note": "小红书对私域流量管控较严"
     },
     {
       "keyword": "加私域",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除导流信息",
       "note": "小红书禁止引导加私域"
     },
     {
       "keyword": "引导关注",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "改为'欢迎关注'",
       "note": "小红书对引导关注管控较严"
     },
     {
       "keyword": "扫码加",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除扫码加人信息",
       "note": "小红书禁止扫码加人导流"
     },
     {
       "keyword": "扫二维码",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除二维码相关信息",
       "note": "小红书禁止二维码导流"
     },
     {
       "keyword": "长按识别",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除二维码相关表述",
       "note": "小红书禁止二维码导流"
     },
     {
       "keyword": "识别二维码",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除二维码相关表述",
       "note": "小红书禁止二维码导流"
     },
@@ -346,287 +346,280 @@
     {
       "keyword": "秒杀",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'限时优惠'并确保库存真实",
       "note": "秒杀类表述需确保库存真实"
     },
     {
       "keyword": "特价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'优惠价'",
       "note": "特价类表述需确保价格真实"
     },
     {
       "keyword": "清仓价",
       "category": "营销限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "改为'特惠价'并确保真实",
       "note": "禁止使用清仓价等误导性表述"
     },
     {
       "keyword": "跳楼价",
       "category": "营销限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "改为'折扣价'",
       "note": "禁止使用跳楼价等误导性表述"
     },
     {
       "keyword": "亏本价",
       "category": "营销限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "改为'特惠价'并确保真实",
       "note": "禁止使用亏本价等误导性表述"
     },
     {
       "keyword": "抄底价",
       "category": "营销限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "改为'优惠价'",
       "note": "禁止使用抄底价等误导性表述"
     },
     {
       "keyword": "出厂价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "提供出厂价凭证，否则改为'优惠价'",
       "note": "出厂价类表述需确保真实"
     },
     {
       "keyword": "一手价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "提供一手价凭证，否则改为'优惠价'",
       "note": "一手价类表述需确保真实"
     },
     {
       "keyword": "批发价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "提供批发价凭证，否则改为'优惠价'",
       "note": "批发价类表述需确保真实"
     },
     {
       "keyword": "团购价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "提供团购价凭证，否则改为'优惠价'",
       "note": "团购价类表述需确保真实"
     },
     {
       "keyword": "活动价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注活动期限",
       "note": "活动价类表述需标注期限"
     },
     {
       "keyword": "限时价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注限时期限",
       "note": "限时价类表述需标注期限"
     },
     {
       "keyword": "促销价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注促销期限",
       "note": "促销价类表述需标注期限"
     },
     {
       "keyword": "折扣价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注折扣期限和条件",
       "note": "折扣价类表述需标注条件和期限"
     },
     {
       "keyword": "优惠券",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注优惠券使用条件",
       "note": "优惠券类表述需标注使用条件"
     },
     {
       "keyword": "满减",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注满减条件",
       "note": "满减类表述需标注条件"
     },
     {
       "keyword": "满送",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注满送条件",
       "note": "满送类表述需标注条件"
     },
     {
       "keyword": "买一送一",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注买一送一条件",
       "note": "买一送一类表述需标注条件"
     },
     {
       "keyword": "第二件0元",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注活动条件和期限",
       "note": "第二件0元类表述需标注条件和期限"
     },
     {
       "keyword": "刷赞",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除刷赞相关表述",
       "note": "小红书禁止刷赞等数据造假行为"
     },
     {
       "keyword": "刷粉",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除刷粉相关表述",
       "note": "小红书禁止刷粉等数据造假行为"
     },
     {
       "keyword": "互赞",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除互赞相关表述",
       "note": "小红书禁止互赞等数据造假行为"
     },
     {
       "keyword": "互粉",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除互粉相关表述",
       "note": "小红书禁止互粉等数据造假行为"
     },
     {
       "keyword": "买赞",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除买赞相关表述",
       "note": "小红书禁止买赞等数据造假行为"
     },
     {
       "keyword": "买粉",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除买粉相关表述",
       "note": "小红书禁止买粉等数据造假行为"
     },
     {
       "keyword": "赞我",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除赞我相关表述",
       "note": "小红书禁止诱导点赞"
     },
     {
-      "keyword": "关注我",
-      "category": "内容违规",
-      "severity": "violation",
-      "suggestion": "删除关注我相关表述",
-      "note": "小红书禁止诱导关注"
-    },
-    {
       "keyword": "互赞群",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除互赞群相关表述",
       "note": "小红书禁止互赞等数据造假行为"
     },
     {
       "keyword": "刷量",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除刷量相关表述",
       "note": "小红书禁止刷量等数据造假行为"
     },
     {
       "keyword": "数据优化",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除数据优化相关表述",
       "note": "小红书禁止数据造假行为"
     },
     {
       "keyword": "医美",
       "category": "医疗健康",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "医美类内容需注意不涉及医疗效果"
     },
     {
       "keyword": "微整",
       "category": "医疗健康",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "微整类内容需注意不涉及医疗效果"
     },
     {
       "keyword": "整形",
       "category": "医疗健康",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除，非医疗资质不可涉及整形内容",
       "note": "整形类内容需医疗资质"
     },
     {
       "keyword": "隆鼻",
       "category": "医疗健康",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除，非医疗资质不可涉及隆鼻内容",
       "note": "隆鼻类内容需医疗资质"
     },
     {
       "keyword": "隆胸",
       "category": "医疗健康",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除，非医疗资质不可涉及隆胸内容",
       "note": "隆胸类内容需医疗资质"
     },
     {
       "keyword": "抽脂",
       "category": "医疗健康",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除，非医疗资质不可涉及抽脂内容",
       "note": "抽脂类内容需医疗资质"
     },
     {
       "keyword": "瘦脸",
       "category": "医疗健康",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "瘦脸类内容需注意不涉及医疗效果"
     },
     {
       "keyword": "瘦腿",
       "category": "医疗健康",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "瘦腿类内容需注意不涉及医疗效果"
     },
     {
       "keyword": "美白针",
       "category": "医疗健康",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除，非医疗资质不可涉及美白针内容",
       "note": "美白针类内容需医疗资质"
     },
     {
       "keyword": "玻尿酸",
       "category": "医疗健康",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "玻尿酸类内容需注意不涉及医疗效果"
     },
     {
       "keyword": "肉毒素",
       "category": "医疗健康",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除，非医疗资质不可涉及肉毒素内容",
       "note": "肉毒素类内容需医疗资质"
     },
@@ -642,7 +635,19 @@
       "category": "金融违规",
       "severity": "warning",
       "suggestion": "需提供金融资质，并标注风险提示",
-      "note": "投资类内容需金融资质+风险提示"
+      "note": "投资类内容需金融资质+风险提示",
+      "context_excludes": [
+        "投资移民",
+        "投资签证",
+        "投资类",
+        "投资额",
+        "投资项目",
+        "投资款",
+        "投资机会",
+        "投资市场",
+        "投资房产",
+        "投资入籍"
+      ]
     },
     {
       "keyword": "股票",
@@ -724,121 +729,236 @@
     {
       "keyword": "直播带货",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合小红书直播规范",
       "note": "小红书对直播带货内容审核严格"
     },
     {
       "keyword": "挂链接",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合小红书挂链接规范",
       "note": "小红书对挂链接（商品链接）审核严格"
     },
     {
       "keyword": "种草笔记",
       "category": "内容违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "如为广告需标注'广告'或'赞助'",
       "note": "种草笔记类内容需标注广告性质"
     },
     {
       "keyword": "合作笔记",
       "category": "内容违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "如为广告需标注'广告'或'赞助'",
       "note": "合作笔记类内容需标注广告性质"
     },
     {
       "keyword": "品牌合作",
       "category": "内容违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "如为广告需标注'广告'或'赞助'",
       "note": "品牌合作类内容需标注广告性质"
     },
     {
       "keyword": "植入",
       "category": "内容违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "如为广告需标注'广告'或'赞助'",
       "note": "植入类内容需标注广告性质"
     },
     {
       "keyword": "软广",
       "category": "内容违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "如为广告需标注'广告'或'赞助'",
       "note": "软广类内容需标注广告性质"
+    },
+    {
+      "keyword": "微信",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "改为'主页有联系方式'或引导至平台内沟通",
+      "note": "小红书禁止站外导流；已排除'微信支付'等正常搭配",
+      "context_excludes": [
+        "微信支付",
+        "微信公众号",
+        "微信视频号",
+        "微信读书",
+        "微信红包",
+        "微信表情",
+        "微信运动",
+        "微信小程序",
+        "微信商城",
+        "微信登录",
+        "微信好友",
+        "微信朋友圈",
+        "微信客服",
+        "微信扫码",
+        "微信扫一扫"
+      ]
+    },
+    {
+      "keyword": "加我微信",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "删除，改为'可私信咨询'",
+      "note": "站外导流违规"
+    },
+    {
+      "keyword": "加个微信",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "删除，改为'可私信咨询'",
+      "note": "站外导流违规"
+    },
+    {
+      "keyword": "加我好友",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "改为'关注账号'",
+      "note": "引导站外建立联系"
+    },
+    {
+      "keyword": "加卫星",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "删除该表述（'卫星'是微信的规避写法）",
+      "note": "常见规避写法，与'微信'同义"
+    },
+    {
+      "keyword": "卫星号",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "删除该表述",
+      "note": "'卫星号'即微信号的规避说法"
+    },
+    {
+      "keyword": "私聊我",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "改为'可评论区交流'",
+      "note": "引导私域"
+    },
+    {
+      "keyword": "主页联系",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "改为'见平台内主页简介'",
+      "note": "引导站外联系"
+    },
+    {
+      "keyword": "戳我头像",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "改为'关注主页'",
+      "note": "变相引导站外联系"
+    },
+    {
+      "keyword": "站外联系",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "删除该表述",
+      "note": "明示站外导流"
+    },
+    {
+      "keyword": "关注我领取",
+      "category": "内容违规",
+      "severity": "high",
+      "suggestion": "改为'欢迎关注，资料见主页'",
+      "note": "以利益诱导关注属违规"
+    },
+    {
+      "keyword": "关注我发你",
+      "category": "内容违规",
+      "severity": "high",
+      "suggestion": "改为'欢迎关注'",
+      "note": "以利益诱导关注"
+    },
+    {
+      "keyword": "关注我就送",
+      "category": "内容违规",
+      "severity": "high",
+      "suggestion": "改为'欢迎关注'",
+      "note": "以利益诱导关注"
+    },
+    {
+      "keyword": "关注我私信",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "改为'可评论区交流'",
+      "note": "引导至私信导流"
     }
   ],
   "douyin": [
     {
       "keyword": "加微信",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "建议删除，抖音对导流管控较严",
       "note": "抖音限制站外导流"
     },
     {
       "keyword": "加群",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除加群引导",
       "note": "抖音禁止引导加群"
     },
     {
       "keyword": "站外链接",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除外部链接",
       "note": "抖音禁止站外链接"
     },
     {
       "keyword": "外部链接",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除外部链接",
       "note": "抖音禁止外部链接"
     },
     {
       "keyword": "点击购买",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'了解更多'",
       "note": "抖音对直接营销话术有限制"
     },
     {
       "keyword": "立即下单",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'查看详情'",
       "note": "抖音对直接营销话术有限制"
     },
     {
       "keyword": "限时抢购",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'限时优惠'",
       "note": "抖音对紧迫感营销话术有限制"
     },
     {
       "keyword": "处方药",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "删除处方药相关内容",
       "note": "抖音禁止处方药推广"
     },
     {
       "keyword": "治疗方法",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "改为'健康知识'",
       "note": "抖音限制医疗方法类内容"
     },
     {
       "keyword": "诊断",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "改为'健康参考'",
       "note": "抖音限制诊断类内容需医疗资质"
     },
@@ -852,275 +972,247 @@
     {
       "keyword": "引流",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "避免使用引流相关表述",
       "note": "抖音对引流行为管控严格"
     },
     {
       "keyword": "加V",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除导流信息",
       "note": "抖音禁止引导加V"
     },
     {
       "keyword": "二维码",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除二维码相关信息",
       "note": "抖音禁止二维码导流"
     },
     {
       "keyword": "电话号",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除电话号码",
       "note": "抖音禁止电话号码导流"
     },
     {
       "keyword": "手机号",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除手机号信息",
       "note": "抖音禁止手机号导流"
     },
     {
       "keyword": "微信号",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除微信号信息",
       "note": "抖音禁止微信号导流"
     },
     {
       "keyword": "QQ号",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除QQ号信息",
       "note": "抖音禁止QQ号导流"
     },
     {
       "keyword": "企鹅号",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除企鹅号信息",
       "note": "抖音禁止企鹅号导流"
     },
     {
       "keyword": "抖音号",
       "category": "导流违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "谨慎使用平台账号名称",
       "note": "抖音对引导关注管控较严"
     },
     {
       "keyword": "快手号",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除外部平台名称",
       "note": "抖音禁止引导至其他平台"
     },
     {
       "keyword": "小红书号",
       "category": "导流违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除外部平台名称",
       "note": "抖音禁止引导至其他平台"
     },
     {
       "keyword": "减肥药",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "删除，非医疗资质不可推广减肥药",
       "note": "减肥药类内容需医疗资质"
     },
     {
       "keyword": "壮阳药",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "删除，非医疗资质不可推广壮阳药",
       "note": "壮阳药类内容需医疗资质"
     },
     {
       "keyword": "美白针",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "删除，非医疗资质不可涉及美白针内容",
       "note": "美白针类内容需医疗资质"
     },
     {
       "keyword": "玻尿酸",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "玻尿酸类内容需注意不涉及医疗效果"
     },
     {
       "keyword": "医美",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "医美类内容需注意不涉及医疗效果"
     },
     {
       "keyword": "整形",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "删除，非医疗资质不可涉及整形内容",
       "note": "整形类内容需医疗资质"
     },
     {
       "keyword": "隆鼻",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "删除，非医疗资质不可涉及隆鼻内容",
       "note": "隆鼻类内容需医疗资质"
     },
     {
       "keyword": "抽脂",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "删除，非医疗资质不可涉及抽脂内容",
       "note": "抽脂类内容需医疗资质"
     },
     {
       "keyword": "最低价",
       "category": "营销限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "改为'价格实惠'或提供比价依据",
       "note": "禁止使用最低价等极限表述"
     },
     {
       "keyword": "最便宜",
       "category": "营销限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "改为'实惠'或'性价比高'",
       "note": "禁止使用最便宜等极限表述"
     },
     {
       "keyword": "秒杀",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'限时优惠'并确保库存真实",
       "note": "秒杀类表述需确保库存真实"
     },
     {
       "keyword": "特价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'优惠价'",
       "note": "特价类表述需确保价格真实"
     },
     {
       "keyword": "折扣价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注折扣期限和条件",
       "note": "折扣价类表述需标注条件和期限"
     },
     {
       "keyword": "促销价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注促销期限",
       "note": "促销价类表述需标注期限"
     },
     {
       "keyword": "优惠券",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注优惠券使用条件",
       "note": "优惠券类表述需标注使用条件"
     },
     {
       "keyword": "满减",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注满减条件",
       "note": "满减类表述需标注条件"
     },
     {
       "keyword": "买一送一",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注买一送一条件",
       "note": "买一送一类表述需标注条件"
     },
     {
       "keyword": "买流量",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除买流量相关表述",
       "note": "抖音禁止买流量等数据造假行为"
     },
     {
       "keyword": "刷赞",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除刷赞相关表述",
       "note": "抖音禁止刷赞等数据造假行为"
     },
     {
       "keyword": "刷粉",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除刷粉相关表述",
       "note": "抖音禁止刷粉等数据造假行为"
     },
     {
       "keyword": "买赞",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除买赞相关表述",
       "note": "抖音禁止买赞等数据造假行为"
     },
     {
       "keyword": "买粉",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除买粉相关表述",
       "note": "抖音禁止买粉等数据造假行为"
     },
     {
       "keyword": "数据造假",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除数据造假相关表述",
       "note": "抖音禁止数据造假行为"
     },
     {
       "keyword": "互赞互粉",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除互赞互粉相关表述",
       "note": "抖音禁止互赞互粉等数据造假行为"
-    },
-    {
-      "keyword": "未成年人直播",
-      "category": "未成年人保护",
-      "severity": "violation",
-      "suggestion": "删除，未成年人直播需符合规定",
-      "note": "抖音对未成年人直播管控严格"
-    },
-    {
-      "keyword": "儿童营销",
-      "category": "未成年人保护",
-      "severity": "warning",
-      "suggestion": "确保内容适合儿童观看",
-      "note": "抖音对儿童营销内容审核严格"
-    },
-    {
-      "keyword": "少儿不宜",
-      "category": "未成年人保护",
-      "severity": "violation",
-      "suggestion": "删除，内容需符合未成年人保护规定",
-      "note": "抖音禁止少儿不宜内容"
-    },
-    {
-      "keyword": "学生价",
-      "category": "未成年人保护",
-      "severity": "warning",
-      "suggestion": "确保学生价真实，否则删除",
-      "note": "学生价类表述需确保真实"
     },
     {
       "keyword": "荐股",
@@ -1160,226 +1252,284 @@
     {
       "keyword": "假一赔十",
       "category": "虚假宣传",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "确保正品保证真实，否则删除",
       "note": "假一赔十类承诺需确保真实"
     },
     {
       "keyword": "直播带货",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合抖音直播规范",
       "note": "抖音对直播带货内容审核严格"
     },
     {
       "keyword": "挂小黄车",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合抖音挂车规范",
       "note": "抖音对挂小黄车（商品链接）审核严格"
     },
     {
       "keyword": "录播",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除，抖音禁止录播",
       "note": "抖音禁止录播行为"
     },
     {
       "keyword": "非实时直播",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除，抖音要求实时直播",
       "note": "抖音禁止非实时直播"
     },
     {
       "keyword": "短视频带货",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合抖音带货规范",
       "note": "抖音对短视频带货内容审核严格"
     },
     {
       "keyword": "抖音小店",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合抖音小店规范",
       "note": "抖音对抖音小店内容审核严格"
+    },
+    {
+      "keyword": "微信",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "改为'主页可见'或平台内沟通",
+      "note": "抖音限制站外导流；已排除正常搭配",
+      "context_excludes": [
+        "微信支付",
+        "微信公众号",
+        "微信视频号",
+        "微信读书",
+        "微信红包",
+        "微信表情",
+        "微信运动",
+        "微信小程序",
+        "微信商城",
+        "微信登录",
+        "微信好友",
+        "微信朋友圈",
+        "微信客服",
+        "微信扫码",
+        "微信扫一扫"
+      ]
+    },
+    {
+      "keyword": "加我微信",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "删除，改为'私信咨询'",
+      "note": "站外导流违规"
+    },
+    {
+      "keyword": "加卫星",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "删除该表述",
+      "note": "微信的规避写法"
+    },
+    {
+      "keyword": "卫星号",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "删除该表述",
+      "note": "微信号的规避写法"
+    },
+    {
+      "keyword": "私聊我",
+      "category": "导流违规",
+      "severity": "high",
+      "suggestion": "改为'可评论区交流'",
+      "note": "引导私域"
     }
   ],
   "weixin": [
     {
       "keyword": "点击链接购买",
       "category": "营销限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "改为引导关注后私信",
       "note": "视频号对直接营销话术限制较严"
     },
     {
       "keyword": "立即下单",
       "category": "营销限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "改为'了解更多'",
       "note": "视频号对直接营销话术限制较严"
     },
     {
       "keyword": "限时抢购",
       "category": "营销限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "改为'限时优惠'",
       "note": "视频号对紧迫感营销话术限制最严"
     },
     {
       "keyword": "马上抢",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'查看详情'",
       "note": "视频号对紧迫感营销话术有限制"
     },
     {
       "keyword": "手慢无",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'数量有限'",
       "note": "视频号对紧迫感营销话术有限制"
     },
     {
       "keyword": "加微信",
       "category": "导流限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "视频号内可用但需谨慎",
       "note": "视频号对加微信导流有一定限制"
     },
     {
       "keyword": "免费领",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需标注具体条件和规则",
-      "note": "免费领取需标注条件"
+      "note": "免费领取需标注条件",
+      "context_excludes": [
+        "免费领取政策",
+        "免费领取资料",
+        "免费领取手册",
+        "免费领取指南"
+      ]
     },
     {
       "keyword": "转发领取",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需标注具体规则",
       "note": "转发领取类活动需合规"
     },
     {
       "keyword": "秒杀",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'限时优惠'并确保库存真实",
       "note": "秒杀类表述需确保库存真实"
     },
     {
       "keyword": "特价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "改为'优惠价'",
       "note": "特价类表述需确保价格真实"
     },
     {
       "keyword": "折扣价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注折扣期限和条件",
       "note": "折扣价类表述需标注条件和期限"
     },
     {
       "keyword": "促销价",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注促销期限",
       "note": "促销价类表述需标注期限"
     },
     {
       "keyword": "优惠券",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注优惠券使用条件",
       "note": "优惠券类表述需标注使用条件"
     },
     {
       "keyword": "满减",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注满减条件",
       "note": "满减类表述需标注条件"
     },
     {
       "keyword": "买一送一",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注买一送一条件",
       "note": "买一送一类表述需标注条件"
     },
     {
       "keyword": "第二件0元",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "标注活动条件和期限",
       "note": "第二件0元类表述需标注条件和期限"
     },
     {
       "keyword": "加群",
       "category": "导流限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "视频号内可用但需谨慎",
       "note": "视频号对加群导流有一定限制"
     },
     {
       "keyword": "外部链接",
       "category": "导流限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "删除外部链接",
       "note": "视频号禁止外部链接"
     },
     {
       "keyword": "二维码",
       "category": "导流限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "视频号内可用但需谨慎",
       "note": "视频号对二维码导流有一定限制"
     },
     {
       "keyword": "电话号码",
       "category": "导流限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "视频号内可用但需谨慎",
       "note": "视频号对电话号码导流有一定限制"
     },
     {
       "keyword": "处方药",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "删除处方药相关内容",
       "note": "视频号禁止处方药推广"
     },
     {
       "keyword": "治疗方法",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "改为'健康知识'",
       "note": "视频号限制医疗方法类内容"
     },
     {
       "keyword": "诊断",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "改为'健康参考'",
       "note": "视频号限制诊断类内容需医疗资质"
     },
     {
       "keyword": "医疗美容",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "视频号对医疗美容内容审核严格"
     },
     {
       "keyword": "整形",
       "category": "医疗限制",
-      "severity": "violation",
+      "severity": "critical",
       "suggestion": "删除，非医疗资质不可涉及整形内容",
       "note": "整形类内容需医疗资质"
     },
@@ -1414,182 +1564,161 @@
     {
       "keyword": "刷赞",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除刷赞相关表述",
       "note": "视频号禁止刷赞等数据造假行为"
     },
     {
       "keyword": "刷粉",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除刷粉相关表述",
       "note": "视频号禁止刷粉等数据造假行为"
     },
     {
       "keyword": "数据造假",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除数据造假相关表述",
       "note": "视频号禁止数据造假行为"
     },
     {
-      "keyword": "未成年人直播",
-      "category": "未成年人保护",
-      "severity": "violation",
-      "suggestion": "删除，未成年人直播需符合规定",
-      "note": "视频号对未成年人直播管控严格"
-    },
-    {
-      "keyword": "儿童营销",
-      "category": "未成年人保护",
-      "severity": "warning",
-      "suggestion": "确保内容适合儿童观看",
-      "note": "视频号对儿童营销内容审核严格"
-    },
-    {
-      "keyword": "少儿不宜",
-      "category": "未成年人保护",
-      "severity": "violation",
-      "suggestion": "删除，内容需符合未成年人保护规定",
-      "note": "视频号禁止少儿不宜内容"
-    },
-    {
       "keyword": "直播带货",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合视频号直播规范",
       "note": "视频号对直播带货内容审核严格"
     },
     {
       "keyword": "直播卖货",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合视频号直播规范",
       "note": "视频号对直播卖货内容审核严格"
     },
     {
       "keyword": "直播切片",
       "category": "内容违规",
-      "severity": "warning",
+      "severity": "high",
       "suggestion": "需确保切片内容真实合规",
       "note": "视频号对直播切片内容审核严格"
     },
     {
       "keyword": "录播",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除，视频号禁止录播",
       "note": "视频号禁止录播行为"
     },
     {
       "keyword": "非实时直播",
       "category": "内容违规",
-      "severity": "violation",
+      "severity": "high",
       "suggestion": "删除，视频号要求实时直播",
       "note": "视频号禁止非实时直播"
     },
     {
       "keyword": "挂车",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合视频号挂车规范",
       "note": "视频号对挂车（商品链接）审核严格"
     },
     {
       "keyword": "小黄车",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合视频号商品链接规范",
       "note": "视频号对小黄车（商品链接）审核严格"
     },
     {
       "keyword": "视频带货",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合视频号带货规范",
       "note": "视频号对视频带货内容审核严格"
     },
     {
       "keyword": "短视频带货",
       "category": "营销限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "需符合视频号带货规范",
       "note": "视频号对短视频带货内容审核严格"
     },
     {
       "keyword": "引流",
       "category": "导流限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "避免使用引流相关表述",
       "note": "视频号对引流行为管控严格"
     },
     {
       "keyword": "私域引流",
       "category": "导流限制",
-      "severity": "violation",
+      "severity": "medium",
       "suggestion": "删除私域引流信息",
       "note": "视频号禁止私域引流"
     },
     {
       "keyword": "加好友",
       "category": "导流限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "视频号内可用但需谨慎",
       "note": "视频号对加好友导流有一定限制"
     },
     {
       "keyword": "添加好友",
       "category": "导流限制",
-      "severity": "warning",
+      "severity": "medium",
       "suggestion": "视频号内可用但需谨慎",
       "note": "视频号对添加好友导流有一定限制"
     },
     {
       "keyword": "保健品",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "需标注'本品不能代替药物'",
       "note": "视频号对保健品广告审核严格"
     },
     {
       "keyword": "保健食品",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "需标注'本品不能代替药物'",
       "note": "视频号对保健食品广告审核严格"
     },
     {
       "keyword": "医美",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "视频号对医美内容审核严格"
     },
     {
       "keyword": "减肥",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "视频号对减肥内容审核严格"
     },
     {
       "keyword": "瘦身",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "需确保不涉及医疗效果声称",
       "note": "视频号对瘦身内容审核严格"
     },
     {
       "keyword": "祛斑",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "需提供特证，否则删除效果声称",
       "note": "视频号对祛斑效果声称审核严格"
     },
     {
       "keyword": "美白",
       "category": "医疗限制",
-      "severity": "warning",
+      "severity": "critical",
       "suggestion": "需提供特证，否则删除效果声称",
       "note": "视频号对美白效果声称审核严格"
     },
@@ -1605,7 +1734,19 @@
       "category": "金融限制",
       "severity": "warning",
       "suggestion": "需提供金融资质，并标注风险提示",
-      "note": "视频号对投资内容审核严格"
+      "note": "视频号对投资内容审核严格",
+      "context_excludes": [
+        "投资移民",
+        "投资签证",
+        "投资类",
+        "投资额",
+        "投资项目",
+        "投资款",
+        "投资机会",
+        "投资市场",
+        "投资房产",
+        "投资入籍"
+      ]
     },
     {
       "keyword": "基金",
@@ -1627,6 +1768,44 @@
       "severity": "violation",
       "suggestion": "删除，彩票类内容需严格审批",
       "note": "视频号禁止彩票推广"
+    },
+    {
+      "keyword": "微信",
+      "category": "导流限制",
+      "severity": "medium",
+      "suggestion": "视频号内可直接引导，但避免出现具体微信号",
+      "note": "视频号对站外导流限制相对宽松，标为提示",
+      "context_excludes": [
+        "微信支付",
+        "微信公众号",
+        "微信视频号",
+        "微信读书",
+        "微信红包",
+        "微信表情",
+        "微信运动",
+        "微信小程序",
+        "微信商城",
+        "微信登录",
+        "微信好友",
+        "微信朋友圈",
+        "微信客服",
+        "微信扫码",
+        "微信扫一扫"
+      ]
+    },
+    {
+      "keyword": "加我微信",
+      "category": "导流限制",
+      "severity": "medium",
+      "suggestion": "改为'微信内搜索关注'",
+      "note": "视频号导流限制"
+    },
+    {
+      "keyword": "加卫星",
+      "category": "导流限制",
+      "severity": "medium",
+      "suggestion": "删除该表述",
+      "note": "规避写法"
     }
   ]
 }

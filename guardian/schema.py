@@ -179,6 +179,9 @@ class Rule:
             # 结构化替换词：优先取规则自带的 replacements 字段
             # （迁移/词库维护可写入；旧词库无此字段则为空 → 不自动改写）
             replacements=list(raw.get("replacements") or []),
+            # 规则级上下文豁免词组：命中落在这些词组内则不算违规
+            # （例："微信" 规则排除 "微信支付/微信公众号"，避免日常表述误报）
+            context_excludes=[str(x) for x in (raw.get("context_excludes") or [])],
             law_ref=raw.get("law_ref", ""),
             note=raw.get("note", ""),
             # 单字极限词不允许自动改写（与 context_guard 的运行时防线呼应）

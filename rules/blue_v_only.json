@@ -92,7 +92,7 @@
   {
     "keyword": "包过",
     "category": "教育承诺",
-    "severity": "blue_v_required",
+    "severity": "high",
     "non_blue_v": "violation",
     "blue_v": "warning",
     "suggestion": "非蓝V不可使用包过承诺",
@@ -101,7 +101,7 @@
   {
     "keyword": "保录",
     "category": "教育承诺",
-    "severity": "blue_v_required",
+    "severity": "high",
     "non_blue_v": "violation",
     "blue_v": "warning",
     "suggestion": "非蓝V不可使用保录承诺",
@@ -110,7 +110,7 @@
   {
     "keyword": "包就业",
     "category": "教育承诺",
-    "severity": "blue_v_required",
+    "severity": "high",
     "non_blue_v": "violation",
     "blue_v": "warning",
     "suggestion": "非蓝V不可使用包就业承诺",
@@ -317,7 +317,7 @@
   {
     "keyword": "包拿证",
     "category": "教育承诺",
-    "severity": "blue_v_required",
+    "severity": "high",
     "non_blue_v": "violation",
     "blue_v": "warning",
     "suggestion": "非蓝V不可使用包拿证承诺；蓝V需加风险提示",
@@ -326,7 +326,7 @@
   {
     "keyword": "保过",
     "category": "教育承诺",
-    "severity": "blue_v_required",
+    "severity": "high",
     "non_blue_v": "violation",
     "blue_v": "warning",
     "suggestion": "非蓝V不可使用保过承诺；蓝V需加风险提示",
@@ -335,7 +335,7 @@
   {
     "keyword": "100%升学",
     "category": "教育承诺",
-    "severity": "blue_v_required",
+    "severity": "high",
     "non_blue_v": "violation",
     "blue_v": "warning",
     "suggestion": "非蓝V不可使用100%升学承诺；蓝V需提供数据并加风险提示",
@@ -344,7 +344,7 @@
   {
     "keyword": "名校保录",
     "category": "教育承诺",
-    "severity": "blue_v_required",
+    "severity": "high",
     "non_blue_v": "violation",
     "blue_v": "warning",
     "suggestion": "非蓝V不可使用名校保录承诺；蓝V需加风险提示",
@@ -353,7 +353,7 @@
   {
     "keyword": "押题率",
     "category": "教育承诺",
-    "severity": "blue_v_required",
+    "severity": "high",
     "non_blue_v": "violation",
     "blue_v": "warning",
     "suggestion": "非蓝V不可使用押题率承诺；蓝V需提供数据并加风险提示",
@@ -362,7 +362,7 @@
   {
     "keyword": "一次过",
     "category": "教育承诺",
-    "severity": "blue_v_required",
+    "severity": "high",
     "non_blue_v": "violation",
     "blue_v": "warning",
     "suggestion": "非蓝V不可使用一次过承诺；蓝V需加风险提示",
@@ -371,7 +371,7 @@
   {
     "keyword": "考不过退费",
     "category": "教育承诺",
-    "severity": "blue_v_required",
+    "severity": "high",
     "non_blue_v": "violation",
     "blue_v": "warning",
     "suggestion": "非蓝V不可使用考不过退费承诺；蓝V需标注退费条件",
