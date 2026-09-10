@@ -24,6 +24,7 @@ DEFAULT_CONFIG = {
     "total_violations": 0,
     "appearance_mode": "Light",
     "enabled_industry_packs": ["immigration"],
+    "minimize_to_tray": True,
 }
 
 

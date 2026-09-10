@@ -1,10 +1,29 @@
-# GUI
-customtkinter>=5.2.0
+# ===== 合规卫士 · 运行依赖（等价于 requirements-desktop.txt）=====
+# 安装：pip install -r requirements.txt
+# 说明：桌面端与 Web 端共享 guardian/ 内核；此文件列出内核 + 桌面端所需依赖。
+#       开发/打包见 requirements-dev.txt；Web 端额外依赖见 requirements-web.txt。
 
-# 高性能关键词匹配 (Aho-Corasick 自动机)
-pyahocorasick>=1.4.0
+# GUI 框架
+customtkinter>=5.2.2,<6.0
 
-# 可选：LLM 语义增强检测（需本地安装 Ollama）
+# 高性能关键词匹配（Aho-Corasick 自动机）
+# Windows 有官方预编译 wheel；装不上时内核自动降级到纯 Python 实现
+pyahocorasick>=2.2.0,<3.0
+
+# 图标生成 / 报告图片导出
+pillow>=10.0,<12.0
+
+# 报告模板渲染（HTML / Markdown）
+jinja2>=3.1,<4.0
+
+# 繁体转简体（变体抗规避检测用，纯 Python 无需编译）
+opencc-python-reimplemented>=0.1.7,<0.2.0
+
+# 拼音变体生成（装不上可跳过，内核自动降级）
+pypinyin>=0.51,<0.55
+
+# 系统托盘常驻（Windows；缺失时自动降级为无托盘）
+pystray>=0.19,<1.0
+
+# 可选：LLM 语义增强检测（本地 Ollama / 云端 OpenAI 兼容）
 # ollama>=0.1.0
-
-# 开发依赖见 requirements-dev.txt

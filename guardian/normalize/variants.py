@@ -89,12 +89,23 @@ class RomanizedText:
         return (n_s, n_e)
 
 
+def _per_char(chunk: str) -> list[str]:
+    """非汉字片段按**单字符**拆分，保证 parts 与源文本逐字对齐。
+
+    pypinyin 默认把一整段拉丁文当成一个 part 返回（实测
+    ``lazy_pinyin("jiaweixin") -> ['jiaweixin']``），这会让 ``idx`` 全部指向
+    同一个下标，从而击穿 ``char_span`` 的整字边界校验，产出 "j" 这种单字母
+    伪命中。传 ``errors=_per_char`` 后 part 数与源字符数一致，映射才可靠。
+    """
+    return list(chunk)
+
+
 def romanize(normalized_text: str) -> RomanizedText:
     """把归一化文本转成连续拼音串，并保留到归一化文本的索引。"""
     lp = _lazy_pinyin()
     if lp is None:
         return RomanizedText(text="", idx=[], normalized=normalized_text)
-    parts = lp(normalized_text, strict=False, errors="default")
+    parts = lp(normalized_text, strict=False, errors=_per_char)
     out: list[str] = []
     idx: list[int] = []
     for i, p in enumerate(parts):

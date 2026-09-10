@@ -236,8 +236,17 @@ class SettingsPage(ctk.CTkFrame):
         ctk.CTkLabel(stats_row, text=f"累计违规：{total_violations} 条",
                      font=font_typo("caption"), text_color=colors["text"]).pack(side="left")
 
+        # 桌面行为：最小化到托盘
+        tray_row = ctk.CTkFrame(data_card, fg_color="transparent")
+        tray_row.pack(fill="x", padx=SPACING["xl"], pady=(0, SPACING["xs"]))
+        ctk.CTkLabel(tray_row, text="关闭窗口时最小化到托盘", font=font_typo("caption"),
+                     text_color=colors["text"]).pack(side="left")
+        self.tray_var = tk.BooleanVar(value=bool(self.app.config_manager.get("minimize_to_tray", True)))
+        ctk.CTkSwitch(tray_row, text="", variable=self.tray_var,
+                      command=self._toggle_tray).pack(side="right")
+
         ctk.CTkButton(data_card, text="重置检测统计", width=120,
-                      command=self._reset_stats, **secondary_button_style()).pack(anchor="w", padx=SPACING["xl"], pady=(0, SPACING["lg"]))
+                      command=self._reset_stats, **secondary_button_style()).pack(anchor="w", padx=SPACING["xl"], pady=(SPACING["sm"], SPACING["lg"]))
 
     # ------------------------------------------------ AI 配置
 
@@ -345,6 +354,10 @@ class SettingsPage(ctk.CTkFrame):
             self.ollama_status_label.configure(text="❌ Ollama 服务未运行", text_color=colors["danger"])
             self.ollama_models_label.configure(
                 text=f"请安装并启动 Ollama：\n  1. 下载：https://ollama.com\n  2. 启动：ollama serve\n  3. 拉取模型：ollama pull {want}")
+
+    def _toggle_tray(self):
+        """保存「最小化到托盘」开关。"""
+        self.app.config_manager.set("minimize_to_tray", bool(self.tray_var.get()))
 
     def _reset_stats(self):
         if messagebox.askyesno("确认", "确定重置检测统计数据？"):

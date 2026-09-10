@@ -12,6 +12,9 @@ pyahocorasick>=2.2.0,<3.0
 # 图标生成 / 报告图片导出
 pillow>=10.0,<12.0
 
+# 系统托盘常驻（Windows；缺失时自动降级为无托盘，不影响主程序）
+pystray>=0.19,<1.0
+
 # 报告模板渲染（HTML / Markdown）
 jinja2>=3.1,<4.0
 

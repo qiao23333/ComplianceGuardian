@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-多平台内容合规检测工具 v2.3
-现代仪表盘风格桌面应用，侧栏导航、合规检测、词库管理、暗色模式。
-检测维度：广告法违禁词 + 平台规则 + 蓝V/非蓝V + 用户自定义行业红线
-性能优化：页面懒加载、Aho-Corasick检测引擎
+多平台内容合规检测工具 v3.0
+现代仪表盘风格桌面应用：侧栏导航、合规检测、批量检测、历史记录、词库管理、设置。
+检测维度：广告法违禁词 + 平台规则 + 蓝V/非蓝V + 用户自定义行业红线 + 正则兜底 + 变体抗规避
+性能优化：页面懒加载、Aho-Corasick 引擎、系统托盘常驻
 """
 import sys
 from pathlib import Path
@@ -28,6 +28,7 @@ from apps.desktop.ui.history import HistoryPage
 from apps.desktop.ui.batch import BatchPage
 from apps.desktop.ui.rules_manager import RulesManagerPage
 from apps.desktop.ui.settings import SettingsPage
+from apps.desktop.tray import TrayController, available as tray_available
 
 
 class ComplianceApp:
@@ -49,6 +50,46 @@ class ComplianceApp:
         self._center_window()
         self._build_ui()
         self.show_page("dashboard")
+
+        # 系统托盘（可选，失败静默降级）
+        self.tray = None
+        self._setup_tray()
+
+    # ------------------------------------------------ 系统托盘
+
+    def _setup_tray(self):
+        """初始化系统托盘：关闭窗口→最小化到托盘；右键菜单可显示/快检/退出。"""
+        if not tray_available():
+            return
+        try:
+            self.tray = TrayController(self)
+            started = self.tray.start()
+            if started:
+                self.root.protocol("WM_DELETE_WINDOW", self._on_close)
+        except Exception:
+            self.tray = None
+
+    def _on_close(self):
+        """窗口关闭按钮：有托盘则隐藏到托盘，否则真正退出。"""
+        keep_in_tray = bool(self.config_manager.get("minimize_to_tray", True))
+        if self.tray is not None and keep_in_tray:
+            self.tray.hide_window()
+        else:
+            self.quit_app()
+
+    def quit_app(self):
+        """彻底退出：停托盘 + 销毁窗口。"""
+        if self.tray is not None:
+            try:
+                self.tray.stop()
+            except Exception:
+                pass
+            self.tray = None
+        try:
+            self.root.quit()
+            self.root.destroy()
+        except Exception:
+            pass
 
     def _center_window(self):
         self.root.update_idletasks()
@@ -218,7 +259,15 @@ class ComplianceApp:
 def main():
     root = ctk.CTk()
     app = ComplianceApp(root)
-    root.mainloop()
+    try:
+        root.mainloop()
+    finally:
+        # 主循环退出后收尾托盘线程
+        if getattr(app, "tray", None) is not None:
+            try:
+                app.tray.stop()
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":

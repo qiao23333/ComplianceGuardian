@@ -51,6 +51,34 @@ _RISK_MAP = {
     "高风险": "高风险",
 }
 
+#: 默认启用的行业包（与 guardian.config.DEFAULT_CONFIG 保持一致）
+_DEFAULT_INDUSTRY_PACKS = ["immigration"]
+
+
+def _configured_industry_packs() -> list[str]:
+    """读取用户启用的行业包，读不到则回退默认（移民包）。
+
+    为什么需要
+    ----------
+    桌面端 ``detect`` 此前**从不传** ``industries``，而 ``DetectionOptions``
+    的默认是 ``None``（仅通用词库）——结果是 ``rules/industry_packs/immigration``
+    里 140 条行业红线（保证下签 / 零拒签 / 移民局认证…）在 App 内全部失效。
+    行业词库恰恰是本工具区别于通用违禁词工具的核心，不能默认关掉。
+
+    直接读配置文件而不用 ``ConfigManager``：后者在文件缺失时会**写出**默认配置，
+    在只读场景（打包 exe、测试）引入副作用。
+    """
+    try:
+        cfg_file = _PROJECT_ROOT / "data" / "config.json"
+        if cfg_file.is_file():
+            data = json.loads(cfg_file.read_text(encoding="utf-8"))
+            packs = data.get("enabled_industry_packs")
+            if isinstance(packs, list):
+                return [str(p) for p in packs]
+    except (OSError, json.JSONDecodeError):
+        pass
+    return list(_DEFAULT_INDUSTRY_PACKS)
+
 
 class ComplianceDetector:
     """兼容旧 UI 的检测器门面（内部委托 DetectionEngine 单例）。
@@ -93,10 +121,14 @@ class ComplianceDetector:
 
     def detect(self, text: str, platform: str = "all",
                account_type: str = "non_blue_v",
-               auto_replace: bool = False) -> dict:
+               auto_replace: bool = False,
+               industries: Optional[list[str]] = None) -> dict:
         options = DetectionOptions(
             platform=platform,
             account_type=account_type,
+            # 未显式指定时按用户配置启用行业包（默认含 immigration）
+            industries=(industries if industries is not None
+                        else _configured_industry_packs()),
             use_variants=True,    # 变体抗规避：默认开启（已修误报）
             use_llm=False,        # 语义增强走独立 _llm_analyze
             auto_replace=auto_replace,  # 一键改写时开启
