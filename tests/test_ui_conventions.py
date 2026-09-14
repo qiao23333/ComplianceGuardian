@@ -101,12 +101,20 @@ def test_ctkframe_default_height_is_still_200():
 
     将来若 customtkinter 换了默认值，上面的规则可能需要重新评估 ——
     这条测试会先失败并提醒我们，而不是让守卫静默失效。
+
+    环境降级：这条测试需要真实创建 Tk 根窗口。CI（Linux 无头）里若缺少
+    Tk 绑定或虚拟显示，``tk.Tk()`` 会抛 ``TclError`` —— 那是**环境缺失**，
+    不是布局约定被破坏，所以跳过而不是判失败。上面的静态扫描不依赖 Tk，
+    在任何环境下都会照常执行，守卫不会因此失效。
     """
-    import customtkinter as ctk
+    ctk = pytest.importorskip("customtkinter", reason="缺少 GUI 工具链，跳过")
+    tk = pytest.importorskip("tkinter", reason="缺少 Tk 绑定，跳过")
 
-    import tkinter as tk
+    try:
+        root = tk.Tk()
+    except tk.TclError as exc:  # pragma: no cover - 仅在无显示环境触发
+        pytest.skip(f"无法创建 Tk 根窗口（无虚拟显示？）：{exc}")
 
-    root = tk.Tk()
     root.withdraw()
     try:
         frame = ctk.CTkFrame(root, width=100)

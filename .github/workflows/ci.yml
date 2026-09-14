@@ -1,0 +1,53 @@
+name: CI
+
+# 门禁的两件事：
+#   1. 264 个测试必须全绿（含反误杀评测门禁 —— 误报率超 5% 直接红灯）
+#   2. 把「反误杀」三项指标打进 CI 日志，让质量数字在每次提交都可见
+#
+# 刻意**不**跑 ruff / mypy：当前 ruff 尚有 295 条存量告警，加进来只会
+# 变成一片红、进而被无视。清理完再开。门禁一旦常红就失去了门禁的意义。
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: 测试（Linux / Python 3.11）
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 配置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      # 布局约定守卫（tests/test_ui_conventions.py）会真的创建 Tk 根窗口，
+      # 所以既要有 Tk 绑定（python3-tk），也要有虚拟显示（xvfb）。
+      # 缺少其中之一时该条测试会自行跳过，不会误判为失败。
+      - name: 安装 Tk 与虚拟显示
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq python3-tk xvfb
+
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: 运行测试
+        run: xvfb-run -a python -m pytest tests/ -q
+
+      # 把核心质量指标写进 CI 日志：误报率 / 漏检率 / 仅提示率。
+      # 这三项是本项目相对通用违禁词工具的主要差异点，理应在流水线里可见。
+      - name: 输出反误杀评测指标
+        run: python -c "from tests.corpus import report; print(report())"

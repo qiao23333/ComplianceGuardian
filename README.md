@@ -1,11 +1,17 @@
 # 合规卫士 · Compliance Guardian
 
+[![CI](https://github.com/qiao23333/ComplianceGuardian/actions/workflows/ci.yml/badge.svg)](https://github.com/qiao23333/ComplianceGuardian/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.11-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 > 面向垂直行业的**内容合规检测工具**：三平台 × 双账号体系矩阵检测、可插拔行业词库包、
 > 本地运行数据不出本机，并对每条风险给出可直接采用的改写建议。
 >
 > 源于移民行业内容运营的真实痛点，从 v1.0 迭代到 v3.0。
->
-> 访问方式：桌面端（本地运行）或 **Web 体验页（零安装，打开即用）**。
+
+**▶ 在线体验（零安装，打开即用）**：<https://8631801c57884774a30e85edbfbf5624.app.workbuddy.host>
+
+> 纯静态页面，文案不出浏览器，无需注册。桌面端功能更全（批量检测、历史库、拼音变体通道）。
 
 ---
 
@@ -266,9 +272,13 @@ ComplianceGuardian/
 │   └── test_ui_conventions.py   # UI 布局约定守卫
 ├── scripts/                     # 词库治理 / 导出 / 对拍 / 打包
 │   └── web_smoke.mjs            # Web 端真实浏览器冒烟测试
+├── .github/workflows/ci.yml     # 门禁：264 测试 + 反误杀指标
 ├── docs/
 │   ├── DESIGN.md                # 设计决策与权衡
-│   └── AI-USAGE.md              # AI 用在哪、为什么（判定 vs 改写）
+│   ├── AI-USAGE.md              # AI 用在哪、为什么（判定 vs 改写）
+│   ├── POSITIONING.md           # 为什么不用通用违禁词工具（定位与话术）
+│   └── screenshots/             # 界面实拍
+├── LICENSE                      # MIT
 └── CHANGELOG.md
 ```
 
