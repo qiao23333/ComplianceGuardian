@@ -7,6 +7,8 @@
 - Dark: 暗卡片+深底+亮蓝霓虹强调色+半透明叠层
 """
 
+import sys
+
 import customtkinter as ctk
 
 # ============================================================
@@ -280,9 +282,54 @@ def font_typo(key="body"):
 # 样式函数（全部动态取色）
 # ============================================================
 
+def apply_dark_titlebar(root, dark: bool | None = None) -> bool:
+    """让 Windows 原生标题栏跟随深浅色（深色模式下的一个专业度细节）。
+
+    Tk 只负责客户区绘制，**系统标题栏的配色不受 ctk.set_appearance_mode 影响** ——
+    结果就是深色界面顶上顶着一条白色标题栏，截图和演示时很出戏。
+    Windows 10 1809+ 提供 ``DWMWA_USE_IMMERSIVE_DARK_MODE``（属性号 20）
+    可以切换它。
+
+    非 Windows 或系统不支持时静默跳过 —— 这纯粹是观感优化，
+    不能因为它不可用而影响主程序。
+
+    Args:
+        root: Tk 根窗口
+        dark: 是否深色；None 表示按当前 customtkinter 外观模式判断
+
+    Returns:
+        是否成功应用
+    """
+    if sys.platform != "win32":
+        return False
+    try:
+        import ctypes
+
+        if dark is None:
+            dark = ctk.get_appearance_mode() == "Dark"
+
+        root.update_idletasks()
+        # Tk 的 winfo_id() 是客户区子窗口，标题栏属于它的父窗口
+        hwnd = ctypes.windll.user32.GetParent(root.winfo_id()) or root.winfo_id()
+
+        value = ctypes.c_int(1 if dark else 0)
+        size = ctypes.sizeof(value)
+        for attr in (20, 19):  # 20 = Win10 1809+；19 = 更早的预览版属性号
+            try:
+                ctypes.windll.dwmapi.DwmSetWindowAttribute(
+                    hwnd, attr, ctypes.byref(value), size
+                )
+            except Exception:
+                continue
+        return True
+    except Exception:
+        return False
+
+
 def apply_root_theme(root):
     colors = get_colors()
     root.configure(fg_color=colors["bg"])
+    apply_dark_titlebar(root)
 
 
 def sidebar_button_style():

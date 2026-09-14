@@ -19,7 +19,8 @@ if str(project_root) not in sys.path:
 from guardian.config import ConfigManager
 from apps.desktop.ui.theme import (
     get_colors, font_safe, font_typo, SPACING, CORNER_RADIUS,
-    apply_root_theme, sidebar_button_style, sidebar_button_active_style,
+    apply_root_theme, apply_dark_titlebar,
+    sidebar_button_style, sidebar_button_active_style,
     gradient_button_style,
 )
 from apps.desktop.ui.dashboard import DashboardPage
@@ -239,6 +240,8 @@ class ComplianceApp:
         self.sidebar.configure(fg_color=colors["sidebar"])
         self.container.configure(fg_color=colors["bg"])
         self.content_frame.configure(fg_color=colors["bg"])
+        # 让 Windows 原生标题栏跟随深浅色（否则深色界面顶着白标题栏）
+        apply_dark_titlebar(self.root)
 
         # 刷新导航按钮样式
         for page_key, btn in self.nav_buttons.items():
