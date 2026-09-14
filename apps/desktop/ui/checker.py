@@ -34,6 +34,17 @@ from guardian.schema import DetectionOptions
 from guardian.export_report import build_payload, export_all
 from guardian.storage import HistoryStore, HistoryRecord
 
+#: 平台下拉显示名 → 引擎平台键。
+#: 检测 / AI 改写 / 复制改写指令三处都要用，原先各写一份 dict、改一处漏两处，
+#: 所以提到模块级只留一份。
+_PLATFORM_KEY = {
+    "小红书": "xiaohongshu",
+    "抖音": "douyin",
+    "微信视频号": "weixin",
+    "all": "all",
+    "cross_platform": "all",
+}
+
 
 class CheckerPage(ctk.CTkFrame):
     def __init__(self, master, app, **kwargs):
@@ -61,7 +72,7 @@ class CheckerPage(ctk.CTkFrame):
 
         ctk.CTkLabel(header, text="合规检测", font=font_typo("h1"),
                      text_color=colors["text"]).pack(side="left")
-        ctk.CTkLabel(header, text="AI增强 · 正则模式 · 多平台", font=font_typo("caption"),
+        ctk.CTkLabel(header, text="规则判定 · 多平台 · AI 仅用于改写", font=font_typo("caption"),
                      text_color=colors["text_secondary"]).pack(side="left", padx=(SPACING["md"], 0), pady=(8, 0))
 
         # 控制栏 — GlassCard 样式
@@ -126,13 +137,25 @@ class CheckerPage(ctk.CTkFrame):
                                         **gradient_button_style())
         self.detect_btn.pack(side="left", padx=(0, SPACING["sm"]))
 
-        self.llm_btn = ctk.CTkButton(btn_group, text="AI深度检测", width=120,
-                                     command=self._run_llm_detection,
+        # 「AI 改写」——注意这里刻意不叫"AI 检测"。
+        # 判定由规则引擎负责（确定、可复现、有法条依据），AI 只负责把话说圆。
+        # 让模型去做判定会引入漏检与幻觉，这不是本项目想要的用法。
+        self.llm_btn = ctk.CTkButton(btn_group, text="AI 改写", width=110,
+                                     command=self._run_ai_rewrite,
                                      fg_color=colors["card"], hover_color=colors["hover"],
                                      text_color=colors["primary"],
                                      border_width=1, border_color=colors["primary"],
                                      font=font_typo("caption_bold"))
-        self.llm_btn.pack(side="left")
+        self.llm_btn.pack(side="left", padx=(0, SPACING["sm"]))
+
+        # 零配置出路：不配任何模型也能把规则命中 + 改写约束带走，交给外部 AI。
+        self.prompt_btn = ctk.CTkButton(btn_group, text="复制改写指令", width=110,
+                                        command=self._copy_rewrite_prompt,
+                                        fg_color="transparent",
+                                        hover_color=colors["hover"],
+                                        text_color=colors["text_secondary"],
+                                        font=font_typo("micro"))
+        self.prompt_btn.pack(side="left")
 
         # 主体区域
         body_frame = ctk.CTkFrame(self, fg_color="transparent")
@@ -235,7 +258,8 @@ class CheckerPage(ctk.CTkFrame):
         ctk.CTkLabel(self.empty_frame, text="📋", font=font_emoji(40)).pack(pady=(30, SPACING["xs"]))
         ctk.CTkLabel(self.empty_frame, text="等待检测", font=font_typo("h2"),
                      text_color=colors["text_secondary"]).pack(pady=(0, SPACING["xs"]))
-        ctk.CTkLabel(self.empty_frame, text="粘贴文案后点击「开始检测」\n或「AI深度检测」获取语义分析",
+        ctk.CTkLabel(self.empty_frame,
+                     text="粘贴文案后点击「开始检测」定位违规\n需要改写时再点「AI 改写」",
                      font=font_typo("caption"),
                      text_color=colors["text_tertiary"]).pack(pady=(0, 30))
 
@@ -504,66 +528,109 @@ class CheckerPage(ctk.CTkFrame):
         self.status_label.configure(text="检测失败", text_color=colors["danger"])
         messagebox.showerror("检测错误", f"检测过程中出错：\n{error_msg}")
 
-    def _run_llm_detection(self):
-        """AI深度检测"""
+    def _run_ai_rewrite(self):
+        """AI 改写：把违规文案改成合规版本。
+
+        与旧「AI 深度检测」的差别是**职责反转**：不再让模型去"发现违规"
+        （那是规则引擎的活——模型做会漏检、会凭空发明违规、同一句话问两次
+        给两个答案），而是把规则引擎已经找出的精确命中，连同法条依据与可用
+        替换词一起交给模型，只让它把话说圆。
+
+        因此本按钮不要求"先有 AI 结果"，但要求"先有规则结果"——没有就顺手
+        补一次检测，保证改写始终锚定在确定的命中清单上。
+        """
         if self._llm_running or self._detecting:
             return
 
         text = self.textbox.get("1.0", "end-1c")
         if not text.strip():
+            messagebox.showinfo("没有内容", "请先粘贴需要改写的文案。")
             return
-
-        available, models = ComplianceDetector.check_ollama_available()
-        if not available:
-            messagebox.showwarning("Ollama未运行", "请先启动Ollama服务\n\n终端运行：ollama serve\n或检查Ollama是否已安装")
-            return
-
-        if "qwen2.5:7b" not in " ".join(models):
-            messagebox.showwarning("模型未找到", f"未找到qwen2.5:7b模型\n\n已安装模型：{', '.join(models)}\n\n请先拉取：ollama pull qwen2.5:7b")
-            return
-
-        # 先执行关键词检测
-        self._run_detection()
-
-        colors = get_colors()
-        self._llm_running = True
-        self.llm_btn.configure(state="disabled", text="AI分析中...")
-        self.status_label.configure(text="AI深度分析中（约10-30秒）...", text_color=colors["primary"])
 
         platform = self.platform_var.get()
         account_type = self.account_var.get()
-        plat_map = {"小红书": "xiaohongshu", "抖音": "douyin", "微信视频号": "weixin", "all": "all"}
-        plat_key = plat_map.get(platform, "xiaohongshu")
+        plat_key = _PLATFORM_KEY.get(platform, "xiaohongshu")
 
-        def llm_worker():
+        colors = get_colors()
+        self._llm_running = True
+        self.llm_btn.configure(state="disabled", text="改写中…")
+        self.status_label.configure(
+            text="AI 改写中（本地模型较慢，约 30~90 秒）…", text_color=colors["primary"])
+
+        def worker():
             try:
-                llm_result = self.detector._llm_analyze(text, plat_key, account_type, self.current_result or {"violations": []})
-                self.after(0, lambda r=llm_result: self._on_llm_done(r))
+                violations = list((self.current_result or {}).get("violations", []))
+                if not violations:
+                    det = self.detector.detect(text, plat_key, account_type)
+                    violations = list(det.get("violations", []))
+                    self.after(0, lambda r=det, t=text, p=plat_key:
+                               self._on_detection_done(r, t, p))
+                res = self.detector.rewrite(
+                    text, violations, platform=plat_key, account_type=account_type)
+                self.after(0, lambda r=res: self._on_rewrite_done(r))
             except Exception as exc:
                 # ⚠️ 不要把 `e` 直接放进 lambda：except 块结束时会隐式 `del e`，
-                # 回调真正执行时这个名字已不存在 → NameError（原始 bug）。
+                # 回调真正执行时这个名字已不存在 → NameError（本项目踩过的坑）。
                 msg = str(exc)
-                self.after(0, lambda m=msg: self._on_llm_error(m))
+                self.after(0, lambda m=msg: self._on_rewrite_error(m))
 
-        self.after(1500, lambda: threading.Thread(target=llm_worker, daemon=True).start())
+        threading.Thread(target=worker, daemon=True).start()
 
-    def _on_llm_done(self, llm_result):
-        """LLM分析完成回调"""
+    def _on_rewrite_done(self, res):
+        """AI 改写完成回调。"""
         colors = get_colors()
         self._llm_running = False
-        self.llm_btn.configure(state="normal", text="AI深度检测")
-        self.status_label.configure(text="AI分析完成", text_color=colors["success"])
-        self.after(3000, lambda: self.status_label.configure(text=""))
+        self.llm_btn.configure(state="normal", text="AI 改写")
 
-        self._display_llm_result(llm_result)
+        if not res.ok:
+            self.status_label.configure(text="AI 改写未完成", text_color=colors["warning"])
+            self._on_rewrite_error(res.error or "未知错误")
+            return
 
-    def _on_llm_error(self, error_msg):
-        """LLM分析出错"""
+        self.status_label.configure(text="AI 改写完成：" + res.summary_line(),
+                                    text_color=colors["success"])
+        self.after(6000, lambda: self.status_label.configure(text=""))
+        self._display_rewrite_result(res)
+
+    def _on_rewrite_error(self, error_msg):
+        """AI 改写失败 —— 必须给出路，不能让用户卡在这里。
+
+        AI 挂掉时规则检测结果完好无损，而且还有零配置的替代路径：
+        把改写指令复制走交给外部 AI。所以这里不是"报错了"，而是"换条路"。
+        """
         colors = get_colors()
         self._llm_running = False
-        self.llm_btn.configure(state="normal", text="AI深度检测")
-        self.status_label.configure(text="AI分析失败", text_color=colors["danger"])
-        messagebox.showwarning("AI分析失败", f"Ollama LLM分析出错：\n{error_msg}\n\n请确保Ollama服务正在运行")
+        self.llm_btn.configure(state="normal", text="AI 改写")
+        self.status_label.configure(text="AI 改写未完成", text_color=colors["warning"])
+        if messagebox.askyesno(
+                "AI 改写未完成",
+                f"{error_msg}\n\n规则检测结果不受影响。\n\n"
+                "要不要复制这段「改写指令」？粘到任意 AI（豆包 / DeepSeek / "
+                "ChatGPT）里能得到同样的改写，不需要在这里配任何模型。"):
+            self._copy_rewrite_prompt()
+
+    def _copy_rewrite_prompt(self):
+        """把改写指令复制到剪贴板（零配置路径）。"""
+        text = self.textbox.get("1.0", "end-1c")
+        if not text.strip():
+            messagebox.showinfo("没有内容", "请先粘贴需要改写的文案。")
+            return
+        violations = list((self.current_result or {}).get("violations", []))
+        platform = self.platform_var.get()
+        try:
+            prompt = self.detector.build_rewrite_prompt(
+                text, violations, platform=_PLATFORM_KEY.get(platform, "xiaohongshu"),
+                account_type=self.account_var.get())
+            self.clipboard_clear()
+            self.clipboard_append(prompt)
+            self.update_idletasks()
+            colors = get_colors()
+            self.status_label.configure(
+                text="改写指令已复制（%d 处命中随指令一起带走）" % len(violations),
+                text_color=colors["success"])
+            self.after(5000, lambda: self.status_label.configure(text=""))
+        except Exception as exc:
+            messagebox.showerror("复制失败", str(exc))
 
     # ============================================================
     # 结果展示
@@ -635,9 +702,9 @@ class CheckerPage(ctk.CTkFrame):
             ctk.CTkLabel(self.result_frame, text="✅ 未发现合规风险", font=font_typo("body_bold"),
                          text_color=colors["success"]).pack(pady=SPACING["lg"])
 
-        # LLM结果区域（如果有）
-        if result.get("llm_analysis"):
-            self._display_llm_result(result["llm_analysis"])
+        # 注：AI 改写结果刻意不在这里渲染 —— 改写是用户主动触发的独立动作，
+        # 由 _display_rewrite_result 追加到结果区。放在这里会导致每次检测都
+        # 重建整片结果区，把改写结果清掉。
 
     def _display_cross_platform_result(self, results):
         """显示跨平台对比结果"""
@@ -749,76 +816,96 @@ class CheckerPage(ctk.CTkFrame):
                      wraplength=380, justify="left").pack(
             fill="x", padx=SPACING["lg"], pady=(SPACING["xs"], SPACING["lg"]))
 
-    def _display_llm_result(self, llm_result):
-        """显示LLM分析结果 — GlassCard 样式"""
-        colors = get_colors()
-        if not llm_result or llm_result.get("status") == "error":
+    def _copy_text(self, text: str) -> None:
+        """复制到剪贴板（AI 改写结果用）。"""
+        if not text:
             return
+        self.clipboard_clear()
+        self.clipboard_append(text)
+        self.update_idletasks()
 
-        # 确保结果区域存在
+    def _display_rewrite_result(self, res):
+        """展示 AI 改写结果 — GlassCard 样式。
+
+        三块内容，对应对改写的三个诚实边界：
+
+        1. **改写后的完整文案** —— 可直接复制走，这是用户真正要的东西
+        2. **逐处改动对照** —— 改了什么、从什么改成什么。用户能复核，
+           而不是盲信模型；这也是"判定归规则引擎"带来的红利：每处改动
+           都能追溯到一条确定的命中
+        3. **无法处理的项** —— 模型明确说"这里我改不了"的地方。宁可
+           如实标出来，也不要它硬凑一个看着合规、实则造假的方案
+        """
+        colors = get_colors()
         try:
-            self.result_frame.pack(fill="both", expand=True, padx=SPACING["lg"], pady=(0, SPACING["md"]))
+            self.result_frame.pack(fill="both", expand=True,
+                                   padx=SPACING["lg"], pady=(0, SPACING["md"]))
         except Exception:
             pass
 
-        llm_section = GlassCard(self.result_frame)
-        llm_section.pack(fill="x", pady=(SPACING["md"], 0))
+        section = GlassCard(self.result_frame)
+        section.pack(fill="x", pady=(SPACING["md"], 0))
 
-        # 标题行
-        header = ctk.CTkFrame(llm_section, fg_color="transparent")
+        # ---- 标题行 ----
+        header = ctk.CTkFrame(section, fg_color="transparent")
         header.pack(fill="x", padx=SPACING["md"], pady=(SPACING["md"], SPACING["xs"]))
-        ctk.CTkLabel(header, text="🤖 AI语义分析", font=font_typo("caption_bold"),
+        ctk.CTkLabel(header, text="✍️ AI 改写结果", font=font_typo("caption_bold"),
                      text_color=colors["glass_text"]).pack(side="left")
-        model_name = llm_result.get("model", "qwen2.5:7b")
-        ctk.CTkLabel(header, text=model_name, font=font_typo("micro"),
+        ctk.CTkLabel(header, text=res.summary_line(), font=font_typo("micro"),
                      text_color=colors["text_tertiary"]).pack(side="right")
 
-        # 整体评估
-        assessment = llm_result.get("overall_assessment") or llm_result.get("assessment", "")
-        if assessment:
-            ctk.CTkLabel(llm_section, text=f"📋 {assessment}", font=font_typo("caption"),
-                         text_color=colors["text"], wraplength=380, justify="left",
-                         anchor="w").pack(fill="x", padx=SPACING["md"], pady=(0, SPACING["xs"]))
+        # ---- 改写后文案 ----
+        box = ctk.CTkTextbox(section, height=110, wrap="word",
+                             font=font_typo("caption"),
+                             corner_radius=CORNER_RADIUS["sm"],
+                             fg_color=colors["card"])
+        box.pack(fill="x", padx=SPACING["md"], pady=(0, SPACING["xs"]))
+        box.insert("1.0", res.rewritten or "")
+        box.configure(state="disabled")
 
-        # AI合规分数
-        ai_score = llm_result.get("compliance_score") or llm_result.get("score")
-        if ai_score is not None:
-            ctk.CTkLabel(llm_section, text=f"AI评分：{ai_score}/100",
-                         font=font_typo("caption_bold"), text_color=colors["glass_text"]).pack(anchor="w", padx=SPACING["md"], pady=(0, SPACING["xs"]))
+        # ---- 逐处改动对照 ----
+        if res.changes:
+            ctk.CTkLabel(section, text="改动对照（可复核，不必盲信）",
+                         font=font_typo("micro"),
+                         text_color=colors["text_secondary"]
+                         ).pack(anchor="w", padx=SPACING["md"], pady=(SPACING["xs"], 2))
+            for ch in res.changes[:8]:
+                row = ctk.CTkFrame(section, fg_color="transparent")
+                row.pack(fill="x", padx=SPACING["md"], pady=1)
+                ctk.CTkLabel(row, text="✗ " + (ch.get("before") or ""),
+                             font=font_typo("micro"), text_color=colors["danger"],
+                             wraplength=150, justify="left", anchor="w").pack(side="left")
+                ctk.CTkLabel(row, text="→", font=font_typo("micro"),
+                             text_color=colors["text_tertiary"]).pack(side="left", padx=4)
+                ctk.CTkLabel(row, text=(ch.get("after") or ""),
+                             font=font_typo("micro"), text_color=colors["success"],
+                             wraplength=150, justify="left", anchor="w").pack(side="left")
 
-        # 风险列表
-        risks = llm_result.get("risks", [])
-        if risks:
-            for risk in risks:
-                r_severity = risk.get("severity", "warning")
-                bg = colors["danger_light"] if r_severity == "violation" else colors["warning_light"]
-                fg = colors["danger"] if r_severity == "violation" else colors["warning"]
-                icon = "🔴" if r_severity == "violation" else "🟡"
+        # ---- 无法处理的项（如实呈现，不硬凑） ----
+        for item in res.unresolved[:5]:
+            warn = ctk.CTkFrame(section, fg_color=colors["warning_light"],
+                                corner_radius=CORNER_RADIUS["sm"])
+            warn.pack(fill="x", padx=SPACING["md"], pady=(SPACING["xs"], 0))
+            ctk.CTkLabel(warn, text="需人工确认：" + (item.get("text") or ""),
+                         font=font_typo("micro"), text_color=colors["warning"],
+                         wraplength=380, justify="left", anchor="w"
+                         ).pack(anchor="w", padx=SPACING["sm"], pady=(SPACING["xs"], 0))
+            for key, label in (("why", "原因"), ("need", "需要补充")):
+                if item.get(key):
+                    ctk.CTkLabel(warn, text="%s：%s" % (label, item[key]),
+                                 font=font_typo("micro"),
+                                 text_color=colors["text_secondary"],
+                                 wraplength=380, justify="left", anchor="w"
+                                 ).pack(anchor="w", padx=SPACING["sm"])
 
-                risk_card = ctk.CTkFrame(llm_section, fg_color=bg, corner_radius=CORNER_RADIUS["sm"])
-                risk_card.pack(fill="x", padx=SPACING["md"], pady=(0, SPACING["xs"]))
+        # ---- 底部：复制改写后文案 ----
+        foot = ctk.CTkFrame(section, fg_color="transparent")
+        foot.pack(fill="x", padx=SPACING["md"], pady=(SPACING["sm"], SPACING["md"]))
+        ctk.CTkButton(foot, text="复制改写后文案", width=130, height=28,
+                      command=lambda t=(res.rewritten or ""): self._copy_text(t),
+                      font=font_typo("micro")).pack(side="left")
 
-                inner = ctk.CTkFrame(risk_card, fg_color="transparent")
-                inner.pack(fill="x", padx=SPACING["md"], pady=SPACING["xs"])
-
-                r_type = risk.get("type", "")
-                r_desc = risk.get("description", "")
-                r_sugg = risk.get("suggestion", "")
-
-                ctk.CTkLabel(inner, text=f"{icon} {r_type}", font=font_typo("caption_bold"),
-                             text_color=fg).pack(anchor="w")
-                ctk.CTkLabel(inner, text=r_desc, font=font_typo("micro"),
-                             text_color=colors["text"], wraplength=350, justify="left",
-                             anchor="w").pack(fill="x", pady=(2, 0))
-                ctk.CTkLabel(inner, text=f"💡 {r_sugg}", font=font_typo("micro"),
-                             text_color=colors["text_secondary"], wraplength=350, justify="left",
-                             anchor="w").pack(fill="x", pady=(1, 0))
-        else:
-            ctk.CTkLabel(llm_section, text="✅ AI未发现额外风险", font=font_typo("caption"),
-                         text_color=colors["success"]).pack(anchor="w", padx=SPACING["md"], pady=(0, SPACING["md"]))
-
-        # 底部间距
-        ctk.CTkLabel(llm_section, text="", height=4).pack()
+        ctk.CTkLabel(section, text="", height=4).pack()
 
     def _create_violation_row(self, parent, v):
         """创建违规详情行 — 左侧色条 + hover"""

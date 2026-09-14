@@ -588,7 +588,125 @@
     return (lo > 0 ? '…' : '') + chars.slice(lo, hi).join('') + (hi < chars.length ? '…' : '');
   }
 
+  // ============================================================ AI 改写指令
+  //
+  // 与 Python 端 guardian/llm/prompts.py 是同一份提示词契约的两端实现。
+  // 改这里必须同步改那边——否则桌面端和 Web 端给模型的指令会不一致，
+  // 而"两边行为一致"正是本项目敢说纯前端等价实现的底气。
+  //
+  // 设计要点：这份提示词不是"让 AI 找违规"——违规已由上面的规则引擎
+  // 精确找出并列在清单里。它的核心作用是**禁止模型做判定**，只让它改写。
+  // 把判定交给模型会引入不确定性（漏检、幻觉、同问两答），这是本项目
+  // 明确不要的。
+
+  var PLATFORM_NAMES = {
+    xiaohongshu: '小红书', douyin: '抖音', weixin: '微信', all: '多平台通用',
+  };
+
+  function formatFindingsForPrompt(findings, limit) {
+    limit = limit || 40;
+    if (!findings || !findings.length) return '（规则引擎未命中任何违规项）';
+    var lines = [];
+    findings.slice(0, limit).forEach(function (f, i) {
+      var matched = f.matchedText || f.matched_text || f.keyword || '';
+      var detail = [];
+      if (f.keyword && f.keyword !== matched) detail.push('词条：' + f.keyword);
+      if (f.category) detail.push('类别：' + f.category);
+      if (f.severity) detail.push('等级：' + f.severity);
+      if (f.source) detail.push('来源：' + f.source);
+      if (f.matchType === 'variant') detail.push('疑似规避写法（谐音/跳字/全角/繁体）');
+      if (f.suggestion) detail.push('规则建议：' + f.suggestion);
+      if (f.replacements && f.replacements.length) {
+        detail.push('可用替换词：' + f.replacements.join(' / '));
+      }
+      lines.push((i + 1) + '. 命中「' + matched + '」' +
+        (detail.length ? '（' + detail.join('；') + '）' : ''));
+    });
+    if (findings.length > limit) {
+      lines.push('……（另有 ' + (findings.length - limit) + ' 处未列出）');
+    }
+    return lines.join('\n');
+  }
+
+  var REWRITE_TASK = [
+    '你是中文商业文案的合规改写专家。你的职责是改写，不是判定。',
+    '',
+    '## 你的唯一任务',
+    '',
+    '把下面这段文案**改写**到合规。**不要做合规判定**——违规点已由规则引擎',
+    '精确找出并列在下方，你只需要按清单逐处改写。',
+    '',
+    '## 为什么判定不交给你',
+    '',
+    '规则引擎的判定确定、可复现、每条都能追溯到法条；模型做判定会漏检、会',
+    '凭空发明违规、同一句话问两次给两个答案。所以：',
+    '',
+    '* **不要**新增清单以外的"我觉着也违规"的判断',
+    '* **不要**删除清单以外的任何内容',
+    '* **不要**在输出里讨论这段文案合不合规，只给改写结果',
+    '',
+    '## 改写铁律',
+    '',
+    '1. **最小改动**：只动清单命中的片段及其必要上下文，其余原文一字不改（含换行、标点、emoji）',
+    '2. **保住卖点**：原文想传达的信息（项目优势、服务内容、目标客户）必须留住，只是换个说法',
+    '3. **不编事实**：不得新增原文没有的数字、资质、年限、成功率、客户数量、结论',
+    '4. **不弱化到废话**：把"保签"改成"提供签证材料协助"可以，改成"我们做移民的"不行——',
+    '   改写后仍要是一句能用的商业文案，否则这次改写没有意义',
+    '5. **程序化表述**：结果承诺（保过/包成功）改为过程性表述（协助准备、评估可行路径、',
+    '   按流程递交）；医疗健康类改为"通常""因人而异"或直接删除效果承诺',
+    '6. **导流话术**：平台禁止的导流说法（加微信/私信我）改为平台内的合规动作',
+    '   （点击主页咨询、评论区留言、联系官方渠道）',
+    '',
+    '## 拿不准的时候',
+    '',
+    '如果某处无法在不失真的前提下改写（例如改了就构成虚假宣传、或必须补充真实',
+    '资质才能说清），把它如实写进 `unresolved`，说明**为什么改不了**和**需要补充',
+    '什么信息**。**不要硬凑一个假方案**——一个诚实的"这句需要人工确认"比一个',
+    '编出来的合规说法有用得多。',
+    '',
+    '## 输出格式',
+    '',
+    '只输出如下 JSON，不要 markdown 代码块，不要任何额外文字：',
+    '',
+    '{"rewritten": "改写后的完整文案（含未改动部分）",',
+    ' "changes": [{"before": "原文片段", "after": "改后片段", "reason": "为什么这么改", "rule": "对应清单第几条"}],',
+    ' "kept": ["保留下来的核心卖点，逐条列出"],',
+    ' "unresolved": [{"text": "无法处理的原句", "why": "为什么改不了", "need": "需要补充什么信息"}]}',
+  ].join('\n');
+
+  /**
+   * 拼出「AI 改写指令」文本 —— 用户一键复制，粘到任意 AI 里用。
+   *
+   * 这是零配置路径：不需要在本页填任何 API Key、不需要联网、不需要后端，
+   * 照样能得到改写结果。规则引擎的精确命中随指令一起带走，所以外部 AI
+   * 拿到的信息量和桌面端直连模型时完全一样。
+   */
+  function buildRewritePrompt(text, findings, opts) {
+    opts = opts || {};
+    var ctx = ['目标平台：' + (PLATFORM_NAMES[opts.platform] || '多平台通用')];
+    if (opts.accountType) {
+      ctx.push('账号类型：' + (opts.accountType === 'blue_v' ? '蓝V 认证账号' : '普通账号'));
+    }
+    if (opts.industryLabel) ctx.push('行业词库：' + opts.industryLabel);
+
+    var keepBlock = '';
+    if (opts.mustKeep && opts.mustKeep.length) {
+      keepBlock = '\n## 必须保留的信息（用户指定，改写时不得丢失）\n' +
+        opts.mustKeep.map(function (k) { return '- ' + k; }).join('\n') + '\n';
+    }
+
+    return REWRITE_TASK +
+      '\n## 本次上下文\n' + ctx.join('\n') + '\n' +
+      keepBlock +
+      '\n## 规则引擎命中的违规清单（共 ' + findings.length + ' 处）\n' +
+      formatFindingsForPrompt(findings) +
+      '\n\n## 待改写原文\n<<<\n' + text + '\n>>>\n';
+  }
+
   // ============================================================ 导出
+
+  GuardianEngine.buildRewritePrompt = buildRewritePrompt;
+  GuardianEngine.formatFindingsForPrompt = formatFindingsForPrompt;
 
   GuardianEngine.SEV_ORDER = SEV_ORDER;
   GuardianEngine.SEV_LABELS = {

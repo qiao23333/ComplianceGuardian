@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>合规卫士 · 文案合规检测（在线体验）</title>
-<meta name="description" content="移民 / 留学行业文案合规检测：1000 条规则、变体抗规避识别、四级风险评分。纯浏览器运行，文案不出本机。">
+<meta name="description" content="移民 / 留学行业文案合规检测：1000 条规则、变体抗规避识别、四级风险评分、三平台对比。纯浏览器运行，文案不出本机。">
+<!-- 内联 SVG 图标：避免额外请求，也避免浏览器自动请求 /favicon.ico 打出 404 -->
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNSIgZmlsbD0iIzBkMTExNyIvPjxwYXRoIGQ9Ik0xMiAzLjYgNS40IDYuMnY1YzAgMy45IDIuOCA3LjQgNi42IDguNSAzLjgtMS4xIDYuNi00LjYgNi42LTguNXYtNUwxMiAzLjZaIiBmaWxsPSJub25lIiBzdHJva2U9IiMzZmI5NTAiIHN0cm9rZS13aWR0aD0iMS43IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTguNyAxMi4xbDIuMyAyLjMgNC4zLTQuNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2ZiOTUwIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -124,6 +126,12 @@
     <div class="preview" id="preview" hidden></div>
     <div id="safeBox"></div>
 
+    <!-- 跨平台对比：同一段文案在三平台/双账号下的处境差异 -->
+    <div class="matrix" id="matrixBox" hidden></div>
+
+    <!-- AI 改写：判定已由规则引擎完成，这里只负责把话说圆 -->
+    <div class="ai" id="aiBox" hidden></div>
+
     <div class="actions">
       <button class="btn" id="exportBtn" type="button">导出检测报告</button>
       <button class="btn btn--ghost" id="copyBtn" type="button">复制命中清单</button>
@@ -132,6 +140,78 @@
   </section>
 
 </main>
+
+<!-- ============================================================ 差异说明 -->
+<!--
+  这一段是"作品自证"区：不写形容词，只给可核算的事实与可点的演示。
+  访问者读完这一段应该能回答——为什么不用现成的通用违禁词工具。
+-->
+<section class="diff">
+  <h2 class="diff__title">和「粘一段字、标一堆红词」的通用检测有什么不同</h2>
+  <p class="diff__lead">
+    通用违禁词工具解决的是「这个词在不在词表里」。但真实的合规判断是
+    <b>「这句话在哪个平台、哪个账号上说，会怎样」</b>——两者差的不是词库大小，是维度。
+  </p>
+
+  <div class="diff__grid">
+    <article class="dcard">
+      <h3>① 分平台判定，不是一套标准打天下</h3>
+      <p>
+        同一个词，各平台尺度并不一样：「加微信」在小红书和抖音按导流违规判<b>中危</b>，
+        在微信只判<b>低危</b>；反过来，「点击主页咨询」在蓝 V 号是平台鼓励的留资动作，
+        在普通号却可能被算作站外导流。用一套标准卡所有平台，必然误判。
+      </p>
+      <p class="dcard__fact">
+        <b id="dPlatform">…</b> 条规则只在特定平台生效（覆盖 <b id="dPlatforms">…</b> 个平台），
+        另有 <b id="dBlueV">…</b> 条在蓝 V / 普通账号下定级不同。
+      </p>
+      <button class="dcard__demo" type="button" data-demo="platform">
+        试一下：同一个词，三个平台三种定级
+      </button>
+    </article>
+
+    <article class="dcard">
+      <h3>② 行业词库是「红线」，不是通用词表</h3>
+      <p>
+        移民、留学这类强监管行业，真正的风险不在「最/第一」这种通用极限词，
+        而在「保签」「包过」「官方授权」「内部名额」这类<b>结果承诺与资质宣称</b>
+        ——它们通常不违法，但会直接导致平台限流或封号。
+      </p>
+      <p class="dcard__fact">
+        本页含移民 <b id="dImm">…</b> 条、留学 <b id="dStudy">…</b> 条行业专属红线。
+      </p>
+      <button class="dcard__demo" type="button" data-demo="industry">
+        试一下：这句在通用词库里是干净的
+      </button>
+    </article>
+
+    <article class="dcard">
+      <h3>③ 认得出「故意写错」的规避写法</h3>
+      <p>
+        把「最低价」写成「最低價」、「微信」写成「薇芯」、或者中间插空格跳字，
+        是在绕过关键词过滤。这类写法恰恰是人工审核最容易漏掉的。
+      </p>
+      <p class="dcard__fact">
+        识别通道：繁简互换 · 全角半角 · 谐音 · 跳字与插符 · <b>组合正则</b>（如「第 N 位」的排名宣称）。
+      </p>
+      <button class="dcard__demo" type="button" data-demo="variant">
+        试一下：一段全是规避写法的文案
+      </button>
+    </article>
+
+    <article class="dcard">
+      <h3>④ 告诉你「为什么」，而不只是「哪里红」</h3>
+      <p>
+        每一处命中都带：严重度分级（高危/中危/低危/提示）、规则来源（广告法/平台规则/行业包）、
+        命中类型（字面/组合词/规避写法）、<b>可替换词</b>，以及一段自动改写预览。
+      </p>
+      <p class="dcard__fact">
+        计分口径公开：高危 10 分 · 中危 5 分 · 低危 2 分 · 提示 0 分，满分 100。
+        分数低不等于违法，只代表<b>发布风险高</b>。
+      </p>
+    </article>
+  </div>
+</section>
 
 <!-- ============================================================ 页脚 -->
 <footer class="footer">

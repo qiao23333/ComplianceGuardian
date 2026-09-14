@@ -88,9 +88,10 @@
       'input', 'platform', 'accountType', 'industry', 'variants', 'autoReplace',
       'counter', 'engineInfo', 'engineMeta', 'samples',
       'ringValue', 'scoreNum', 'riskBadge', 'riskSub', 'counts',
-      'findings', 'preview', 'safeBox',
+      'findings', 'preview', 'safeBox', 'matrixBox', 'aiBox',
       'exportBtn', 'copyBtn', 'clearBtn', 'themeBtn',
       'heroRuleCount', 'fRuleCount',
+      'dPlatform', 'dPlatforms', 'dImm', 'dStudy', 'dBlueV',
     ].forEach(function (id) { els[id] = $(id); });
   }
 
@@ -103,6 +104,25 @@
   var ESC_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ESC_MAP[c]; });
+  }
+
+  /** 复制文本：优先 Clipboard API，降级 execCommand（老浏览器 / 非 HTTPS）。 */
+  function copyText(txt, done) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function () { done(true); },
+        function () { done(false); });
+      return;
+    }
+    var ta = document.createElement('textarea');
+    ta.value = txt;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    done(ok);
   }
 
   function scoreColor(score) {
@@ -157,6 +177,92 @@
       useVariants: els.variants.checked,
       autoReplace: els.autoReplace.checked,
     };
+  }
+
+  // ============================================================ 差异演示
+
+  // 底部「和通用工具有什么不同」四张卡片上的演示按钮，各配一段最能
+  // 说明问题的文案。这些不是随机举例：
+  //   platform → 同一句话在三平台命运不同（通用工具不分平台，给不出这个结论）
+  //   industry → 这句在通用违禁词库里是干净的，只有移民行业包能识别
+  //   variant  → 全是规避写法，人工审核最容易漏的一类
+  var DEMOS = {
+    platform: {
+      text: '想了解澳洲雇主担保的朋友，加微信详聊，我把项目资料发你。',
+      platform: 'all',
+      accountType: 'non_blue_v',
+      industry: 'all',
+      focus: 'matrix',
+    },
+    industry: {
+      text: '保证获批，不过全额退款，名额有限，有意向的朋友请尽快联系。',
+      platform: 'all',
+      accountType: 'non_blue_v',
+      industry: 'all',
+      focus: 'findings',
+    },
+    variant: {
+      text: '全网最低價！加薇芯詳聊，保 签 包 过，成功率１００％，本公司首创该模式。',
+      platform: 'all',
+      accountType: 'non_blue_v',
+      industry: 'all',
+      focus: 'variant',
+    },
+  };
+
+  /** 把底部的统计数字换成真实词库数据 —— 作品自证不能靠写死的形容词。 */
+  function fillDiffStats() {
+    var rules = (window.GUARDIAN_RULES && window.GUARDIAN_RULES.rules) || [];
+    if (!rules.length) return;
+
+    var platRules = 0;
+    var plats = {};
+    var imm = 0;
+    var study = 0;
+    var blueV = 0;
+    rules.forEach(function (r) {
+      var p = r.p || ['*'];
+      if (p.indexOf('*') === -1) {
+        platRules++;
+        p.forEach(function (k) { plats[k] = 1; });
+      }
+      if (r.i === 'immigration') imm++;
+      else if (r.i === 'study_abroad') study++;
+      // sa = severity by account type：同一词在蓝 V / 普通账号下定级不同
+      if (r.sa) blueV++;
+    });
+
+    if (els.dPlatform) els.dPlatform.textContent = String(platRules);
+    if (els.dPlatforms) els.dPlatforms.textContent = String(Object.keys(plats).length);
+    if (els.dImm) els.dImm.textContent = String(imm);
+    if (els.dStudy) els.dStudy.textContent = String(study);
+    if (els.dBlueV) els.dBlueV.textContent = String(blueV);
+  }
+
+  // ============================================================ 差异演示
+
+  function bindDemoButtons() {
+    var box = document.querySelector('.diff');
+    if (!box) return;
+    box.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('.dcard__demo') : null;
+      if (!btn) return;
+      var demo = DEMOS[btn.getAttribute('data-demo')];
+      if (!demo) return;
+
+      els.input.value = demo.text;
+      els.platform.value = demo.platform;
+      els.accountType.value = demo.accountType;
+      els.industry.value = demo.industry;
+      els.variants.checked = true;
+      runDetect();
+
+      // 滚到能看见结论的位置：platform 演示要看对比表，其余看命中明细
+      var target = demo.focus === 'matrix' ? els.matrixBox : els.findings;
+      if (target && target.scrollIntoView) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
   }
 
   // ============================================================ 检测主流程
@@ -242,8 +348,215 @@
       els.safeBox.innerHTML = '';
     }
 
+    // ---- 跨平台对比矩阵 ----
+    renderMatrix(text, opts, res);
+
+    // ---- AI 改写入口（判定已完成，AI 只负责把话说圆）----
+    renderAi(text, opts, res);
+
     els.exportBtn.disabled = !text.trim();
     els.copyBtn.disabled = !text.trim();
+  }
+
+  // ============================================================ 跨平台对比
+
+  //: 对比用的三个平台。不包含"全部平台"——那是并集，拿来做对比没有意义。
+  var MATRIX_PLATFORMS = [
+    { key: 'xiaohongshu', label: '小红书' },
+    { key: 'douyin', label: '抖音' },
+    { key: 'weixin', label: '微信' },
+  ];
+
+  /** 同一段文案分别按三个平台跑一遍，返回每平台的独立结果。 */
+  function runMatrix(text, opts) {
+    return MATRIX_PLATFORMS.map(function (p) {
+      var o = {};
+      Object.keys(opts).forEach(function (k) { o[k] = opts[k]; });
+      o.platform = p.key;
+      return { key: p.key, label: p.label, res: engine.detect(text, o) };
+    });
+  }
+
+  // ============================================================ AI 改写
+
+  /**
+   * AI 改写区的渲染。
+   *
+   * 这里体现了本项目对 AI 的定位：**判定归规则引擎，改写才交给模型**。
+   * 页面因此不需要把文案发给任何服务器，也就不需要 API Key、不需要后端——
+   * 它把"规则引擎的精确命中 + 改写约束"打包成一段指令，用户复制走即可，
+   * 用什么 AI 由用户自己决定（BYO-AI）。这比"内置一个模型"更轻、更私密，
+   * 也让这个页面可以纯静态部署。
+   */
+  function renderAi(text, opts, res) {
+    if (!text.trim() || !res.findings.length) {
+      els.aiBox.hidden = true;
+      els.aiBox.innerHTML = '';
+      return;
+    }
+
+    els.aiBox.hidden = false;
+    els.aiBox.innerHTML =
+      '<div class="ai__head">' +
+      '<span class="ai__title">AI 改写这一版</span>' +
+      '<span class="ai__hint">判定已完成 · 这里只负责改写</span>' +
+      '</div>' +
+      '<div class="ai__note">' +
+      '违规点已由规则引擎定位（' + res.findings.length + ' 处，带法条来源与可用替换词）。' +
+      '改写是语言活儿，交给 AI 更快——但<b>判定不能交给它</b>：模型会漏检、会编造、' +
+      '同一句话问两次给两个结论。所以这里只把「精确命中清单 + 改写约束」交给 AI，' +
+      '结论仍以规则引擎为准。' +
+      '</div>' +
+      '<div class="ai__actions">' +
+      '<button class="btn" id="aiCopyBtn" type="button">复制 AI 改写指令</button>' +
+      '<button class="btn btn--ghost" id="aiPeekBtn" type="button">预览指令</button>' +
+      '</div>' +
+      '<div class="ai__result" id="aiResult"></div>' +
+      '<div class="ai__note">' +
+      '本页不上传文案，所以不内置模型：复制后粘到任意 AI（豆包 / DeepSeek / ChatGPT）即可得到改写。' +
+      '桌面版可直连本地 Ollama 或云端 API，检测完一键出结果。' +
+      '</div>';
+
+    var copyBtn = $('aiCopyBtn');
+    var peekBtn = $('aiPeekBtn');
+    var result = $('aiResult');
+
+    function promptText() {
+      return window.GuardianEngine.buildRewritePrompt(
+        els.input.value, lastResult.findings, {
+          platform: opts.platform,
+          accountType: opts.accountType,
+          industryLabel: els.industry.options[els.industry.selectedIndex].text,
+        });
+    }
+
+    copyBtn.addEventListener('click', function () {
+      copyText(promptText(), function (ok) {
+        var old = copyBtn.textContent;
+        copyBtn.textContent = ok ? '已复制，去粘给 AI 吧' : '复制失败，请用「预览指令」手动复制';
+        setTimeout(function () { copyBtn.textContent = old; }, 2000);
+      });
+    });
+
+    peekBtn.addEventListener('click', function () {
+      if (result.getAttribute('data-open') === '1') {
+        result.innerHTML = '';
+        result.removeAttribute('data-open');
+        peekBtn.textContent = '预览指令';
+        return;
+      }
+      result.innerHTML = '<pre id="aiPromptPre">' + esc(promptText()) + '</pre>';
+      result.setAttribute('data-open', '1');
+      peekBtn.textContent = '收起指令';
+    });
+  }
+
+  /**
+   * 渲染跨平台对比表。
+   *
+   * 这里有一条**必须守住的产品底线**：三平台同分时，绝不能挑一个平台说
+   * "它最严"。同分恰恰说明命中的是跨平台通用规则（广告法红线），平台之间
+   * 没有差异——把这种情况说成"某平台最严"是在编结论，用户会据此做出错误
+   * 的投放决策。所以并列时必须明说"无平台差异"。
+   */
+  function renderMatrix(text, opts, res) {
+    if (!text.trim() || !res.findings.length) {
+      els.matrixBox.hidden = true;
+      els.matrixBox.innerHTML = '';
+      return;
+    }
+
+    var rows = runMatrix(text, opts);
+    var scores = rows.map(function (r) { return r.res.summary.score; });
+    var uniq = [];
+    scores.forEach(function (v) { if (uniq.indexOf(v) === -1) uniq.push(v); });
+
+    var verdict;
+    if (uniq.length === 1) {
+      verdict = '三平台判定一致（均 <b>' + uniq[0] + '</b> 分）——说明命中的是' +
+        '<b>跨平台通用规则</b>（《广告法》红线一类），平台之间没有额外差异。';
+    } else {
+      var min = Math.min.apply(null, scores);
+      var strictest = rows.filter(function (r) { return r.res.summary.score === min; })
+        .map(function (r) { return r.label; }).join('、');
+      verdict = '存在平台差异：<b>' + strictest + '</b> 判定最严（' + min +
+        ' 分）。差异可能来自平台专属规则，也可能是同一个词在不同平台的定级不同——见右侧「平台差异」列。';
+    }
+
+    var head = '<div class="matrix__head">' +
+      '跨平台对比<span class="matrix__verdict">' + verdict + '</span></div>';
+
+    var body = rows.map(function (r) {
+      // 建"每平台的 命中词 → 严重度"映射。
+      //
+      // 平台差异有两种，缺一不可：
+      //   ① 命中项差异：这个词只有本平台管（如「加微信」只在小红书是导流违规）
+      //   ② 严重度差异：三个平台都管这个词，但判得轻重不同
+      //      （真实数据里「加微信」在小红书/抖音是高危、在微信只是中危）
+      // 只比①会漏掉大量真实差异——同一句话在不同平台的危险程度不同，
+      // 恰恰是用户最需要知道的事。
+      var sevAt = {};
+      rows.forEach(function (o) {
+        var m = {};
+        o.res.findings.forEach(function (f) { m[f.matchedText] = f.severity; });
+        sevAt[o.key] = m;
+      });
+
+      var only = [];     // 其他平台完全没有的命中
+      var harder = [];   // 其他平台也有，但本平台判得更重
+      r.res.findings.forEach(function (f) {
+        var others = [];
+        rows.forEach(function (o) {
+          if (o.key === r.key) return;
+          var s = sevAt[o.key][f.matchedText];
+          if (s !== undefined) others.push({ label: o.label, sev: s });
+        });
+        if (!others.length) {
+          only.push(f.matchedText);
+          return;
+        }
+        var lighter = others.filter(function (x) {
+          return SEV_ORDER.indexOf(f.severity) < SEV_ORDER.indexOf(x.sev);
+        });
+        if (lighter.length) {
+          harder.push(f.matchedText + '（本平台' + SEV_LABEL[f.severity] + '，' +
+            lighter.map(function (x) { return x.label + SEV_LABEL[x.sev]; }).join('、') +
+            '）');
+        }
+      });
+
+      var isCurrent = (opts.platform === r.key);
+      var sc = r.res.summary;
+      var color = scoreColor(sc.score);
+
+      var diffs = '';
+      if (only.length) {
+        diffs += '<span class="only">仅此平台：' +
+          only.slice(0, 4).map(esc).join('、') +
+          (only.length > 4 ? ' 等 ' + only.length + ' 处' : '') + '</span>';
+      }
+      if (harder.length) {
+        if (diffs) diffs += '<br>';
+        diffs += '<span class="only">' +
+          harder.slice(0, 3).map(esc).join('；') +
+          (harder.length > 3 ? ' 等 ' + harder.length + ' 处' : '') + '</span>';
+      }
+      if (!diffs) diffs = '<span class="none">与其他平台一致</span>';
+
+      return '<tr data-current="' + (isCurrent ? 1 : 0) + '">' +
+        '<td><span class="plat"><span class="dot" style="background:' + color +
+        '"></span>' + esc(r.label) + '</span></td>' +
+        '<td class="num" style="color:' + color + '">' + sc.score + '</td>' +
+        '<td>' + esc(sc.riskLevel) + '</td>' +
+        '<td>' + r.res.findings.length + '</td>' +
+        '<td>' + diffs + '</td></tr>';
+    }).join('');
+
+    els.matrixBox.hidden = false;
+    els.matrixBox.innerHTML = head +
+      '<table><thead><tr><th>平台</th><th>合规分</th><th>风险等级</th>' +
+      '<th>命中</th><th>平台差异</th></tr></thead><tbody>' + body +
+      '</tbody></table>';
   }
 
   function renderGroups(findings, chars) {
@@ -435,27 +748,11 @@
   }
 
   function copyList() {
-    var txt = buildPlainList();
-    var done = function (ok) {
+    copyText(buildPlainList(), function (ok) {
       var old = els.copyBtn.textContent;
       els.copyBtn.textContent = ok ? '已复制' : '复制失败，请手动选择';
       setTimeout(function () { els.copyBtn.textContent = old; }, 1600);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(txt).then(function () { done(true); },
-        function () { done(false); });
-    } else {
-      var ta = document.createElement('textarea');
-      ta.value = txt;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      var ok = false;
-      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
-      document.body.removeChild(ta);
-      done(ok);
-    }
+    });
   }
 
   // ============================================================ 主题
@@ -505,6 +802,8 @@
       var cur = document.documentElement.getAttribute('data-theme');
       applyTheme(cur === 'dark' ? 'light' : 'dark');
     });
+
+    bindDemoButtons();
   }
 
   // ============================================================ 启动
@@ -536,6 +835,7 @@
     els.fRuleCount.textContent = String(total);
     els.engineInfo.textContent = '词库 ' + total + ' 条 · 引擎 ' + (meta.engine || '—');
 
+    fillDiffStats();
     runDetect();
   }
 

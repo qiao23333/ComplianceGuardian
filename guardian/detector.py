@@ -356,6 +356,24 @@ class ComplianceDetector:
         """把 LLM 工厂契约 dict 注入引擎（设置页保存后调用）。"""
         self._engine.set_llm_config(config or {})
 
+    # ------------------------------------------------ AI 改写
+
+    def rewrite(self, text: str, findings: Optional[list] = None, **kwargs):
+        """用 AI 把文案改写成合规版本（判定已完成，模型只负责改写）。
+
+        ``findings`` 可直接传 ``detect()`` 结果里的 ``violations``。
+        AI 不可用时返回 ``ok=False``，调用方保留规则结果即可。
+        """
+        return self._engine.rewrite(text, list(findings or []), **kwargs)
+
+    def build_rewrite_prompt(self, text: str, findings: Optional[list] = None, **kwargs) -> str:
+        """只生成改写指令文本，不调用模型。
+
+        给"复制到任意 AI"的零配置路径用——用户不需要在本工具里配任何 key，
+        照样能借外部 AI 完成改写。
+        """
+        return self._engine.build_rewrite_prompt(text, list(findings or []), **kwargs)
+
     @classmethod
     def check_ollama_available(cls, base_url: Optional[str] = None) -> tuple[bool, list]:
         """探测本地 Ollama 是否可用，返回 (available, 模型名列表)。

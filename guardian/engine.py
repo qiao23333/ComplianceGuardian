@@ -16,7 +16,9 @@ detector.py 那个 1171 行、检测/LLM/规则CRUD/备份职责混杂的单体�
 5. 去重（同位置保留最长）
 6. 反误杀守卫（context_guard：上下文豁免 + 短词降级）
 7. 生成 Finding 列表、合规分 summary、safe_text（只改写 allow_auto_replace 项）
-8. 可选 LLM 语义增强（无可用 Provider 时自动跳过，纯规则引擎完整工作）
+8. 可选的 AI 改写（rewrite / build_rewrite_prompt）——**判定已在上面的规则
+   步骤里完成，AI 只负责把话说圆**。未配置 Provider 时自动跳过，
+   纯规则引擎完整工作，且仍可"复制改写指令"交给外部 AI。
 
 设计约束
 --------
@@ -420,11 +422,97 @@ class DetectionEngine:
         res = provider.analyze(req)
         return (res.analysis if res.ok else None), provider.name
 
+    # ------------------------------------------------ AI 改写（主路径）
+    def rewrite(self, text: str, findings: list, *,
+                platform: str = "all", account_type: str = "non_blue_v",
+                industry_label: str = "", must_keep: Optional[list] = None,
+                tone: str = "") -> "RewriteResult":
+        """用 AI 把文案改写成合规版本。
+
+        这是 AI 在本项目里的**唯一主职责**：判定已由规则引擎完成
+        （确定性、可复现、有法条依据），模型只负责把话说圆。
+
+        AI 不可用/调用失败时返回 ``RewriteResult(ok=False)``，**不影响**
+        已经拿到的规则检测结果——调用方应保留规则结果并如实提示失败原因。
+        """
+        from guardian.llm import RewriteRequest, RewriteResult, create_provider
+
+        provider = create_provider(self._llm_config or {})
+        if not provider.is_configured():
+            return RewriteResult(ok=False, provider=provider.name,
+                                 error="未配置 AI 服务；规则检测结果不受影响，"
+                                       "可改用「复制改写指令」交给任意 AI 完成。")
+
+        req = RewriteRequest(
+            text=text,
+            findings=[finding_to_prompt_dict(f) for f in findings],
+            platform=platform,
+            account_type=account_type,
+            industry_label=industry_label or None,
+            must_keep=list(must_keep or []),
+            tone=tone or None,
+        )
+        return provider.rewrite(req)
+
+    def build_rewrite_prompt(self, text: str, findings: list, *,
+                             platform: str = "all", account_type: str = "non_blue_v",
+                             industry_label: str = "", must_keep: Optional[list] = None,
+                             tone: str = "") -> str:
+        """只拼提示词、不调用模型 —— 给"复制到任意 AI"的零配置路径用。
+
+        这样即使用户一个模型都没配，也能把规则引擎的精确命中 + 改写约束
+        带走，贴进豆包 / DeepSeek / ChatGPT 里用。AI 能力从此不依赖本工具
+        是否接入了某个 API。
+        """
+        from guardian.llm.prompts import build_rewrite_prompt
+
+        return build_rewrite_prompt(
+            text=text,
+            findings=[finding_to_prompt_dict(f) for f in findings],
+            platform=platform,
+            account_type=account_type,
+            industry_label=industry_label or None,
+            must_keep=list(must_keep or []),
+            tone=tone or None,
+        )
+
     # LLM 配置（由 set_llm_config 注入，默认空 → NullProvider）
     _llm_config: dict = {}
 
     def set_llm_config(self, config: dict) -> None:
         self._llm_config = config or {}
+
+
+def finding_to_prompt_dict(f) -> dict:
+    """把命中项转成提示词构建器认识的键名。
+
+    单独抽出来是因为这是一个**跨层契约**：``prompts`` 认驼峰（贴合 Web 端
+    JS 的字段命名），内核 ``Finding`` 是蛇形，UI 转换后又是另一套。
+    转换只在这一处发生，改字段名时不会漏。
+
+    两种输入都支持：内核 ``Finding`` 对象，或 UI 层已经转好的 dict。
+    """
+    if isinstance(f, dict):
+        return {
+            "matchedText": f.get("matchedText") or f.get("keyword") or f.get("original") or "",
+            "keyword": f.get("keyword") or "",
+            "category": f.get("category") or "",
+            "severity": f.get("severity") or "",
+            "source": f.get("source") or "",
+            "suggestion": f.get("suggestion") or "",
+            "replacements": list(f.get("replacements") or []),
+            "matchType": f.get("matchType") or f.get("match_type") or "keyword",
+        }
+    return {
+        "matchedText": f.matched_text,
+        "keyword": f.keyword,
+        "category": f.category,
+        "severity": f.severity,
+        "source": f.source,
+        "suggestion": f.suggestion,
+        "replacements": list(f.replacements),
+        "matchType": f.match_type,
+    }
 
 
 # ============================================================ 单例管理

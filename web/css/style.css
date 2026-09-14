@@ -557,3 +557,232 @@ textarea#input::placeholder { color: var(--text-3); }
 ::-webkit-scrollbar { width: 9px; height: 9px; }
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
+
+/* ============================================================ 跨平台对比矩阵 */
+
+.matrix {
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+  overflow: hidden;
+}
+.matrix__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 9px 14px;
+  background: var(--bg-elev-2);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+}
+.matrix__verdict {
+  font-weight: 400;
+  color: var(--text-3);
+  font-size: 12px;
+}
+.matrix__verdict b { color: var(--accent); }
+.matrix table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.matrix th,
+.matrix td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.matrix tbody tr:last-child td { border-bottom: none; }
+.matrix th {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+.matrix td.num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.matrix .plat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.matrix .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+/* 该平台独有的命中——差异就体现在这里 */
+.matrix .only {
+  color: var(--sev-high);
+  font-size: 12px;
+}
+.matrix .none { color: var(--text-3); font-size: 12px; }
+.matrix tr[data-current="1"] { background: var(--accent-soft); }
+
+/* ============================================================ AI 改写区 */
+
+.ai {
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+  padding: 13px 15px;
+}
+.ai__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ai__title { font-size: 13px; font-weight: 600; }
+.ai__hint { font-size: 11.5px; color: var(--text-3); }
+.ai__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 11px;
+}
+.ai__note {
+  margin-top: 9px;
+  font-size: 11.5px;
+  color: var(--text-3);
+  line-height: 1.75;
+}
+.ai__note b { color: var(--text-2); }
+.ai__result { margin-top: 11px; }
+.ai__result pre {
+  margin: 0;
+  padding: 11px 13px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.85;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.ai__changes { margin-top: 10px; }
+.ai__change {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 12.5px;
+}
+.ai__change:last-child { border-bottom: none; }
+.ai__change .del { color: var(--sev-critical); text-decoration: line-through; }
+.ai__change .add { color: var(--ok); }
+.ai__change .why { color: var(--text-3); font-size: 11.5px; }
+.ai__unresolved {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--sev-medium) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sev-medium) 32%, transparent);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.ai__unresolved b { color: var(--sev-medium); }
+.ai--wait { color: var(--text-3); font-size: 12.5px; }
+.ai--err { color: var(--sev-high); font-size: 12.5px; }
+
+/* ============================================================ 差异说明区 */
+
+.diff {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 26px 24px 8px;
+  border-top: 1px solid var(--border);
+  margin-top: 22px;
+}
+.diff__title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.diff__lead {
+  margin: 0;
+  max-width: 920px;
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.85;
+}
+.diff__lead b { color: var(--text); }
+.diff__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+}
+.dcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+  padding: 14px 16px;
+}
+.dcard h3 {
+  margin: 0 0 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.dcard p {
+  margin: 0 0 9px;
+  font-size: 12.5px;
+  color: var(--text-2);
+  line-height: 1.85;
+}
+.dcard__fact {
+  margin-top: auto !important;
+  padding-top: 9px;
+  border-top: 1px solid var(--border);
+  color: var(--text-3) !important;
+  font-size: 12px !important;
+}
+.dcard__fact b { color: var(--accent); }
+.dcard__demo {
+  margin-top: 4px;
+  align-self: flex-start;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+.dcard__demo:hover {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-color: var(--accent);
+}
+.dcard__demo:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============================================================ 小屏收敛 */
+
+@media (max-width: 720px) {
+  .diff { padding: 20px 14px 8px; }
+  .diff__title { font-size: 15px; }
+  .matrix th,
+  .matrix td { padding: 7px 8px; font-size: 12px; }
+  .matrix__head { padding: 8px 10px; }
+  .ai { padding: 12px; }
+  .ai__actions .btn { flex: 1 1 auto; }
+}
+

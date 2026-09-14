@@ -69,3 +69,4 @@ logs/
 # 界面走查临时产物（截图等）
 .tmp-shots/
 .tmp-mobile/
+.tmp-web/
