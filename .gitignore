@@ -71,3 +71,4 @@ logs/
 .tmp-mobile/
 .tmp-web/
 .tmp-web-live/
+.tmp-*
