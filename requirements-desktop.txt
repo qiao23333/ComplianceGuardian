@@ -23,3 +23,6 @@ opencc-python-reimplemented>=0.1.7,<0.2.0
 
 # 拼音变体生成（可选，装不上可跳过，内核自动降级）
 pypinyin>=0.51,<0.55
+
+# Excel 导出（批量检测结果）。缺失时「导出 Excel」按钮会提示改用 CSV。
+openpyxl>=3.1,<4.0

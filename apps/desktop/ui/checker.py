@@ -420,9 +420,11 @@ class CheckerPage(ctk.CTkFrame):
         def worker():
             try:
                 result = self.detector.detect(text, plat_key, account_type)
-                self.after(0, lambda: self._on_detection_done(result))
-            except Exception as e:
-                self.after(0, lambda: self._on_detection_error(str(e)))
+                # 用默认参数把值绑进 lambda：闭包变量在函数返回后可能已失效
+                self.after(0, lambda r=result: self._on_detection_done(r, text, plat_key))
+            except Exception as exc:
+                msg = str(exc)
+                self.after(0, lambda m=msg: self._on_detection_error(m))
 
         thread = threading.Thread(target=worker, daemon=True)
         thread.start()
@@ -438,15 +440,27 @@ class CheckerPage(ctk.CTkFrame):
         def worker():
             try:
                 results = self.detector.detect_all_platforms(text, account_type)
-                self.after(0, lambda: self._on_cross_platform_done(results))
-            except Exception as e:
-                self.after(0, lambda: self._on_detection_error(str(e)))
+                self.after(0, lambda r=results: self._on_cross_platform_done(r))
+            except Exception as exc:
+                msg = str(exc)
+                self.after(0, lambda m=msg: self._on_detection_error(m))
 
         thread = threading.Thread(target=worker, daemon=True)
         thread.start()
 
-    def _on_detection_done(self, result):
-        """检测完成回调"""
+    def _on_detection_done(self, result, text: str = "", plat_key: str = "xiaohongshu"):
+        """检测完成回调。
+
+        Args:
+            result: 引擎返回的检测结果
+            text: 被检测的原文（用于写入历史记录）
+            plat_key: 平台键（用于写入历史记录）
+
+        说明：text / plat_key 必须由调用方传入。历史上这两项取自不存在的局部
+        作用域，导致本回调每次都在最后一行抛 NameError —— 表现为"高亮预览按钮
+        永远点不动、历史记录永远是空的"，且异常发生在 Tk 回调里，控制台之外
+        完全无感。改动时请勿再依赖外部局部变量。
+        """
         colors = get_colors()
         self._detecting = False
         self.detect_btn.configure(state="normal", text="开始检测")
@@ -524,9 +538,12 @@ class CheckerPage(ctk.CTkFrame):
         def llm_worker():
             try:
                 llm_result = self.detector._llm_analyze(text, plat_key, account_type, self.current_result or {"violations": []})
-                self.after(0, lambda: self._on_llm_done(llm_result))
-            except Exception as e:
-                self.after(0, lambda: self._on_llm_error(str(e)))
+                self.after(0, lambda r=llm_result: self._on_llm_done(r))
+            except Exception as exc:
+                # ⚠️ 不要把 `e` 直接放进 lambda：except 块结束时会隐式 `del e`，
+                # 回调真正执行时这个名字已不存在 → NameError（原始 bug）。
+                msg = str(exc)
+                self.after(0, lambda m=msg: self._on_llm_error(m))
 
         self.after(1500, lambda: threading.Thread(target=llm_worker, daemon=True).start())
 
@@ -667,13 +684,15 @@ class CheckerPage(ctk.CTkFrame):
                      text_color=colors["text"]).pack(anchor="w", padx=SPACING["lg"], pady=(SPACING["md"], SPACING["xs"]))
 
         # 找出只在某平台违规的关键词
-        for plat_key in ["xiaohongshu", "douyin", "weixin"]:
+        plat_keys = ["xiaohongshu", "douyin", "weixin"]
+        any_plat_only = False
+        for plat_key in plat_keys:
             result = results.get(plat_key, {})
             plat_label = plat_labels.get(plat_key, plat_key)
             violations = result.get("violations", [])
 
             # 只在此平台违规的关键词
-            other_plats = [k for k in ["xiaohongshu", "douyin", "weixin"] if k != plat_key]
+            other_plats = [k for k in plat_keys if k != plat_key]
             plat_only = []
             for v in violations:
                 keyword = v.get("keyword", "")
@@ -687,22 +706,48 @@ class CheckerPage(ctk.CTkFrame):
                     plat_only.append(keyword)
 
             if plat_only:
+                any_plat_only = True
                 row = ctk.CTkFrame(diff_frame, fg_color=colors["bg"], corner_radius=CORNER_RADIUS["md"])
                 row.pack(fill="x", padx=SPACING["lg"], pady=(0, SPACING["xs"]))
                 ctk.CTkLabel(row, text=f"⚠️ {plat_label}独有违规：{', '.join(plat_only[:5])}",
                              font=font_typo("caption"), text_color=colors["danger"],
                              wraplength=350, justify="left").pack(fill="x", padx=SPACING["md"], pady=SPACING["xs"])
 
-        # 智能建议
-        worst_plat = min(results.keys(), key=lambda k: results[k].get("summary", {}).get("score", 100))
-        worst_score = results[worst_plat].get("summary", {}).get("score", 100)
-        worst_label = plat_labels.get(worst_plat, worst_plat)
+        # ── 结论区：必须诚实区分"有差异"与"没差异" ──
+        #
+        # 原实现直接取 min() 找最低分平台，而 min 在分数并列时返回字典首个
+        # key —— 于是三平台都是 78 分时，界面会输出"此文案在小红书合规分数
+        # 最低（78分），建议针对性修改"，凭空点了一个平台的名。
+        # 现在：先判断是否并列，并列就明说无差异并解释原因（命中的是跨平台
+        # 通用规则），不制造不存在的结论。
+        scores = {
+            k: results.get(k, {}).get("summary", {}).get("score", 100)
+            for k in plat_keys
+        }
+        uniq_scores = set(scores.values())
 
-        if worst_score < 80:
-            suggestion_text = f"此文案在{worst_label}合规分数最低（{worst_score}分），建议针对性修改后再发布。"
-            ctk.CTkLabel(diff_frame, text=f"💡 {suggestion_text}",
-                         font=font_typo("caption"), text_color=colors["text_secondary"],
-                         wraplength=380, justify="left").pack(fill="x", padx=SPACING["lg"], pady=(SPACING["xs"], SPACING["lg"]))
+        if len(uniq_scores) == 1:
+            only_score = next(iter(uniq_scores))
+            suggestion_text = (
+                f"三平台判定一致（均为 {only_score} 分）：该文案命中的是"
+                "跨平台通用规则（广告法 / 行业红线），平台之间没有额外差异。"
+            )
+        else:
+            lowest = min(uniq_scores)
+            worst_labels = [plat_labels[k] for k, v in scores.items() if v == lowest]
+            suggestion_text = (
+                f"分数最低的平台：{'、'.join(worst_labels)}（{lowest} 分）"
+                f"，与最高分（{max(uniq_scores)} 分）相差 {max(uniq_scores) - lowest} 分，"
+                "建议优先针对该平台修改后再发布。"
+            )
+
+        if not any_plat_only:
+            suggestion_text += " 未发现任何平台独有的风险词。"
+
+        ctk.CTkLabel(diff_frame, text=f"💡 {suggestion_text}",
+                     font=font_typo("caption"), text_color=colors["text_secondary"],
+                     wraplength=380, justify="left").pack(
+            fill="x", padx=SPACING["lg"], pady=(SPACING["xs"], SPACING["lg"]))
 
     def _display_llm_result(self, llm_result):
         """显示LLM分析结果 — GlassCard 样式"""
@@ -794,8 +839,15 @@ class CheckerPage(ctk.CTkFrame):
         row = ctk.CTkFrame(parent, fg_color=bg, corner_radius=CORNER_RADIUS["sm"])
         row.pack(fill="x", pady=(0, SPACING["xs"]))
 
-        # 左侧色条（2px宽）
-        color_bar = ctk.CTkFrame(row, fg_color=bar_color, width=3, corner_radius=0)
+        # 左侧色条（3px 宽）
+        #
+        # ⚠️ 这里刻意用 tk.Frame 而不是 ctk.CTkFrame：
+        # CTkFrame 的 height 默认值是 200，只给 width 不给 height 时，
+        # 内部 canvas 会请求 200px 高度；配合 fill="y" 会把整行撑到 200px ——
+        # 一条两行文字的违规项占掉 200px 高度、5 条就浪费 800px 空白，
+        # 且列表看起来"每条都空空荡荡"。tk.Frame 的高度完全由内容与
+        # fill 决定，不会引入这个请求值。
+        color_bar = tk.Frame(row, bg=bar_color, width=3, bd=0, highlightthickness=0)
         color_bar.pack(side="left", fill="y", padx=0, pady=0)
 
         inner = ctk.CTkFrame(row, fg_color="transparent")

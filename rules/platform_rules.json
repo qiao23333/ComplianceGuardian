@@ -288,39 +288,44 @@
       "note": "回购N次类表述需确保真实"
     },
     {
-      "keyword": "我家XX",
+      "keyword": "我家\\S{0,6}(?:好用到哭|无限回购|闭眼入|必入|吹爆|绝了|yyds)",
       "category": "虚假种草",
       "severity": "warning",
       "suggestion": "如为广告需标注'广告'",
-      "note": "我家XX类表述可能涉嫌虚假种草"
+      "note": "我家XX类表述可能涉嫌虚假种草｜虚假种草：占位符→正则，覆盖'我家这款好用到哭'类表述",
+      "match_mode": "regex"
     },
     {
-      "keyword": "学生党XX",
+      "keyword": "学生党\\S{0,6}(?:必入|必备|神器|闭眼入|平价|宝藏)",
       "category": "虚假种草",
       "severity": "warning",
       "suggestion": "如为广告需标注'广告'",
-      "note": "学生党XX类表述需确保真实"
+      "note": "学生党XX类表述需确保真实｜虚假种草：占位符→正则",
+      "match_mode": "regex"
     },
     {
-      "keyword": "上班族XX",
+      "keyword": "上班族\\S{0,6}(?:必入|必备|神器|闭眼入|平价|宝藏)",
       "category": "虚假种草",
       "severity": "warning",
       "suggestion": "如为广告需标注'广告'",
-      "note": "上班族XX类表述需确保真实"
+      "note": "上班族XX类表述需确保真实｜虚假种草：占位符→正则",
+      "match_mode": "regex"
     },
     {
-      "keyword": "宝妈XX",
+      "keyword": "宝妈\\S{0,6}(?:必入|必备|神器|闭眼入|平价|宝藏)",
       "category": "虚假种草",
       "severity": "warning",
       "suggestion": "如为广告需标注'广告'",
-      "note": "宝妈XX类表述需确保真实"
+      "note": "宝妈XX类表述需确保真实｜虚假种草：占位符→正则",
+      "match_mode": "regex"
     },
     {
-      "keyword": "敏感肌XX",
+      "keyword": "敏感肌\\S{0,6}(?:必入|必备|可用|闭眼入|平价|宝藏)",
       "category": "虚假种草",
       "severity": "warning",
       "suggestion": "如为广告需标注'广告'并提供效果依据",
-      "note": "敏感肌XX类表述需确保真实"
+      "note": "敏感肌XX类表述需确保真实｜虚假种草：占位符→正则",
+      "match_mode": "regex"
     },
     {
       "keyword": "亲测有效",

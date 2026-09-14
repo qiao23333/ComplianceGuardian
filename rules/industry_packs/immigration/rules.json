@@ -322,11 +322,12 @@
     "note": "极限词"
   },
   {
-    "keyword": "保证X天获批",
+    "keyword": "保证\\s*[\\d一二三四五六七八九十两]+\\s*(?:天|周|个?月|年)\\s*(?:内)?\\s*(?:获批|下签|出签|拿到|批下来|搞定|办好|完成)",
     "category": "时间承诺",
-    "severity": "medium",
+    "severity": "high",
     "suggestion": "改为'审理时间以移民局为准'",
-    "note": "无法保证具体审批时间"
+    "note": "无法保证具体审批时间｜时间承诺：把'保证X天获批'从占位符死规则改写成等价正则，覆盖'保证3个月出签'这类真实表述｜严重度校准：移民语境下承诺获批时间属虚假承诺（《广告法》第28条），不是提示级",
+    "match_mode": "regex"
   },
   {
     "keyword": "保证多久批",
@@ -1206,5 +1207,62 @@
     "severity": "medium",
     "suggestion": "改为'按合同约定处理'",
     "note": "赔偿承诺需谨慎"
+  },
+  {
+    "keyword": "现成雇主",
+    "category": "雇主担保红线",
+    "severity": "critical",
+    "suggestion": "删除'现成雇主'表述，改为'协助匹配合规雇主'",
+    "note": "补充规则：现成雇主暗示挂靠担保资格，属违法操作"
+  },
+  {
+    "keyword": "现成岗位",
+    "category": "雇主担保红线",
+    "severity": "critical",
+    "suggestion": "删除'现成岗位'表述",
+    "note": "补充规则：暗示买卖担保资格"
+  },
+  {
+    "keyword": "现成担保",
+    "category": "雇主担保红线",
+    "severity": "critical",
+    "suggestion": "删除'现成担保'表述",
+    "note": "补充规则：暗示买卖担保资格"
+  },
+  {
+    "keyword": "名额有限",
+    "category": "引诱消费",
+    "severity": "medium",
+    "suggestion": "改为客观说明剩余名额或删除紧迫感话术",
+    "note": "补充规则：稀缺营销话术"
+  },
+  {
+    "keyword": "最后一波",
+    "category": "引诱消费",
+    "severity": "medium",
+    "suggestion": "删除稀缺营销话术",
+    "note": "补充规则：稀缺营销话术"
+  },
+  {
+    "keyword": "最后一轮",
+    "category": "引诱消费",
+    "severity": "medium",
+    "suggestion": "删除稀缺营销话术",
+    "note": "补充规则：稀缺营销话术"
+  },
+  {
+    "keyword": "错过再等一年",
+    "category": "引诱消费",
+    "severity": "medium",
+    "suggestion": "删除紧迫感话术",
+    "note": "补充规则：稀缺营销话术"
+  },
+  {
+    "keyword": "仅剩\\s*\\d+\\s*个?名额",
+    "match_mode": "regex",
+    "category": "引诱消费",
+    "severity": "medium",
+    "suggestion": "删除稀缺营销话术",
+    "note": "补充规则：正则覆盖'仅剩3个名额'类表述"
   }
 ]

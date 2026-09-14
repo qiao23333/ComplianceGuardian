@@ -179,10 +179,19 @@ class ProgressRing(ctk.CTkFrame):
 
 
 class BarChart(ctk.CTkFrame):
-    """迷你条形图 — 词库概览统计"""
+    """迷你条形图 — 词库概览统计
+
+    data 每项为 ``(label, value, color_key[, detail])``。
+
+    ``detail`` 用于承载"细分说明"（例如"小红书 123 · 抖音 63 · 视频号 60"）。
+    加这个参数是为了消灭仪表盘上的**信息重复**：原先同一份词库数据被画了
+    两遍 —— 上面一组彩色进度条，下面又一份带细分的列表。用户看到十行内容
+    其实只有五个含义，还白白多出 40 多个控件（每个 CTkFrame 都是
+    canvas + 子控件，重建一次就是几十毫秒）。现在明细并入条形图本身。
+    """
     def __init__(self, master, data, max_value=None, **kwargs):
         """
-        data: list of (label, value, color_key)
+        data: list of (label, value, color_key) 或 (label, value, color_key, detail)
         color_key: 使用 COLORS 中的键名，如 "primary", "success", "warning", "danger"
         """
         super().__init__(master, **kwargs)
@@ -190,19 +199,40 @@ class BarChart(ctk.CTkFrame):
         self.configure(fg_color=colors["card"], corner_radius=CORNER_RADIUS["lg"])
 
         if max_value is None:
-            max_value = max(v for _, v, _ in data) if data else 1
+            max_value = max((item[1] for item in data), default=1)
 
-        for label, value, color_key in data:
+        for item in data:
+            label, value, color_key = item[0], item[1], item[2]
+            detail = item[3] if len(item) > 3 else ""
+
             row = ctk.CTkFrame(self, fg_color="transparent")
             row.pack(fill="x", padx=SPACING["lg"], pady=SPACING["xs"])
 
-            ctk.CTkLabel(row, text=label, font=font_typo("caption"),
-                         text_color=colors["text_secondary"], width=80).pack(side="left")
+            # 左侧文字列：名称 + 可选明细
+            #
+            # ⚠️ 必须显式写 ``height=1``：CTkFrame 的 height 默认值是 200，
+            # 只给 width 不给 height 时，内部 canvas 会请求 200px 高度，
+            # 于是每一行都被撑到 200px（一屏只能放下两条）。
+            # 传 height=1 后，实际高度取"canvas 请求 1px"与"子控件请求"
+            # 的较大值，即自然贴合内容。
+            #
+            # 也刻意**不用** pack_propagate(False)：那会把高度锁死在 1px
+            # 从而裁掉文字。宽度靠 label 的 wraplength 控制，超长明细自动换行。
+            text_col = ctk.CTkFrame(row, fg_color="transparent", width=170, height=1)
+            text_col.pack(side="left")
+
+            ctk.CTkLabel(text_col, text=label, font=font_typo("caption"),
+                         text_color=colors["text_secondary"], anchor="w",
+                         wraplength=165, justify="left").pack(fill="x")
+            if detail:
+                ctk.CTkLabel(text_col, text=detail, font=font_typo("micro"),
+                             text_color=colors["text_tertiary"], anchor="w",
+                             wraplength=165, justify="left").pack(fill="x")
 
             # 进度条背景
             bar_bg = ctk.CTkFrame(row, fg_color=colors["ring_track"],
                                   corner_radius=CORNER_RADIUS["sm"], height=14)
-            bar_bg.pack(side="left", fill="x", expand=True, padx=(SPACING["sm"], SPACING["sm"]))
+            bar_bg.pack(side="left", fill="x", expand=True, padx=SPACING["sm"])
 
             # 进度条填充
             ratio = value / max_value if max_value > 0 else 0

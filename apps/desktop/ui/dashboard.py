@@ -106,14 +106,17 @@ class DashboardPage(ctk.CTkFrame):
                      text_color=colors["text"]).pack(anchor="w", padx=SPACING["xl"], pady=(SPACING["lg"], SPACING["md"]))
 
         # BarChart 数据
+        # 明细（detail）直接并进条形图，避免下面再铺一份重复列表。
         bar_data = []
         for name, count in rules_summary.items():
             if name == "总计":
                 continue
             if isinstance(count, dict):
                 total = sum(count.values())
+                detail = " · ".join(f"{k} {v}" for k, v in count.items())
             else:
                 total = count
+                detail = ""
             color_key = {
                 "广告法违禁词": "primary",
                 "平台规则": "info",
@@ -121,40 +124,12 @@ class DashboardPage(ctk.CTkFrame):
                 "行业红线": "danger",
                 "正则模式": "success",
             }.get(name, "primary")
-            bar_data.append((name, total, color_key))
+            bar_data.append((name, total, color_key, detail))
 
         if bar_data:
-            max_val = max(v for _, v, _ in bar_data)
+            max_val = max(v for _, v, *_ in bar_data)
             chart = BarChart(overview_card, bar_data, max_value=max_val)
-            chart.pack(fill="x", padx=SPACING["xl"], pady=(0, SPACING["md"]))
-
-        # 词库详细列表（保留兼容）
-        for name, count in rules_summary.items():
-            if name == "总计":
-                continue
-            row = ctk.CTkFrame(overview_card, fg_color=colors["hover"], corner_radius=CORNER_RADIUS["md"], height=48)
-            row.pack(fill="x", padx=SPACING["xl"], pady=(0, SPACING["xs"]))
-            row.pack_propagate(False)
-
-            left = ctk.CTkFrame(row, fg_color="transparent")
-            left.pack(side="left", fill="y", padx=SPACING["md"])
-
-            if isinstance(count, dict):
-                detail = " · ".join(f"{k}: {v}" for k, v in count.items())
-                ctk.CTkLabel(left, text=name, font=font_typo("caption_bold"),
-                             text_color=colors["text"]).pack(anchor="w")
-                ctk.CTkLabel(left, text=detail, font=font_typo("micro"),
-                             text_color=colors["text_secondary"]).pack(anchor="w")
-                total = sum(count.values())
-            else:
-                ctk.CTkLabel(left, text=name, font=font_typo("caption_bold"),
-                             text_color=colors["text"]).pack(anchor="w")
-                ctk.CTkLabel(left, text=f"{count} 条规则", font=font_typo("micro"),
-                             text_color=colors["text_secondary"]).pack(anchor="w")
-                total = count
-
-            ctk.CTkLabel(row, text=str(total), font=font_safe(22, "bold"),
-                         text_color=colors["primary"]).pack(side="right", padx=SPACING["md"])
+            chart.pack(fill="x", padx=SPACING["xl"], pady=(0, SPACING["lg"]))
 
     def _go_to_cross_platform(self):
         """跳转到检测页面的跨平台对比模式"""

@@ -574,10 +574,10 @@
   {
     "keyword": "百分百",
     "category": "绝对化用语",
-    "severity": "medium",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'高比例'",
-    "note": "禁止使用百分百类绝对化用语"
+    "note": "禁止使用百分百类绝对化用语｜严重度校准：《广告法》第九条：绝对化保证，属明确法律风险"
   },
   {
     "keyword": "彻底",
@@ -762,18 +762,18 @@
   {
     "keyword": "史上最低",
     "category": "误导性表述",
-    "severity": "medium",
+    "severity": "high",
     "law_ref": "《广告法》第二十八条",
     "suggestion": "改为'限时优惠'",
-    "note": "禁止使用史上最低等误导性表述"
+    "note": "禁止使用史上最低等误导性表述｜严重度校准：《广告法》第九条：绝对化用语"
   },
   {
     "keyword": "全网最低",
     "category": "误导性表述",
-    "severity": "medium",
+    "severity": "high",
     "law_ref": "《广告法》第九条",
     "suggestion": "改为'价格实惠'",
-    "note": "禁止使用全网最低等极限表述"
+    "note": "禁止使用全网最低等极限表述｜严重度校准：《广告法》第九条 + 《价格法》：虚假最低价宣称，属明确法律风险"
   },
   {
     "keyword": "全网首发",
@@ -3929,5 +3929,27 @@
     "law_ref": "《广告法》第九条",
     "suggestion": "提供环保认证，否则删除'环保'声称",
     "note": "环保类表述需认证支撑"
+  },
+  {
+    "keyword": "最后一波",
+    "category": "引诱消费",
+    "severity": "medium",
+    "suggestion": "删除稀缺营销话术",
+    "note": "补充规则：稀缺营销话术（通用）"
+  },
+  {
+    "keyword": "错过再等一年",
+    "category": "引诱消费",
+    "severity": "medium",
+    "suggestion": "删除紧迫感话术",
+    "note": "补充规则：稀缺营销话术（通用）"
+  },
+  {
+    "keyword": "限时\\s*[\\d一二三四五六七八九十]+\\s*(?:小时|天|分钟)",
+    "match_mode": "regex",
+    "category": "引诱消费",
+    "severity": "medium",
+    "suggestion": "改为客观的活动时间说明",
+    "note": "补充规则：正则覆盖'限时24小时'类紧迫感表述"
   }
 ]
