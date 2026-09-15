@@ -31,7 +31,40 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # 先探一下这个仓库到底有没有启用 Pages。
+  #
+  # 为什么需要这一步：GITHUB_TOKEN **无权创建 Pages 站点**（实测：即使给
+  # configure-pages 传 enablement: true，也会在 "Get Pages site failed"
+  # 处失败）。仓库第一次要用 Pages，只能由管理员在网页上启用一次。
+  #
+  # 但"没启用"是**环境缺失**，不是代码问题 —— 让它把 workflow 判红，结果是
+  # 每次 push 都挂一个红灯。红习惯之后，真出问题就没人看了（同一个原则写在了
+  # scripts/sync_to_blog.py 里：目标目录不存在就跳过，不判失败）。
+  # 所以这里探测后**优雅跳过**，并留一条 notice 告诉人怎么开。
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.probe.outputs.enabled }}
+    steps:
+      - id: probe
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages")
+          if [ "$code" = "200" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "Pages 已启用，继续部署。"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Pages 尚未启用::在仓库 Settings → Pages → Source 选择 \"GitHub Actions\"，之后本工作流会自动开始部署（无需再改代码）。"
+          fi
+
   build:
+    needs: check
+    if: needs.check.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -51,11 +84,8 @@ jobs:
           echo "web/data/rules.js = ${size} 字节"
           test "$size" -gt 10000 || { echo "web/data/rules.js 过小（${size} 字节），疑似导出失败"; exit 1; }
 
-      # enablement: true —— 仓库此前从未启用过 Pages。带上这个参数，action 会
-      # 用 GITHUB_TOKEN 尝试自动建站；如果仓库策略不允许（需要 admin），
-      # 它会在这一步明确报出来，而不是让后面的 deploy 以一个含糊的错误失败。
-      # 真被拦住时，人工只需在 Settings → Pages → Source 选 "GitHub Actions"，
-      # 之后每次 push 都全自动。
+      # enablement: true —— 探测已通过，这里再带上它，顺带把 Pages 的
+      # build_type 校正为 workflow（而不是"从分支部署"）。
       - uses: actions/configure-pages@v5
         with:
           enablement: true
@@ -66,6 +96,7 @@ jobs:
 
   deploy:
     needs: build
+    if: needs.check.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
