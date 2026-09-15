@@ -1,8 +1,9 @@
 {
   "id": "immigration",
   "name": "移民行业合规包",
-  "version": "1.0.0",
-  "description": "移民/出入境中介行业专属合规词库，覆盖虚假承诺、雇主担保红线、违法操作、成功率宣传等高风险表达。适用于小红书、抖音、视频号等内容平台的移民类内容创作。",
+  "short": "移民",
+  "version": "2.0.0",
+  "description": "移民 / 出境入境中介行业专属合规词库。覆盖费用与时限的保证性承诺、雇主担保红线、假结婚买签证等违法操作、暗示与主管机关有特殊关系等高风险表达。依据以 2026-09-15 起施行的《国务院关于出境入境管理的规定》（国务院令第 841 号）第十条六条禁令为主，涉及刑事风险的条目同步标注《刑法》条款。",
   "author": "Compliance Guardian",
   "industry": "移民/出入境",
   "categories": [
@@ -22,12 +23,12 @@
     "雇主担保红线"
   ],
   "rules_file": "rules.json",
-  "rule_count": 179,
+  "rule_count": 171,
   "platforms": [
     "xiaohongshu",
     "douyin",
     "weixin"
   ],
   "created": "2026-07-01",
-  "updated": "2026-08-23"
+  "updated": "2026-09-15"
 }

@@ -1358,3 +1358,394 @@ textarea#bInput::placeholder { color: var(--text-3); }
   .ai__actions .btn { flex: 1 1 auto; }
 }
 
+
+/* ============================================================
+   v3.4 · 检测设置 / 我的词库 / 移动端重构
+   ============================================================
+   这一节整体放在文件末尾：小屏覆盖规则必须晚于基础规则出现，
+   否则同特异性下会被前面的写法盖掉（这个文件里踩过同类坑）。
+   ============================================================ */
+
+/* ------------------------------------------------------------ 检测设置 */
+
+/* 桌面端：summary 藏起来、控件直接平铺；窄屏：summary 变成一行可点的标题 */
+.settings { border-bottom: 1px solid var(--border); }
+.settings__sum { display: none; }
+.settings .controls { padding: 10px 16px; }
+
+/* 带标题的控件。原来只有一排裸下拉，手机上根本看不出哪个是平台、哪个是行业 */
+.field {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.field__k {
+  font-size: 12px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.field--switches { display: inline-flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+/* ------------------------------------------------------------ 我的词库 */
+
+.myhint {
+  margin: 12px 16px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text-2);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  border-radius: 10px;
+}
+.myhint b { color: var(--text); }
+
+.myadd {
+  margin: 0 16px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev-2);
+}
+.myadd__sum {
+  cursor: pointer;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.myadd__sum:hover { color: var(--text); }
+
+.myform {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 12px 12px;
+}
+.myform .field { flex-direction: column; align-items: stretch; gap: 4px; }
+.myform input,
+.myform select { width: 100%; }
+.field--wide { grid-column: 1 / -1; }
+.myform__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.req { color: var(--sev-critical); font-size: 10.5px; font-weight: 500; }
+
+.mybulk { border-top: 1px solid var(--border); padding: 0 12px 12px; }
+.mybulk > summary {
+  cursor: pointer;
+  padding: 10px 0;
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+.mybulk > summary:hover { color: var(--text); }
+.mybulk textarea {
+  width: 100%;
+  min-height: 92px;
+  margin-bottom: 10px;
+}
+
+.myform__msg { font-size: 12px; color: var(--text-3); }
+.myform__msg.is-ok { color: var(--ok); }
+.myform__msg.is-bad { color: var(--sev-critical); }
+
+.mlist { display: flex; flex-direction: column; }
+.ritem--mine { background: color-mix(in srgb, var(--accent) 5%, transparent); }
+.ritem__ops {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+/* 停用不是删除：词条仍在列表里可找回，但视觉上要一眼看出它不生效 */
+.ritem.is-off { opacity: 0.45; }
+
+.tag--mine {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: var(--accent-soft);
+}
+.tag--off {
+  color: var(--text-3);
+  border-style: dashed;
+  border-color: var(--border-strong);
+  background: transparent;
+}
+
+.switch--sm { font-size: 11.5px; }
+
+/* ------------------------------------------------------------ 词库浏览顶部 */
+
+.rbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 12px;
+  flex-wrap: wrap;
+}
+.rbar .search { flex: 1 1 240px; }
+
+/* 桌面端用 display:contents 把筛选控件"提"回同一行：
+   既保住窄屏的折叠行为，又不额外占一行高度 */
+.rfilters { display: contents; }
+.rfilters__sum { display: none; }
+.rfilters__n {
+  display: inline-block;
+  min-width: 15px;
+  padding: 0 4px;
+  margin-left: 4px;
+  border-radius: 999px;
+  background: var(--accent-solid);
+  color: #fff;
+  font-size: 10px;
+  line-height: 15px;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------ 三步引导 */
+
+.guide-wrap > summary { display: none; cursor: pointer; }
+
+/* ============================================================
+   窄屏（≤720px）
+   ============================================================ */
+
+@media (max-width: 720px) {
+
+  /* ---- 底部导航 ----
+     手机上原标签在文档流里，滚到中间想切页得先滚回顶部。换成固定在底部的
+     标签栏后，任何时候一次点击就能切换，也在拇指可达范围内。 */
+  body {
+    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+    font-size: 15px;
+  }
+
+  .tabs {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 0 0 env(safe-area-inset-bottom, 0px);
+    border-top: 1px solid var(--border);
+    border-bottom: 0;
+    background: var(--bg-elev);
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.18);
+  }
+  html[data-theme="light"] .tabs { box-shadow: 0 -2px 12px rgba(31, 35, 40, 0.08); }
+
+  .tabs__btn {
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-height: 56px;
+    padding: 6px 2px;
+    font-size: 11px;
+    font-weight: 500;
+    border-bottom: 0;
+    border-top: 2px solid transparent;
+  }
+  .tabs__btn.is-on { border-top-color: var(--accent); }
+  .tabs__ico { width: 21px; height: 21px; display: block; }
+  .tabs__txt { font-size: 11px; line-height: 1.2; }
+
+  /* 词库总数是个大数字，压在图标上会糊成一片；只保留"我的词库"这个
+     可操作的计数，做成角标 */
+  .tabs__badge { display: none; }
+  #tabMyCount {
+    display: block;
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    margin-left: 5px;
+    padding: 0 5px;
+    font-size: 9.5px;
+    line-height: 15px;
+    border-radius: 999px;
+    background: var(--accent-solid);
+    color: #fff;
+    border: 0;
+  }
+  #tabMyCount[hidden] { display: none !important; }
+
+  /* ---- 首屏收敛 ---- */
+  .topbar { padding: 10px 14px; gap: 8px; }
+  .brand__sub { display: none; }     /* 副标题在窄屏只会把品牌行挤成两行 */
+  .privacy__txt { display: none; }   /* 绿点保留，文字收进 title */
+
+  .hero { padding: 18px 14px 6px; }
+  .hero h1 { font-size: 18px; line-height: 1.45; }
+  .hero p { font-size: 13.5px; line-height: 1.75; }
+
+  .guide-wrap { margin-top: 14px; }
+  .guide-wrap > summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-2);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .guide { margin-top: 10px; }
+
+  /* ---- 检测设置：折起来 ---- */
+  .settings__sum {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-2);
+    cursor: pointer;
+    list-style: none;
+  }
+  .settings__sum::-webkit-details-marker { display: none; }
+  .settings__sum::after {
+    content: "\25BE";
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-3);
+    transition: transform 0.15s ease;
+  }
+  .settings[open] > .settings__sum::after { transform: rotate(180deg); }
+  .settings__label { font-weight: 600; }
+  .settings__brief {
+    font-size: 11.5px;
+    color: var(--text-3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .settings .controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 0 14px 14px;
+  }
+  .settings .field { flex-direction: column; align-items: stretch; gap: 3px; }
+  .settings .field--switches {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+    min-height: 42px;
+  }
+
+  /* ---- 触控尺寸与防缩放 ----
+     iOS 对 font-size < 16px 的输入控件会自动放大整页——这是"手机上很难用"
+     最直接的来源之一。输入类控件一律 16px 起。
+
+     必须显式带上 `textarea#input` / `textarea#bInput`：基础样式里的选择器
+     是 (1,0,1) 特异性，只写元素选择器 (0,0,1) 压不过它 —— 字号会"看着改了
+     其实没改"，而且不报错。 */
+  select,
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  textarea,
+  textarea#input,
+  textarea#bInput {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  textarea { min-height: 150px; line-height: 1.75; }
+
+  .btn,
+  .iconbtn,
+  .chip,
+  .linkbtn { min-height: 42px; }
+  .btn { padding: 9px 16px; font-size: 14px; }
+  .chip { padding: 8px 12px; font-size: 13px; }
+  .linkbtn { padding: 8px 6px; }
+  .switch { min-height: 40px; align-items: center; }
+  .switch--sm { min-height: 32px; }
+
+  /* ---- 结果区可读性 ---- */
+  .panel__head { padding: 11px 14px; }
+  .panel__foot { padding: 10px 14px; font-size: 11.5px; }
+  .finding { padding: 12px 14px; }
+  .finding__word { font-size: 15px; }
+  .finding__ctx { font-size: 13.5px; line-height: 1.7; }
+  .actions { padding: 12px 14px; gap: 8px; }
+  .actions .btn { flex: 1 1 calc(50% - 4px); }
+  .empty { padding: 34px 16px; }
+
+  /* ---- 我的词库 ---- */
+  .myhint { margin: 10px 14px; }
+  .myadd { margin: 0 14px 12px; }
+  .myform { grid-template-columns: 1fr; padding: 0 12px 12px; }
+  .field--wide { grid-column: auto; }
+  .myform__actions .btn { flex: 1 1 auto; }
+
+  .rbar { padding: 0 14px 12px; }
+  .rbar .search { flex: 1 1 100%; }
+  .rfilters {
+    display: block;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .rfilters__sum {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--text-2);
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .rfilters__sum::-webkit-details-marker { display: none; }
+  .rfilters[open] > .rfilters__sum { color: var(--text); border-color: var(--border-strong); }
+  .rfilters .controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding-top: 10px;
+  }
+  .rfilters .field { flex-direction: column; align-items: stretch; gap: 3px; }
+
+  /* 词条行：关键词 / 元信息 / 操作三段竖排 */
+  .ritem { padding: 12px 14px; }
+  .ritem__ops { justify-content: flex-end; width: 100%; }
+
+  .diff { padding: 22px 14px 8px; }
+}
+
+/* ============================================================
+   浅色主题 · 小字对比度补丁
+   ------------------------------------------------------------
+   11px 这类小字要求 4.5:1。浅色下 --accent 叠在 --accent-soft 上只有 4.34 ——
+   差一点点，但门禁该响就得响，所以这里把文字色单独压深一档。
+
+   为什么不去改 --accent 本身：`.sys.*` 子树会把它重映射到图表色，SVG 的
+   填充/描边跟着一起变，改一个 token 会连带动到不相干的地方。
+   ============================================================ */
+
+html[data-theme="light"] .tag:not(.tag--off),
+html[data-theme="light"] .tag--mine {
+  color: #0550ae;
+  border-color: color-mix(in srgb, #0550ae 34%, transparent);
+}
+
+html[data-theme="light"] .sev-tag[data-sev="medium"] {
+  color: #7a5600;
+}

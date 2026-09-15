@@ -1,0 +1,25 @@
+{
+  "id": "food_health",
+  "name": "食品保健合规包",
+  "short": "食品保健",
+  "version": "1.0.0",
+  "description": "普通食品、保健食品与养生服务专属合规词库。覆盖疾病预防治疗宣称、保健功能暗示、绝对化安全宣称、中医养生功效夸大等《食品安全法》第七十三条与《广告法》第十七、十八条禁止的情形。",
+  "author": "Compliance Guardian",
+  "industry": "食品/保健",
+  "categories": [
+    "养生夸大",
+    "功效断言",
+    "疾病预防治疗",
+    "绝对化安全宣称",
+    "诱导性内容"
+  ],
+  "rules_file": "rules.json",
+  "rule_count": 39,
+  "platforms": [
+    "xiaohongshu",
+    "douyin",
+    "weixin"
+  ],
+  "created": "2026-09-15",
+  "updated": "2026-09-15"
+}

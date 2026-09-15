@@ -36,11 +36,13 @@
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 import fs from 'node:fs';
+import path from 'node:path';
 
 const PUPPETEER_ROOT = process.env.PUPPETEER_ROOT || 'G:/work/牛马/wb工作空间/xuanlan';
 const CHROME = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const BASE = process.env.BASE_URL || 'http://127.0.0.1:8923/index.html';
 const SHOT_DIR = process.env.SHOT_DIR || '.tmp-web';
+const DL_DIR = path.resolve(SHOT_DIR, 'downloads');
 
 const require = createRequire(pathToFileURL(PUPPETEER_ROOT.replace(/\\/g, '/') + '/'));
 let puppeteer;
@@ -81,8 +83,8 @@ function check(name, ok, detail) {
  * 属性对、页面坏 —— 所以这里必须量几何。
  */
 async function assertOnlyPaneVisible(page, activeTab) {
-  const want = { single: 'pane-single', batch: 'pane-batch', rules: 'pane-rules' }[activeTab];
-  const panes = await page.evaluate(() => ['pane-single', 'pane-batch', 'pane-rules']
+  const want = { single: 'pane-single', batch: 'pane-batch', rules: 'pane-rules', my: 'pane-my' }[activeTab];
+  const panes = await page.evaluate(() => ['pane-single', 'pane-batch', 'pane-rules', 'pane-my']
     .map((id) => {
       const el = document.getElementById(id);
       if (!el) return null;
@@ -130,6 +132,11 @@ const browser = await puppeteer.launch({
 try {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 1000 });
+
+  // 原生 window.confirm 会让 headless 页面**永久挂起** —— 既不返回也不抛错，
+  // 只是静静等 protocolTimeout（默认 180s）才报 Runtime.callFunctionOn timed out。
+  // 这里一律自动确认：这类弹窗是"防误触"的，不是被测对象。
+  page.on('dialog', (d) => d.accept());
 
   page.on('pageerror', (e) => jsErrors.push(String(e && e.message ? e.message : e)));
   page.on('console', (m) => {
@@ -297,8 +304,8 @@ try {
       cards: document.querySelectorAll('.dcard').length,
       platform: g('dPlatform'),
       platforms: g('dPlatforms'),
-      imm: g('dImm'),
-      study: g('dStudy'),
+      packs: g('dPacks'),
+      industry: g('dIndustry'),
       blueV: g('dBlueV'),
     };
   });
@@ -306,8 +313,12 @@ try {
   check('平台专属规则数已填真实值', /^\d+$/.test(diff.platform) && Number(diff.platform) > 0,
     'dPlatform=' + diff.platform);
   check('覆盖平台数已填', diff.platforms === '3', 'dPlatforms=' + diff.platforms);
-  check('移民规则数已填', /^\d+$/.test(diff.imm) && Number(diff.imm) > 0, 'dImm=' + diff.imm);
-  check('留学规则数已填', /^\d+$/.test(diff.study) && Number(diff.study) > 0, 'dStudy=' + diff.study);
+  // 行业包数量不能写死。页面上这一行必须等于 meta.industry_packs 的实际长度 ——
+  // 否则每加一个行业包都要回来改冒烟脚本，那测试就成了"记录历史"而不是"守住事实"。
+  check('行业包数量已填真实值', /^\d+$/.test(diff.packs) && Number(diff.packs) >= 9,
+    'dPacks=' + diff.packs);
+  check('行业专属规则数已填', /^\d+$/.test(diff.industry) && Number(diff.industry) > 0,
+    'dIndustry=' + diff.industry);
   check('蓝V定级差异数已填', /^\d+$/.test(diff.blueV) && Number(diff.blueV) > 0,
     'dBlueV=' + diff.blueV);
 
@@ -588,6 +599,223 @@ try {
     'rawHasText=' + purged.rawHasText + ' clickable=' + purged.clickable);
   await page.evaluate(() => document.getElementById('histClear').click());
 
+  // ---- 我的词库（用户自定义词条） ----
+  //
+  // 这一段守的是「用户自己加的词到底有没有用」。光断言"列表里出现了"是不够的：
+  // 那只说明 UI 把数据存下来了，说明不了引擎judging时用没用它 —— 所以下面的
+  // 关键断言一律走**真实路径**：真点按钮、真触发检测、真下载/真上传文件。
+  console.log('\n[11.5] 我的词库（用户自定义）');
+
+  fs.mkdirSync(DL_DIR, { recursive: true });
+  const cdp = await page.createCDPSession();
+  await cdp.send('Page.setDownloadBehavior', { behavior: 'allow', downloadPath: DL_DIR });
+
+  // 先从干净状态起：上一次运行可能在 localStorage 里留了词
+  await page.evaluate(() => localStorage.removeItem('adcompli-my-rules'));
+  await page.reload({ waitUntil: 'networkidle0' });
+  await new Promise((r) => setTimeout(r, 500));
+
+  await page.click('.tabs__btn[data-tab="my"]');
+  await new Promise((r) => setTimeout(r, 350));
+  await assertOnlyPaneVisible(page, 'my');
+
+  const myEmpty = await page.evaluate(() => ({
+    list: (document.getElementById('mList').textContent || '').trim(),
+    builtin: (document.getElementById('mBuiltin').textContent || '').trim(),
+    badgeHidden: document.getElementById('tabMyCount').hidden,
+  }));
+  check('空词库时给出引导而不是一片空白', myEmpty.list.includes('还没有自定义词条'),
+    myEmpty.list.slice(0, 24));
+  check('说明里的内置条数跟着词库走（没写死）',
+    /^\d+$/.test(myEmpty.builtin) && Number(myEmpty.builtin) > 1000,
+    'mBuiltin=' + myEmpty.builtin);
+  check('空词库时页签不显示角标', myEmpty.badgeHidden === true);
+
+  // 自造一个绝不与内置词重复的词。若与内置撞词，同一次命中会挂两个来源，
+  // 后面"来源是我的词库"这类断言就不干净了。
+  const MY_WORD = 'ZZ测试专用代号';
+  await page.evaluate((w) => {
+    document.getElementById('mKeyword').value = w;
+    document.getElementById('mSeverity').value = 'critical';
+    document.getElementById('mCategory').value = '内部禁用';
+    document.getElementById('mSuggestion').value = '改成「定向邀约」';
+    document.getElementById('mLaw').value = '公司内部合规要求';
+  }, MY_WORD);
+  await page.click('#mAddBtn'); // 真点一遍：顺带守住 preventDefault 有没有漏
+  await new Promise((r) => setTimeout(r, 450));
+
+  const myAdded = await page.evaluate(() => ({
+    alive: !!document.getElementById('mKeyword'), // 页面被刷新的话这里就没了
+    items: Array.from(document.querySelectorAll('#mList .ritem--mine'))
+      .map((n) => ((n.querySelector('.ritem__k') || {}).textContent || '').trim()),
+    badge: (document.getElementById('tabMyCount').textContent || '').trim(),
+    stored: JSON.parse(localStorage.getItem('adcompli-my-rules') || '[]'),
+    stats: (document.getElementById('mStats').textContent || '').trim(),
+  }));
+  check('提交后页面没被刷新（preventDefault 真的在）', myAdded.alive === true);
+  check('词条出现在列表里', myAdded.items.some((t) => t.includes(MY_WORD)),
+    myAdded.items.join('、').slice(0, 40));
+  check('已落到 localStorage',
+    myAdded.stored.some((r) => (r.keyword || r.k) === MY_WORD),
+    '共 ' + myAdded.stored.length + ' 条');
+  check('页签角标显示生效条数', myAdded.badge === '1', '角标=' + myAdded.badge);
+  check('统计行给出条数', /1/.test(myAdded.stats), myAdded.stats.slice(0, 30));
+
+  // 最关键的一条：加的这个词必须真的参与检测。
+  await page.click('.tabs__btn[data-tab="single"]');
+  await new Promise((r) => setTimeout(r, 300));
+  await page.evaluate((w) => {
+    const el = document.getElementById('input');
+    el.value = '本次服务由' + w + '独家提供，欢迎咨询。';
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+  }, MY_WORD);
+  await new Promise((r) => setTimeout(r, 900));
+  const mineHit = await page.evaluate(() => {
+    const cards = Array.from(document.querySelectorAll('#findings .finding'));
+    const hit = cards.filter((c) => c.textContent.includes('我的词库'));
+    return {
+      total: cards.length,
+      src: hit.length,
+      text: hit.length ? hit[0].textContent : '',
+    };
+  });
+  check('自定义词立刻参与检测并命中', mineHit.src > 0,
+    '共命中 ' + mineHit.total + ' 处，来源为「我的词库」的 ' + mineHit.src + ' 处');
+  check('命中标注了来源是我的词库', mineHit.text.includes('我的词库'));
+  check('命中带上了我自己写的依据', mineHit.text.includes('公司内部合规要求'),
+    mineHit.text.slice(0, 50));
+
+  // 停用 → 引擎里必须真的不生效，而不是只把那一行变灰
+  await page.click('.tabs__btn[data-tab="my"]');
+  await new Promise((r) => setTimeout(r, 300));
+  await page.evaluate(() => {
+    const t = document.querySelector('#mList .ritem--mine input[type="checkbox"]');
+    t.checked = false;
+    t.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+  await new Promise((r) => setTimeout(r, 250));
+  await page.click('.tabs__btn[data-tab="single"]');
+  await new Promise((r) => setTimeout(r, 250));
+  await page.evaluate((w) => {
+    const el = document.getElementById('input');
+    el.value = '第二轮检测：' + w + '。';
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+  }, MY_WORD);
+  await new Promise((r) => setTimeout(r, 900));
+  const offHit = await page.evaluate(() =>
+    Array.from(document.querySelectorAll('#findings .finding'))
+      .filter((c) => c.textContent.includes('我的词库')).length);
+  check('停用后引擎确实不再判它（不只是变灰）', offHit === 0, '仍有 ' + offHit + ' 处');
+  check('停用后页签角标归零',
+    (await page.evaluate(() => document.getElementById('tabMyCount').hidden)) === true);
+
+  // 重新启用，供后面导出用
+  await page.click('.tabs__btn[data-tab="my"]');
+  await new Promise((r) => setTimeout(r, 300));
+  await page.evaluate(() => {
+    const t = document.querySelector('#mList .ritem--mine input[type="checkbox"]');
+    t.checked = true;
+    t.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+  await new Promise((r) => setTimeout(r, 250));
+
+  // 重复词与"和内置撞词"都该被挡下。
+  // 注意「保过」必须是**内置词库里真实存在的词条**（不是两个词拼出来的短语）——
+  // 用「保签包过」这种短语测会假阴性：它压根不是一条规则。
+  const dupRes = await page.evaluate((w) => {
+    const out = {};
+    const submit = (kw) => {
+      document.getElementById('mKeyword').value = kw;
+      document.getElementById('mForm').dispatchEvent(
+        new Event('submit', { bubbles: true, cancelable: true }));
+      return (document.getElementById('mAddMsg').textContent || '').trim();
+    };
+    out.dup = submit(w);
+    out.builtin = submit('保过');
+    out.count = document.querySelectorAll('#mList .ritem--mine').length;
+    out.items = Array.from(document.querySelectorAll('#mList .ritem--mine .ritem__k'))
+      .map((n) => (n.textContent || '').trim());
+    out.dupMsg = out.dup;
+    out.builtinMsg = out.builtin;
+    return out;
+  }, MY_WORD);
+  check('重复添加同一个词会被挡下', /已经|已存在|重复/.test(dupRes.dup), dupRes.dup.slice(0, 30));
+  check('与内置撞词会被挡下，且说明理由是"已收录"',
+    /内置/.test(dupRes.builtin) && /收录/.test(dupRes.builtin), dupRes.builtin.slice(0, 30));
+  check('被挡下的词没有混进列表（同一命中不会挂两个来源）', dupRes.count === 1,
+    '实际 ' + dupRes.count + ' 条：' + dupRes.items.join(' | '));
+
+  // 批量添加（面板默认折叠，先展开 —— 模拟真实路径）
+  await page.evaluate(() => {
+    const d = document.querySelector('.mybulk');
+    if (d) d.open = true;
+  });
+  await page.evaluate(() => {
+    document.getElementById('mBulk').value = 'ZZ批量甲\nZZ批量乙\n\nZZ批量甲';
+  });
+  await page.click('#mBulkBtn');
+  await new Promise((r) => setTimeout(r, 400));
+  const bulk = await page.evaluate(() => ({
+    n: document.querySelectorAll('#mList .ritem--mine').length,
+    msg: (document.getElementById('mBulkMsg').textContent || '').trim(),
+    items: Array.from(document.querySelectorAll('#mList .ritem--mine .ritem__k'))
+      .map((x) => (x.textContent || '').trim()),
+  }));
+  check('批量添加把两行变成两条', bulk.n === dupRes.count + 2,
+    dupRes.count + ' → ' + bulk.n + '：' + bulk.items.join(' | '));
+  check('批量结果里说明了重复跳过', /重复/.test(bulk.msg), bulk.msg);
+
+  // 导出：真的触发下载，并把文件读回来核对结构
+  fs.rmSync(DL_DIR, { recursive: true, force: true });
+  fs.mkdirSync(DL_DIR, { recursive: true });
+  await page.evaluate(() => document.getElementById('mExportBtn').click());
+  await new Promise((r) => setTimeout(r, 800));
+  const files = fs.readdirSync(DL_DIR).filter((f) => f.endsWith('.json'));
+  let exported = null;
+  if (files.length) exported = JSON.parse(fs.readFileSync(path.join(DL_DIR, files[0]), 'utf8'));
+  check('导出真的产生了 .json 文件', files.length === 1, files.join('、') || '无');
+  // 必须是**裸数组**：桌面端 rules/user_custom.json 就是裸数组，包一层就互导不了
+  check('导出内容是裸数组（可与桌面端互导）', Array.isArray(exported),
+    exported === null ? '没读到文件' : typeof exported);
+  check('导出的条目带 keyword 字段',
+    Array.isArray(exported) && exported.every((r) => typeof r.keyword === 'string'),
+    Array.isArray(exported) ? JSON.stringify(exported[0] || {}).slice(0, 60) : '');
+
+  // 导入：走真实 <input type=file> 上传路径
+  const importFile = path.join(DL_DIR, 'import-probe.json');
+  fs.writeFileSync(importFile, JSON.stringify([
+    { keyword: 'ZZ导入甲', severity: 'high', category: '导入测试' },
+    'ZZ导入乙', // 纯字符串数组也要收
+  ]));
+  const beforeImport = await page.evaluate(() =>
+    document.querySelectorAll('#mList .ritem--mine').length);
+  const fileInput = await page.$('#mFile');
+  await fileInput.uploadFile(importFile);
+  await new Promise((r) => setTimeout(r, 700));
+  const afterImport = await page.evaluate(() => ({
+    n: document.querySelectorAll('#mList .ritem--mine').length,
+    msg: (document.getElementById('mAddMsg').textContent || '').trim(),
+  }));
+  check('导入把裸数组与字符串数组都吃下了', afterImport.n === beforeImport + 2,
+    beforeImport + ' → ' + afterImport.n);
+  check('导入结果有回执文案', /新增\s*2/.test(afterImport.msg), afterImport.msg);
+
+  // 清空 → 空态、角标、检测三方都要跟着回落
+  await page.evaluate(() => document.getElementById('mClearBtn').click());
+  await new Promise((r) => setTimeout(r, 400));
+  const cleared = await page.evaluate(() => ({
+    empty: document.getElementById('mList').textContent.includes('还没有自定义词条'),
+    badgeHidden: document.getElementById('tabMyCount').hidden,
+    stored: JSON.parse(localStorage.getItem('adcompli-my-rules') || '[]').length,
+  }));
+  check('清空后回到空态', cleared.empty === true);
+  check('清空后页签角标消失', cleared.badgeHidden === true);
+  check('清空后存储也干净了', cleared.stored === 0, '残留 ' + cleared.stored + ' 条');
+
+  await page.evaluate(() => localStorage.removeItem('adcompli-my-rules'));
+  await page.reload({ waitUntil: 'networkidle0' });
+  await new Promise((r) => setTimeout(r, 500));
+
   // ---- 改前 / 改后迭代对比 ----
   console.log('\n[12] 改前 / 改后迭代对比');
   // 回到单条检测页，并清掉上一组留下的输入与基线
@@ -696,6 +924,116 @@ try {
     overflow.scrollW <= overflow.clientW + 1,
     'scrollW=' + overflow.scrollW + ' clientW=' + overflow.clientW);
 
+  // ---- 窄屏结构性断言 ----
+  //
+  // 手机上的痛点从来不是"不够好看"，而是"功能上理解不了、用不了"：
+  // 标签在文档流顶部 → 滚到中间想切页得先滚回去；筛选控件摊开 → 把内容挤到
+  // 屏幕外；输入框字号 <16px → iOS 自动放大整页。下面按这几条逐一**量几何**，
+  // 而不是查属性（属性对、页面坏的坑前面已经踩过）。
+  console.log('\n[13.5] 窄屏结构（量出来的，不是看出来的）');
+
+  // 量之前先切到「检测」页：藏在 hidden 面板里的元素盒子高度是 0，
+  // 混进来会让断言既漏判（本该可见的没量到）又误判（本该隐身的报 0）。
+  await page.click('.tabs__btn[data-tab="single"]');
+  await new Promise((r) => setTimeout(r, 400));
+
+  const mob = await page.evaluate(() => {
+    const cs = (el) => (el ? getComputedStyle(el) : null);
+    const rect = (el) => (el ? el.getBoundingClientRect() : null);
+    const tabs = document.querySelector('.tabs');
+    const btns = Array.from(document.querySelectorAll('.tabs__btn'));
+    const inputs = Array.from(document.querySelectorAll(
+      'input[type="text"], input[type="search"], input[type="email"], textarea, select'));
+    const smallInputs = inputs.filter((el) => {
+      const r = rect(el);
+      if (!r || r.height === 0) return false; // 收起面板里的不算
+      return parseFloat(cs(el).fontSize) < 16;
+    }).map((el) => (el.id || el.className || el.tagName) + '@' + cs(el).fontSize);
+    const btnsAll = Array.from(document.querySelectorAll('button.btn, .btn'));
+    const shortBtns = btnsAll.filter((el) => {
+      const r = rect(el);
+      if (!r || r.height === 0) return false;
+      return r.height < 42;
+    }).map((el) => (el.id || (el.textContent || '').trim().slice(0, 6)) +
+      '@' + Math.round(rect(el).height));
+    const setBox = document.getElementById('settingsBox');
+    const setSum = document.querySelector('#settingsBox .settings__sum');
+    return {
+      tabPos: cs(tabs).position,
+      tabTop: Math.round(rect(tabs).top),
+      tabBottom: Math.round(rect(tabs).bottom),
+      vh: window.innerHeight,
+      tabCols: btns.length,
+      tabMinH: btns.length ? Math.min(...btns.map((b) => Math.round(rect(b).height))) : 0,
+      tabMinW: btns.length ? Math.min(...btns.map((b) => Math.round(rect(b).width))) : 0,
+      bodyPB: cs(document.body).paddingBottom,
+      smallInputs: smallInputs,
+      shortBtns: shortBtns,
+      settingsOpen: setBox ? setBox.open : null,
+      settingsSumH: setSum ? Math.round(rect(setSum).height) : 0,
+    };
+  });
+  check('手机上标签栏固定在屏幕底部',
+    mob.tabPos === 'fixed' && mob.tabBottom >= mob.vh - 2 && mob.tabTop > mob.vh / 2,
+    'position=' + mob.tabPos + ' top=' + mob.tabTop + ' bottom=' +
+      mob.tabBottom + ' 视口高=' + mob.vh);
+  check('标签栏切 4 格，每格尺寸够拇指点（≥44 高 / ≥72 宽）',
+    mob.tabCols === 4 && mob.tabMinH >= 44 && mob.tabMinW >= 72,
+    mob.tabCols + ' 格 · 最小 ' + mob.tabMinW + '×' + mob.tabMinH);
+  check('正文给底部导航留了位置（否则最后一段被永久挡住）',
+    parseFloat(mob.bodyPB) >= 56, 'body padding-bottom=' + mob.bodyPB);
+  check('输入控件字号 ≥16px（防 iOS 自动放大整页）',
+    mob.smallInputs.length === 0, mob.smallInputs.join('、') || '全部达标');
+  check('按钮触控高度 ≥42px', mob.shortBtns.length === 0,
+    mob.shortBtns.join('、') || '全部达标');
+  check('窄屏把检测设置折起来了（否则控件占满整屏）',
+    mob.settingsOpen === false, 'settingsBox.open=' + mob.settingsOpen);
+  check('设置折叠标题本身也是可点的（≥44px）', mob.settingsSumH >= 44,
+    'h=' + mob.settingsSumH);
+
+  // 「词库筛选」只存在于词库页，必须切过去再量
+  await page.click('.tabs__btn[data-tab="rules"]');
+  await new Promise((r) => setTimeout(r, 400));
+  const mobR = await page.evaluate(() => {
+    const cs = (el) => (el ? getComputedStyle(el) : null);
+    const rect = (el) => (el ? el.getBoundingClientRect() : null);
+    const f = document.querySelector('.rfilters');
+    const sum = document.querySelector('.rfilters .rfilters__sum');
+    return {
+      display: f ? cs(f).display : '(无)',
+      sumH: sum ? Math.round(rect(sum).height) : 0,
+      overflow: document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
+    };
+  });
+  check('词库筛选在窄屏收成折叠块（不是摊开占屏）',
+    mobR.display !== 'contents', 'display=' + mobR.display);
+  check('筛选折叠标题可点且够大（≥44px）', mobR.sumH >= 44, 'h=' + mobR.sumH);
+  check('词库页在 390px 下无横向溢出', mobR.overflow <= 1, '溢出 ' + mobR.overflow + 'px');
+
+  // 窄屏切页后滚动位置必须归零：否则从长页面（词库）切到短页面（检测）
+  // 会停在半空，用户看到一片空白，以为"点了没反应"。
+  await page.evaluate(() => window.scrollTo(0, 1400));
+  await new Promise((r) => setTimeout(r, 200));
+  const beforeScroll = await page.evaluate(() => window.scrollY);
+  await page.click('.tabs__btn[data-tab="single"]');
+  await new Promise((r) => setTimeout(r, 400));
+  const afterScroll = await page.evaluate(() => window.scrollY);
+  check('窄屏切页后滚动位置回到顶部',
+    beforeScroll > 0 && afterScroll === 0, beforeScroll + ' → ' + afterScroll);
+
+  // 四个页签在窄屏下都要能切、都只显示自己、都不能横向溢出
+  for (const t of ['my', 'batch', 'rules', 'single']) {
+    await page.click('.tabs__btn[data-tab="' + t + '"]');
+    await new Promise((r) => setTimeout(r, 350));
+    await assertOnlyPaneVisible(page, t);
+    const o = await page.evaluate(() => ({
+      s: document.documentElement.scrollWidth,
+      c: document.documentElement.clientWidth,
+    }));
+    check('窄屏「' + t + '」页无横向溢出', o.s <= o.c + 1, o.s + ' > ' + o.c);
+  }
+
   // ---- PWA：可安装 + 可离线 ----
   console.log('\n[14] PWA 可安装与离线可用');
 
@@ -752,7 +1090,7 @@ try {
       hasInput: !!document.getElementById('input'),
       tabs: document.querySelectorAll('.tabs__btn').length,
     }));
-    check('断网刷新后页面照常打开', offline.hasInput && offline.tabs === 3,
+    check('断网刷新后页面照常打开', offline.hasInput && offline.tabs === 4,
       '规则数 ' + offline.rules + ' / 标签 ' + offline.tabs);
 
     await page.evaluate(() => {

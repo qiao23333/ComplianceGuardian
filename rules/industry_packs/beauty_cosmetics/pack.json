@@ -1,0 +1,24 @@
+{
+  "id": "beauty_cosmetics",
+  "name": "美妆护肤合规包",
+  "short": "美妆",
+  "version": "1.0.0",
+  "description": "普通化妆品与洗护产品专属合规词库。覆盖暗示医疗作用、功效时效承诺、特殊化妆品资质缺失等《化妆品监督管理条例》第三十七、四十三条禁止的情形——美妆是各平台内容违规最集中的类目。",
+  "author": "Compliance Guardian",
+  "industry": "美妆/护肤",
+  "categories": [
+    "功效断言",
+    "医疗作用暗示",
+    "快速功效承诺",
+    "特殊化妆品资质"
+  ],
+  "rules_file": "rules.json",
+  "rule_count": 33,
+  "platforms": [
+    "xiaohongshu",
+    "douyin",
+    "weixin"
+  ],
+  "created": "2026-09-15",
+  "updated": "2026-09-15"
+}

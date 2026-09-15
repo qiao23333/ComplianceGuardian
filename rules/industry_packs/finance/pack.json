@@ -1,0 +1,24 @@
+{
+  "id": "finance",
+  "name": "金融理财合规包",
+  "short": "金融",
+  "version": "1.0.0",
+  "description": "金融产品、投资理财与借贷服务专属合规词库。覆盖保本保收益承诺、收益夸大、无资质荐股、贷款违规话术等《广告法》第二十五条明令禁止的情形，并提示风险提示义务。",
+  "author": "Compliance Guardian",
+  "industry": "金融/理财",
+  "categories": [
+    "保本保收益",
+    "收益夸大",
+    "贷款违规话术",
+    "违规荐股"
+  ],
+  "rules_file": "rules.json",
+  "rule_count": 35,
+  "platforms": [
+    "xiaohongshu",
+    "douyin",
+    "weixin"
+  ],
+  "created": "2026-09-15",
+  "updated": "2026-09-15"
+}

@@ -30,22 +30,35 @@
     platform: '平台规则',
     blue_v: '蓝V规则',
     regex: '组合词',
-    'industry:immigration': '移民红线',
-    'industry:study_abroad': '留学红线',
+    custom: '我的词库',
   };
 
   var PLATFORM_LABEL = {
     '*': '全平台', xiaohongshu: '小红书', douyin: '抖音', weixin: '微信',
   };
 
-  var INDUSTRY_LABEL = { immigration: '移民行业', study_abroad: '留学行业' };
+  // ---- 行业包：全部来自词库产物，前端不写死任何行业 ----
+  //
+  // 行业包是可插拔的（`rules/industry_packs/<id>/` 两个文件即成立）。
+  // 如果前端硬编码一张行业表，每加一个包就得改前端、改测试、改文档——
+  // 而漂移总是发生在"忘了改"的那一处。所以元信息随产物下发，前端只渲染。
+  var PACKS = ((window.GUARDIAN_RULES || {}).meta || {}).industry_packs || [];
+  var INDUSTRY_LABEL = {};     // id → 短名（下拉、徽章用）
+  var INDUSTRY_FULL = {};      // id → 全名（健康度表格用）
+  PACKS.forEach(function (p) {
+    var short = p.short || p.name || p.id;
+    INDUSTRY_LABEL[p.id] = short;
+    INDUSTRY_FULL[p.id] = p.name || p.id;
+    SOURCE_LABEL['industry:' + p.id] = short + '红线';
+  });
 
-  var INDUSTRY_MAP = {
-    all: ['immigration', 'study_abroad'],
-    immigration: ['immigration'],
-    study_abroad: ['study_abroad'],
-    none: [],
-  };
+  /** 行业选择项（all / none / 某个包 id）→ 参与检测的行业包 id 列表。 */
+  function industryIds(key) {
+    var ids = PACKS.map(function (p) { return p.id; });
+    if (key === 'all') return ids;
+    if (key === 'none') return [];
+    return ids.indexOf(key) >= 0 ? [key] : ids;
+  }
 
   var RING_CIRCUMFERENCE = 263.894;   // 2 * π * r(42)，与 SVG 里的 stroke-dasharray 对应
 
@@ -87,25 +100,32 @@
     [
       'input', 'platform', 'accountType', 'industry', 'variants', 'autoReplace',
       'counter', 'engineInfo', 'engineMeta', 'samples',
+      'singleBrief', 'settingsBox', 'settingsBrief',
       'ringValue', 'scoreNum', 'riskBadge', 'riskSub', 'counts',
       'findings', 'preview', 'safeBox', 'matrixBox', 'aiBox', 'abBox',
       'exportBtn', 'copyBtn', 'clearBtn', 'themeBtn',
       'iterBox', 'baselineBtn',
-      'heroRuleCount', 'fRuleCount',
-      'dPlatform', 'dPlatforms', 'dImm', 'dStudy', 'dBlueV',
+      'heroRuleCount', 'fRuleCount', 'fPacks',
+      'dPlatform', 'dPlatforms', 'dPacks', 'dIndustry', 'dBlueV',
       // 标签页
-      'tabbar', 'pane-single', 'pane-batch', 'pane-rules', 'tabRuleCount',
+      'tabbar', 'pane-single', 'pane-batch', 'pane-rules', 'pane-my',
+      'tabRuleCount', 'tabMyCount',
       // 批量检测
       'bInput', 'bPlatform', 'bAccountType', 'bIndustry', 'bVariants',
       'bSampleBtn', 'bClearBtn', 'bCounter', 'bMeta', 'bStats', 'bResults',
-      'bExportCsv', 'bCopyPass',
+      'bExportCsv', 'bCopyPass', 'bBrief', 'bSettingsBox', 'bSettingsBrief',
       // 词库浏览
-      'rSearch', 'rSource', 'rSeverity', 'rPlatform', 'rStats', 'rList',
-      'rPrev', 'rNext', 'rPageInfo',
+      'rSearch', 'rSource', 'rSeverity', 'rPlatform', 'rScope', 'rStats', 'rList',
+      'rPrev', 'rNext', 'rPageInfo', 'rFilters', 'rFilterN',
       // 词库健康度
       'rHealth', 'rHealthDot', 'rHealthBrief', 'rHealthBody',
       // 最近检测
       'histStoreText', 'histClear', 'histHint', 'histList',
+      // 我的词库
+      'mMeta', 'mForm', 'mKeyword', 'mSeverity', 'mCategory', 'mSuggestion',
+      'mLaw', 'mAddBtn', 'mAddMsg', 'mBulk', 'mBulkBtn', 'mBulkMsg',
+      'mStats', 'mList', 'mExportBtn', 'mImportBtn', 'mTemplateBtn',
+      'mClearBtn', 'mFile', 'mBuiltin',
     ].forEach(function (id) { els[id] = $(id); });
   }
 
@@ -153,6 +173,12 @@
     return SEV_VAR.critical;
   }
 
+  /** 是否处于窄屏布局。断点与 style.css 的 @media (max-width: 720px) 一致。 */
+  function isNarrow() {
+    if (window.matchMedia) return window.matchMedia('(max-width: 720px)').matches;
+    return window.innerWidth <= 720;
+  }
+
   function stamp() {
     var d = new Date();
     var p = function (n) { return (n < 10 ? '0' : '') + n; };
@@ -194,10 +220,26 @@
     return {
       platform: els.platform.value,
       accountType: els.accountType.value,
-      industries: INDUSTRY_MAP[els.industry.value] || [],
+      industries: industryIds(els.industry.value),
       useVariants: els.variants.checked,
       autoReplace: els.autoReplace.checked,
     };
+  }
+
+  /** 把当前设置压成一句话，供窄屏折叠状态下仍能看清"现在按什么标准判"。 */
+  function optionsBrief(prefix) {
+    var p = els[prefix + 'Platform'] ? els[prefix + 'Platform'].value : els.platform.value;
+    var a = els[prefix + 'AccountType'] ? els[prefix + 'AccountType'].value : els.accountType.value;
+    var ind = els[prefix + 'Industry'] ? els[prefix + 'Industry'].value : els.industry.value;
+    var parts = [
+      PLATFORM_LABEL[p] || '全部平台',
+      a === 'blue_v' ? '蓝 V 认证' : '普通账号',
+      ind === 'all' ? (PACKS.length + ' 个行业包')
+        : ind === 'none' ? '仅通用词库'
+          : (INDUSTRY_LABEL[ind] || '行业包'),
+    ];
+    if (myActiveCount()) parts.push('我的词库 ' + myActiveCount() + ' 条');
+    return parts.join(' · ');
   }
 
   // ============================================================ 差异演示
@@ -241,8 +283,7 @@
 
     var platRules = 0;
     var plats = {};
-    var imm = 0;
-    var study = 0;
+    var industry = 0;
     var blueV = 0;
     rules.forEach(function (r) {
       var p = r.p || ['*'];
@@ -250,17 +291,20 @@
         platRules++;
         p.forEach(function (k) { plats[k] = 1; });
       }
-      if (r.i === 'immigration') imm++;
-      else if (r.i === 'study_abroad') study++;
+      if (r.i) industry++;
       // sa = severity by account type：同一词在蓝 V / 普通账号下定级不同
       if (r.sa) blueV++;
     });
 
     if (els.dPlatform) els.dPlatform.textContent = String(platRules);
     if (els.dPlatforms) els.dPlatforms.textContent = String(Object.keys(plats).length);
-    if (els.dImm) els.dImm.textContent = String(imm);
-    if (els.dStudy) els.dStudy.textContent = String(study);
+    if (els.dPacks) els.dPacks.textContent = String(PACKS.length);
+    if (els.dIndustry) els.dIndustry.textContent = String(industry);
     if (els.dBlueV) els.dBlueV.textContent = String(blueV);
+    if (els.fPacks) {
+      els.fPacks.textContent = '行业包：' +
+        PACKS.map(function (p) { return p.short || p.id; }).join(' / ');
+    }
   }
 
   // ============================================================ 差异演示
@@ -314,6 +358,8 @@
     lastResult = res;
 
     els.counter.textContent = Array.from(text).length + ' 字';
+    if (els.singleBrief) els.singleBrief.textContent = optionsBrief('');
+    if (els.settingsBrief) els.settingsBrief.textContent = optionsBrief('');
     render(res, text, opts);
     scheduleHistory(text, res);
   }
@@ -931,7 +977,7 @@
   function switchTab(name) {
     if (name === currentTab && $('pane-' + name) && !$('pane-' + name).hidden) return;
 
-    ['single', 'batch', 'rules'].forEach(function (t) {
+    ['single', 'batch', 'rules', 'my'].forEach(function (t) {
       var pane = els['pane-' + t];
       if (pane) pane.hidden = (t !== name);
     });
@@ -946,9 +992,14 @@
 
     currentTab = name;
 
-    // 懒渲染：切过去才算，避免首屏白干三份工
+    // 懒渲染：切过去才算，避免首屏白干四份工
     if (name === 'rules') renderRules();
     if (name === 'batch') runBatch();
+    if (name === 'my') renderMyLib();
+
+    // 窄屏在底部 tab bar 上切换时，页面若不回到顶部，会停在上一页的滚动位置，
+    // 看到的是一屏空白——"点了没反应"的另一种形态。
+    if (isNarrow()) window.scrollTo(0, 0);
   }
 
   // ============================================================ 对照实验
@@ -1070,7 +1121,7 @@
     return {
       platform: els.bPlatform.value,
       accountType: els.bAccountType.value,
-      industries: INDUSTRY_MAP[els.bIndustry.value] || [],
+      industries: industryIds(els.bIndustry.value),
       useVariants: els.bVariants.checked,
       autoReplace: false,
     };
@@ -1083,6 +1134,8 @@
 
     var items = parseBatch(els.bInput.value);
     els.bCounter.textContent = items.length + ' 条';
+    if (els.bBrief) els.bBrief.textContent = optionsBrief('b');
+    if (els.bSettingsBrief) els.bSettingsBrief.textContent = optionsBrief('b');
 
     if (!items.length) {
       lastBatch = null;
@@ -1208,19 +1261,372 @@
     });
   }
 
+  // ============================================================ 我的词库
+  //
+  // 内置词库解决的是"通用红线"，但每家公司还有自己的内部禁用名单：某个项目名
+  // 被明令不许再提、某个竞品词要回避、某个渠道名不能再出现。这类词没有法规依据，
+  // 也永远不该进公共词库——公共词库一旦为某一家公司定制，对其它用户就是噪音。
+  //
+  // 所以把它做成用户自己的资产：存 localStorage、立刻参与检测、可导出 JSON 搬到
+  // 别的设备或桌面端（桌面端 `rules/user_custom.json` 用的是同一套字段名）。
+  //
+  // 隐私上与"最近检测"同一原则：这些词是用户的商业信息，只留在本机、不上传。
+  // 导出走的是 Blob + a[download]，全程不经过任何服务器。
+
+  var MY_KEY = 'adcompli-my-rules';
+  var MY_MAX = 500;
+  var MY_SEV = { critical: '高危', high: '中危', medium: '低危', low: '提示' };
+
+  //: 内存中的唯一副本，写回时整体覆盖 localStorage。
+  //: 不做局部写，是因为"界面有、存储没有"这种分叉最难查，而代价只有几十 KB。
+  var myRules = [];
+
+  //: 内置关键词索引（判重用），首次用到时构建。
+  var builtinKw = null;
+
+  function loadMyRules() {
+    try {
+      var raw = JSON.parse(localStorage.getItem(MY_KEY) || '[]');
+      if (Object.prototype.toString.call(raw) !== '[object Array]') return [];
+      return raw.filter(function (r) {
+        return r && typeof r.keyword === 'string' && r.keyword.trim();
+      });
+    } catch (e) { return []; }
+  }
+
+  function saveMyRules() {
+    try { localStorage.setItem(MY_KEY, JSON.stringify(myRules)); }
+    catch (e) { /* 无痕模式 / 配额满：不阻断检测，用户仍可导出带走 */ }
+  }
+
+  function myActiveCount() {
+    var n = 0;
+    for (var i = 0; i < myRules.length; i++) if (myRules[i].enabled !== false) n++;
+    return n;
+  }
+
+  /** 稳定短哈希：同一关键词重复添加时用来判重（无需依赖 crypto）。 */
+  function hashStr(s) {
+    var h = 0;
+    for (var i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+    return h;
+  }
+
+  function myRuleId(kw) {
+    return 'u_' + Date.now().toString(36) + '_' +
+      Math.abs(hashStr(kw)).toString(36).slice(0, 4);
+  }
+
+  /** 内置词库里是否已有这个词（避免用户做重复劳动）。 */
+  function isBuiltinKw(kw) {
+    if (!builtinKw) {
+      builtinKw = {};
+      ((window.GUARDIAN_RULES || {}).rules || []).forEach(function (r) {
+        builtinKw[r.k] = true;
+      });
+    }
+    return !!builtinKw[kw];
+  }
+
+  /**
+   * 添加一条词。
+   *
+   * 返回值带 `dup` 区分"重复"与"无效"：批量导入时这两类要分别计数，
+   * 否则用户看到"跳过 8 条"却不知道是格式错还是已经存在。
+   */
+  function addMyRule(entry) {
+    var kw = String((entry && entry.keyword) || '').trim();
+    if (!kw) return { ok: false, dup: false, msg: '关键词不能为空' };
+    if (Array.from(kw).length > 40) {
+      return { ok: false, dup: false, msg: '关键词太长（最多 40 字）' };
+    }
+    var exist = null;
+    for (var i = 0; i < myRules.length; i++) {
+      if (myRules[i].keyword === kw) { exist = myRules[i]; break; }
+    }
+    if (exist) return { ok: false, dup: true, msg: '「' + kw + '」已经在你的词库里' };
+
+    // 内置已收录的词直接挡下，而不是"加进来再提醒一句"。
+    //
+    // 放进来看着更宽容，代价是**同一处命中会同时挂"内置"和"我的词库"两个来源**：
+    // 用户看到同一个词被判了两遍，只会以为是 bug，还说不清到底按哪条算分。
+    // 真实需求里确实有人想动内置词（比如觉得该定成高危）—— 但那属于
+    // "覆盖内置定级"，和"补一条工具没收录的词"是两件事，不该共用这个入口。
+    if (isBuiltinKw(kw)) {
+      return { ok: false, dup: true, msg: '「' + kw + '」内置词库已收录，无需重复添加' };
+    }
+    if (myRules.length >= MY_MAX) {
+      return { ok: false, dup: false, msg: '最多存 ' + MY_MAX + ' 条，请先清理' };
+    }
+
+    var sev = MY_SEV[entry.severity] ? entry.severity : 'high';
+    myRules.unshift({
+      id: myRuleId(kw),
+      keyword: kw,
+      category: String(entry.category || '').trim() || '内部禁用',
+      severity: sev,
+      suggestion: String(entry.suggestion || '').trim(),
+      law_ref: String(entry.law_ref || '').trim(),
+      note: '',
+      enabled: true,
+      created: Date.now(),
+    });
+    return { ok: true, dup: false, msg: '' };
+  }
+
+  /** 把内存词条装进引擎，并刷新界面上所有与"我的词库"有关的数字。 */
+  function applyMyRules() {
+    if (engine && engine.setUserRules) {
+      engine.setUserRules(myRules.filter(function (r) { return r.enabled !== false; }));
+    }
+    updateMyBadge();
+  }
+
+  function updateMyBadge() {
+    if (!els.tabMyCount) return;
+    var n = myActiveCount();
+    els.tabMyCount.textContent = n ? String(n) : '';
+    els.tabMyCount.hidden = !n;
+  }
+
+  var msgTimers = [];
+  function setMsg(el, text, isBad) {
+    if (!el) return;
+    el.textContent = text || '';
+    el.className = 'myform__msg' + (isBad ? ' is-bad' : ' is-ok');
+    if (el._t) clearTimeout(el._t);
+    if (text) el._t = setTimeout(function () { el.textContent = ''; }, 6000);
+    msgTimers.push(el);
+  }
+
+  function renderMyLib() {
+    if (!els.mList) return;
+
+    var q = (els.mSearch && els.mSearch.value || '').trim().toLowerCase();
+    var rows = myRules.filter(function (r) {
+      if (!q) return true;
+      return (r.keyword + ' ' + r.category + ' ' + (r.suggestion || '') + ' ' +
+        (r.law_ref || '')).toLowerCase().indexOf(q) !== -1;
+    });
+
+    if (!myRules.length) {
+      els.mList.innerHTML = '<div class="empty"><div class="empty__big">＋</div>' +
+        '还没有自定义词条。上面填一个试试——加完立刻参与检测。</div>';
+    } else if (!rows.length) {
+      els.mList.innerHTML = '<div class="empty"><div class="empty__big">∅</div>' +
+        '没有匹配「' + esc(q) + '」的词条。</div>';
+    } else {
+      els.mList.innerHTML = rows.map(function (r) {
+        return myItemHtml(r, myRules.indexOf(r));
+      }).join('');
+    }
+
+    var on = myActiveCount();
+    if (els.mStats) {
+      els.mStats.innerHTML = '我的词库共 <b>' + myRules.length + '</b> 条，其中 <b>' +
+        on + '</b> 条生效中' + (myRules.length > rows.length
+          ? '，当前显示 <b>' + rows.length + '</b> 条' : '');
+    }
+    if (els.mMeta) {
+      els.mMeta.textContent = myRules.length
+        ? (on + ' / ' + myRules.length + ' 条生效')
+        : '尚未添加词条';
+    }
+    updateMyBadge();
+  }
+
+  function myItemHtml(r, idx) {
+    var off = r.enabled === false;
+    var tags = '<span class="sev-tag" data-sev="' + esc(r.severity) + '">' +
+      esc(MY_SEV[r.severity] || r.severity) + '</span>' +
+      '<span class="tag tag--mine">我的词库</span>';
+    if (r.category) tags += '<span class="tag">' + esc(r.category) + '</span>';
+
+    var mineKw = esc(r.keyword);
+    var g = r.suggestion
+      ? '<div class="ritem__g">' + esc(r.suggestion) + '</div>' : '';
+    var law = r.law_ref
+      ? '<div class="ritem__law">' + esc(r.law_ref) + '</div>' : '';
+
+    return '<div class="ritem ritem--mine' + (off ? ' is-off' : '') + '">' +
+      '<div class="ritem__k">' + mineKw + '</div>' +
+      '<div class="ritem__body">' +
+      '<div class="ritem__meta">' + tags + '</div>' + g + law +
+      '</div>' +
+      '<div class="ritem__ops">' +
+      '<label class="switch switch--sm" title="停用后不参与检测，词条仍保留">' +
+      '<input type="checkbox" data-my-toggle="' + idx + '"' +
+      (off ? '' : ' checked') + '>启用</label>' +
+      '<button class="linkbtn" type="button" data-my-del="' + idx + '">删除</button>' +
+      '</div></div>';
+  }
+
+  // ---- 导入 / 导出 ----
+  //
+  // 导出成**裸数组**而不是包一层 {meta, rules}：桌面端的
+  // `rules/user_custom.json` 就是一个裸数组，包一层导过去就读不出来。
+  // 互导零摩擦的前提是格式真的只有一种。
+
+  function downloadJson(data, filename) {
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+  }
+
+  function myRulesPayload() {
+    return myRules.map(function (r) {
+      return {
+        keyword: r.keyword,
+        category: r.category,
+        severity: r.severity,
+        suggestion: r.suggestion || '',
+        note: r.note || '',
+        law_ref: r.law_ref || '',
+      };
+    });
+  }
+
+  function exportMyRules() {
+    if (!myRules.length) {
+      setMsg(els.mAddMsg, '词库是空的，没有可导出的内容', true);
+      return;
+    }
+    downloadJson(myRulesPayload(), 'my-rules-' + stamp() + '.json');
+    setMsg(els.mAddMsg, '已导出 ' + myRules.length + ' 条为 JSON', false);
+  }
+
+  function downloadMyTemplate() {
+    downloadJson([{
+      keyword: '把这里换成你的关键词',
+      category: '内部禁用',
+      severity: 'high',
+      suggestion: '可选：换成什么更安全',
+      note: '',
+      law_ref: '可选：依据，例如"公司内部合规要求"',
+    }], 'my-rules-template.json');
+  }
+
+  function importMyRules(file) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var data;
+      try { data = JSON.parse(String(reader.result)); }
+      catch (e) {
+        setMsg(els.mAddMsg, '这个文件不是合法的 JSON', true);
+        return;
+      }
+      // 宽容一点：裸数组、{"rules": [...]}、纯字符串数组都收
+      if (!Array.isArray(data) && data && Array.isArray(data.rules)) data = data.rules;
+      if (!Array.isArray(data)) {
+        setMsg(els.mAddMsg, 'JSON 顶层应当是数组，每项一个词条', true);
+        return;
+      }
+      var added = 0, dup = 0, bad = 0;
+      data.forEach(function (item) {
+        if (typeof item === 'string') item = { keyword: item };
+        var res = addMyRule(item || {});
+        if (res.ok) added++; else if (res.dup) dup++; else bad++;
+      });
+      saveMyRules();
+      applyMyRules();
+      renderMyLib();
+      runDetect();
+      renderRules();
+      var parts = ['新增 ' + added + ' 条'];
+      if (dup) parts.push('重复跳过 ' + dup + ' 条');
+      if (bad) parts.push('无效跳过 ' + bad + ' 条');
+      setMsg(els.mAddMsg, '导入完成：' + parts.join('，'), added === 0);
+    };
+    reader.onerror = function () { setMsg(els.mAddMsg, '读取文件失败', true); };
+    reader.readAsText(file);
+  }
+
+  function addMyBulk() {
+    var lines = String(els.mBulk.value || '').split(/\r?\n/);
+    var added = 0, dup = 0, bad = 0;
+    lines.forEach(function (raw) {
+      var kw = raw.trim();
+      if (!kw || kw.charAt(0) === '#') return;   // 空行与 # 注释行跳过
+      var res = addMyRule({
+        keyword: kw,
+        category: els.mCategory.value.trim() || '内部禁用',
+        severity: els.mSeverity.value,
+        suggestion: els.mSuggestion.value.trim(),
+        law_ref: els.mLaw.value.trim(),
+      });
+      if (res.ok) added++; else if (res.dup) dup++; else bad++;
+    });
+    if (!added && !dup && !bad) {
+      setMsg(els.mBulkMsg, '没读到有效行（每行一个词）', true);
+      return;
+    }
+    saveMyRules();
+    applyMyRules();
+    renderMyLib();
+    runDetect();
+    renderRules();
+    els.mBulk.value = '';
+    var parts = ['新增 ' + added + ' 条'];
+    if (dup) parts.push('重复跳过 ' + dup + ' 条');
+    if (bad) parts.push('无效跳过 ' + bad + ' 条');
+    setMsg(els.mBulkMsg, parts.join('，'), added === 0);
+  }
+
+  function clearMyRules() {
+    if (!myRules.length) { setMsg(els.mAddMsg, '词库已经是空的', true); return; }
+    if (!window.confirm('确定清空我的词库里的 ' + myRules.length +
+        ' 条词吗？清空后无法恢复（建议先导出 JSON 备份）。')) return;
+    myRules = [];
+    saveMyRules();
+    applyMyRules();
+    renderMyLib();
+    runDetect();
+    renderRules();
+    setMsg(els.mAddMsg, '已清空', false);
+  }
+
   // ============================================================ 词库浏览 · 筛选
 
   var RULES_PAGE_SIZE = 40;
   var rulesPage = 0;
 
+  /**
+   * 词库浏览的数据源 = 内置词库 + 我的词条。
+   *
+   * 把两者统一成同一种"规则视图"再过滤，而不是写两套渲染：
+   * 用户真正想问的是"哪条规则会管到我这段话"，而不是"这属于哪个仓库"。
+   * 来源徽章已经把两者区分开了。
+   */
+  function rulesUnion() {
+    var builtin = (window.GUARDIAN_RULES && window.GUARDIAN_RULES.rules) || [];
+    var mine = myRules.map(function (r) {
+      return {
+        k: r.keyword, c: r.category, s: r.severity, o: 'custom', p: ['*'],
+        g: r.suggestion || '', l: r.law_ref || '', n: r.note || '',
+        // 停用的词条在词库页仍然列出（否则用户找不到它），但标注为未生效
+        _enabled: r.enabled !== false,
+      };
+    });
+    return builtin.concat(mine);
+  }
+
   function rulesFiltered() {
-    var all = (window.GUARDIAN_RULES && window.GUARDIAN_RULES.rules) || [];
+    var all = rulesUnion();
     var q = (els.rSearch.value || '').trim().toLowerCase();
     var src = els.rSource.value;
     var sev = els.rSeverity.value;
     var plat = els.rPlatform.value;
+    var scope = els.rScope ? els.rScope.value : '';
 
     return all.filter(function (r) {
+      if (scope === 'builtin' && r.o === 'custom') return false;
+      if (scope === 'mine' && r.o !== 'custom') return false;
       if (src && (r.o || '') !== src) return false;
       if (sev && r.s !== sev) return false;
       if (plat) {
@@ -1235,6 +1641,18 @@
       }
       return true;
     });
+  }
+
+  /** 窄屏下把"已启用几个筛选条件"标在筛选按钮上，避免筛选后忘了自己筛过什么。 */
+  function syncFilterBadge() {
+    if (!els.rFilterN) return;
+    var n = 0;
+    if (els.rSource.value) n++;
+    if (els.rSeverity.value) n++;
+    if (els.rPlatform.value) n++;
+    if (els.rScope && els.rScope.value) n++;
+    els.rFilterN.textContent = n ? String(n) : '';
+    els.rFilterN.hidden = !n;
   }
 
   // ============================================================ 词库健康度
@@ -1363,9 +1781,10 @@
     var slice = list.slice(rulesPage * RULES_PAGE_SIZE,
       rulesPage * RULES_PAGE_SIZE + RULES_PAGE_SIZE);
 
-    els.rStats.innerHTML = '共 <b>' +
-      ((window.GUARDIAN_RULES && window.GUARDIAN_RULES.rules.length) || 0) +
-      '</b> 条规则，当前筛选命中 <b>' + list.length + '</b> 条';
+    var total = rulesUnion().length;
+    els.rStats.innerHTML = '共 <b>' + total + '</b> 条规则（内置 ' +
+      (((window.GUARDIAN_RULES || {}).rules || []).length) + ' + 我的 ' +
+      myRules.length + '），当前筛选命中 <b>' + list.length + '</b> 条';
 
     if (!list.length) {
       els.rList.innerHTML = '<div class="empty"><div class="empty__big">∅</div>' +
@@ -1377,6 +1796,7 @@
     els.rPageInfo.textContent = '第 ' + (rulesPage + 1) + ' / ' + pages + ' 页';
     els.rPrev.disabled = rulesPage <= 0;
     els.rNext.disabled = rulesPage >= pages - 1;
+    syncFilterBadge();
   }
 
   function ruleItemHtml(r) {
@@ -1384,7 +1804,10 @@
       SEV_LABEL[r.s] + '</span>';
 
     var src = SOURCE_LABEL[r.o] || r.o;
-    if (src) tags += '<span class="tag tag--src">' + esc(src) + '</span>';
+    if (src) {
+      tags += '<span class="tag ' + (r.o === 'custom' ? 'tag--mine' : 'tag--src') + '">' +
+        esc(src) + '</span>';
+    }
 
     if (r.c) tags += '<span class="tag">' + esc(r.c) + '</span>';
 
@@ -1395,6 +1818,9 @@
     }
     if (r.m === 'regex') tags += '<span class="tag tag--warn">组合正则</span>';
     if (r.sa) tags += '<span class="tag" title="同一词在蓝V号与普通号下定级不同">蓝V定级不同</span>';
+    if (r._enabled === false) {
+      tags += '<span class="tag tag--off" title="这个词条已在「我的词库」里停用，不参与检测">已停用</span>';
+    }
 
     var g = r.g ? '<div class="ritem__g">' + esc(r.g) + '</div>' : '';
     var rep = (r.r && r.r.length)
@@ -1409,7 +1835,7 @@
         '</div>'
       : '';
 
-    return '<div class="ritem">' +
+    return '<div class="ritem' + (r._enabled === false ? ' is-off' : '') + '">' +
       '<div class="ritem__k">' + esc(r.k) + '</div>' +
       '<div class="ritem__body">' +
       '<div class="ritem__meta">' + tags + '</div>' +
@@ -1661,8 +2087,12 @@
 
     // ---- 词库浏览 ----
     els.rSearch.addEventListener('input', scheduleRules);
-    ['rSource', 'rSeverity', 'rPlatform'].forEach(function (id) {
-      els[id].addEventListener('change', function () { rulesPage = 0; renderRules(); });
+    ['rSource', 'rSeverity', 'rPlatform', 'rScope'].forEach(function (id) {
+      if (!els[id]) return;
+      els[id].addEventListener('change', function () {
+        rulesPage = 0;
+        renderRules();
+      });
     });
     els.rPrev.addEventListener('click', function () {
       if (rulesPage > 0) { rulesPage--; renderRules(); }
@@ -1670,6 +2100,75 @@
     els.rNext.addEventListener('click', function () {
       rulesPage++; renderRules();
     });
+
+    // ---- 我的词库 ----
+    if (els.mForm) {
+      els.mForm.addEventListener('submit', function (e) {
+        e.preventDefault();          // 不加这句，回车会刷新整页，刚填的内容全没了
+        var res = addMyRule({
+          keyword: els.mKeyword.value,
+          category: els.mCategory.value,
+          severity: els.mSeverity.value,
+          suggestion: els.mSuggestion.value,
+          law_ref: els.mLaw.value,
+        });
+        if (!res.ok) { setMsg(els.mAddMsg, res.msg, true); return; }
+        saveMyRules();
+        applyMyRules();
+        renderMyLib();
+        runDetect();
+        renderRules();
+        els.mKeyword.value = '';
+        els.mSuggestion.value = '';
+        els.mLaw.value = '';
+        els.mKeyword.focus();
+        setMsg(els.mAddMsg, res.msg || '已加入词库，立刻生效', false);
+      });
+    }
+    if (els.mBulkBtn) els.mBulkBtn.addEventListener('click', addMyBulk);
+    if (els.mList) {
+      els.mList.addEventListener('click', function (e) {
+        var del = e.target.closest ? e.target.closest('[data-my-del]') : null;
+        if (!del) return;
+        var idx = Number(del.getAttribute('data-my-del'));
+        var row = myRules[idx];
+        if (!row) return;
+        myRules.splice(idx, 1);
+        saveMyRules();
+        applyMyRules();
+        renderMyLib();
+        runDetect();
+        renderRules();
+        setMsg(els.mAddMsg, '已删除「' + row.keyword + '」', false);
+      });
+      // 停用/启用：用 change 而不是 click —— 直接点 label 或键盘操作
+      // 都不会触发 click，用 change 三种操作方式都能覆盖。
+      els.mList.addEventListener('change', function (e) {
+        var box = e.target.closest ? e.target.closest('[data-my-toggle]') : null;
+        if (!box) return;
+        var idx = Number(box.getAttribute('data-my-toggle'));
+        if (!myRules[idx]) return;
+        myRules[idx].enabled = box.checked;
+        saveMyRules();
+        applyMyRules();
+        renderMyLib();
+        runDetect();
+        renderRules();
+      });
+    }
+    if (els.mSearch) {
+      els.mSearch.addEventListener('input', function () { renderMyLib(); });
+    }
+    if (els.mExportBtn) els.mExportBtn.addEventListener('click', exportMyRules);
+    if (els.mTemplateBtn) els.mTemplateBtn.addEventListener('click', downloadMyTemplate);
+    if (els.mClearBtn) els.mClearBtn.addEventListener('click', clearMyRules);
+    if (els.mImportBtn && els.mFile) {
+      els.mImportBtn.addEventListener('click', function () { els.mFile.click(); });
+      els.mFile.addEventListener('change', function () {
+        if (els.mFile.files && els.mFile.files[0]) importMyRules(els.mFile.files[0]);
+        els.mFile.value = '';      // 清空，否则同一个文件第二次选不会触发 change
+      });
+    }
 
     // ---- 最近检测 ----
     els.histStoreText.addEventListener('change', function () {
@@ -1706,8 +2205,87 @@
     els.findings.innerHTML = '<div class="empty"><div class="empty__big">⚠</div>' + esc(msg) + '</div>';
   }
 
+  // ============================================================ 下拉填充
+
+  /** 填充行业下拉：内容全部来自词库产物（见 PACKS 的说明）。 */
+  function fillIndustrySelect() {
+    ['industry', 'bIndustry'].forEach(function (id) {
+      var sel = els[id];
+      if (!sel) return;
+      PACKS.forEach(function (p) {
+        var opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = (p.short || p.name) + '（' + p.rule_count + ' 条）';
+        sel.appendChild(opt);
+      });
+      // "仅通用词库"是特殊项，排在一长串行业包之后更好找
+      var none = sel.querySelector('option[value="none"]');
+      if (none) sel.appendChild(none);
+    });
+  }
+
+  /** 填充来源下拉：内置来源固定，行业包来源随产物生成。 */
+  function fillSourceSelect() {
+    if (!els.rSource) return;
+    var add = function (val, text) {
+      var o = document.createElement('option');
+      o.value = val;
+      o.textContent = text;
+      els.rSource.appendChild(o);
+    };
+    add('ad_law', '广告法');
+    add('platform', '平台规则');
+    add('blue_v', '蓝V规则');
+    PACKS.forEach(function (p) {
+      add('industry:' + p.id, (p.short || p.name) + '红线（' + p.rule_count + '）');
+    });
+    add('regex', '组合正则');
+    add('custom', '我的词库');
+  }
+
+  /**
+   * 窄屏默认收起"检测设置"。
+   *
+   * 手机上把三行设置全摊开，首屏就只剩下设置面板——而这几项选好一次基本不用再动。
+   * 桌面端放着不动（横向空间本来就有余）。
+   */
+  /**
+   * 窄屏把「检测设置」折成一行摘要 —— 平台/账号/行业/变体几个控件在小屏上
+   * 要占掉整屏，用户根本滚不到下面的检测结果。
+   *
+   * 两个容易做错的地方：
+   *  1. 只在**跨过断点那一刻**重设，而不是每次 resize 都设。移动端滚动时
+   *     地址栏收放会持续触发 resize，每次都折回去的话，用户手动展开的设置
+   *     会被立刻抢走。
+   *  2. 切回宽屏时恢复的是**各面板自己的初始状态**，不是一律展开 ——
+   *     批量页的设置本来就是收起的，强行打开等于改掉了桌面端原有行为。
+   */
+  function initSettingsCollapse() {
+    var ids = ['settingsBox', 'bSettingsBox'];
+    var initial = {};
+    ids.forEach(function (id) { if (els[id]) initial[id] = els[id].open; });
+
+    var apply = function (narrow) {
+      ids.forEach(function (id) {
+        if (els[id]) els[id].open = narrow ? false : initial[id];
+      });
+    };
+
+    var wasNarrow = isNarrow();
+    apply(wasNarrow);
+    window.addEventListener('resize', function () {
+      var now = isNarrow();
+      if (now === wasNarrow) return;
+      wasNarrow = now;
+      apply(now);
+    });
+  }
+
   function init() {
     cacheEls();
+    fillIndustrySelect();
+    fillSourceSelect();
+    initSettingsCollapse();
     initTheme();
     bindEvents();
 
@@ -1722,10 +2300,17 @@
 
     engine = new window.GuardianEngine(window.GUARDIAN_RULES);
 
+    // 自定义词库要在首次检测**之前**装进引擎，否则用户会看到"加了词但没生效"
+    myRules = loadMyRules();
+    applyMyRules();
+
     var meta = window.GUARDIAN_RULES.meta || {};
     var total = meta.rule_count || window.GUARDIAN_RULES.rules.length;
     els.heroRuleCount.textContent = String(total);
     els.fRuleCount.textContent = String(total);
+    // 「我的词库」说明里的"内置 N 条"必须跟着词库走。写死在 HTML 里的话，
+    // 每次扩词都要记得回来改文案 —— 而那种"记得"迟早会忘。
+    if (els.mBuiltin) els.mBuiltin.textContent = String(total);
     els.engineInfo.textContent = '词库 ' + total + ' 条 · 引擎 ' + (meta.engine || '—');
 
     // 标签页上的规则数角标
@@ -1734,6 +2319,7 @@
     renderHealth();
     fillDiffStats();
     initHistoryPref();
+    renderMyLib();
     runDetect();
   }
 

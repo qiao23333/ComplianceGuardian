@@ -170,11 +170,21 @@
     }, this);
 
     // 预建自动机：同一关键词可能对应多条规则（跨平台），故 payload 是数组
+    this.buildIndex();
+  }
+
+  /**
+   * 建立关键词索引（构造时一次；用户自定义词库变更后重建）。
+   *
+   * `_id` 是按数组下标生成的稳定标识——去重、上下文豁免缓存都以它为键，
+   * 所以每次重建都必须整体重排，不能增量追加，否则 ID 会错位。
+   */
+  GuardianEngine.prototype.buildIndex = function () {
     this.exactIndex = new Map();
     this.regexRules = [];
     this.ruleById = {};
-    for (var i = 0; i < data.rules.length; i++) {
-      var r = data.rules[i];
+    for (var i = 0; i < this.data.rules.length; i++) {
+      var r = this.data.rules[i];
       r._id = 'r' + i;                       // 稳定 ID（去重/豁免缓存用）
       this.ruleById[r._id] = r;
       if (r.m === 'regex') {
@@ -185,6 +195,67 @@
         else this.exactIndex.set(r.k, [r]);
       }
     }
+  };
+
+  /**
+   * 装入用户自定义词条（替换上一次的自定义部分，不影响内置词库）。
+   *
+   * 为什么要有这个方法
+   * ------------------
+   * 内置词库解决的是"通用红线"，但每个公司有自己的内部禁用名单：
+   * 某家机构可能被明令不许再提某个项目名，某个品牌有竞品词要回避。
+   * 这些词没有法规依据，也永远不该进公共词库——但用户自己需要它们生效。
+   *
+   * 实现上先截断回内置条数再追加，因此反复调用是幂等的（不会越加越多）。
+   *
+   * @param {Array} userRules 自定义词条（宽松字段：k/keyword、s/severity 均可）
+   * @returns {number} 实际生效的条数
+   */
+  GuardianEngine.prototype.setUserRules = function (userRules) {
+    if (this.baseRuleCount === undefined) this.baseRuleCount = this.data.rules.length;
+    this.data.rules.length = this.baseRuleCount;
+    var added = [];
+    (userRules || []).forEach(function (u) {
+      var rec = normalizeUserRule(u);
+      if (rec) added.push(rec);
+    });
+    for (var i = 0; i < added.length; i++) this.data.rules.push(added[i]);
+    this.buildIndex();
+    this.userRuleCount = added.length;
+    return added.length;
+  };
+
+  /**
+   * 把一条用户词条规范成内部紧凑规则格式。
+   *
+   * 字段名两种写法都收（`k` / `keyword`）：导出给用户的 JSON 用可读字段名，
+   * localStorage 里存紧凑格式，来回导入导出才不用做格式判断。
+   */
+  function normalizeUserRule(u) {
+    if (!u) return null;
+    var k = String(u.k != null ? u.k : (u.keyword || '')).trim();
+    if (!k) return null;
+    var raw = u.s != null ? u.s : u.severity;
+    var sev = SEV_ORDER.indexOf(raw) >= 0 ? raw : 'medium';
+    var rec = {
+      k: k,
+      s: sev,
+      c: String((u.c != null ? u.c : u.category) || '自定义').trim() || '自定义',
+      o: 'custom',
+      p: ['*'],
+      m: 'exact',
+      // 命中卡片要能区分"这是你自己加的"，来源徽章不能退化成"未知"
+      _user: true,
+    };
+    var g = String((u.g != null ? u.g : u.suggestion) || '').trim();
+    if (g) rec.g = g;
+    var l = String((u.l != null ? u.l : u.law_ref) || '').trim();
+    if (l) rec.l = l;
+    var n = String((u.n != null ? u.n : u.note) || '').trim();
+    if (n) rec.n = n;
+    var rep = u.r || u.replacements;
+    if (rep && rep.length) rec.r = [].concat(rep);
+    return rec;
   }
 
   GuardianEngine.prototype.severityOf = function (rule, accountType) {

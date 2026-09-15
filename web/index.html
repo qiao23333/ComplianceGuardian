@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>合规卫士 · 移民 / 留学文案合规检测（在线体验）</title>
-<meta name="description" content="移民 / 留学行业文案合规检测：1000+ 条规则、变体抗规避识别、四级风险评分、三平台对比、批量检测与词库浏览。纯浏览器运行，文案不出本机。">
+<title>合规卫士 · 9 大行业内容合规检测（在线体验）</title>
+<meta name="description" content="医美、教培、金融、房产、食品保健、美妆、电商带货等 9 个行业的文案合规检测：1200+ 条规则、变体抗规避识别、四级风险评分、三平台对比、批量检测、词库浏览与自定义词库。纯浏览器运行，文案不出本机。">
 
 <!-- 分享卡片：作品集场景下，链接经常是被人转发的第一印象 -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="合规卫士 · 移民 / 留学文案合规检测">
-<meta property="og:description" content="1000+ 条规则，含移民 / 留学行业专属红线。同一句文案，通用违禁词工具判它「干净」，这里能挖出 3 处会限流封号的风险。纯浏览器运行，文案不上传。">
+<meta property="og:title" content="合规卫士 · 9 大行业内容合规检测">
+<meta property="og:description" content="1200+ 条规则，含医美 / 教培 / 金融 / 房产 / 保健 / 美妆 / 电商带货行业专属红线。同一句文案，通用违禁词工具判它「干净」，这里能挖出 3 处会限流封号的风险。纯浏览器运行，文案不上传。">
 <meta property="og:url" content="https://8631801c57884774a30e85edbfbf5624.app.workbuddy.host/">
 <meta property="og:image" content="https://8631801c57884774a30e85edbfbf5624.app.workbuddy.host/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="合规卫士 · 移民 / 留学文案合规检测">
-<meta name="twitter:description" content="1000+ 条规则，含行业专属红线与变体抗规避识别。纯浏览器运行，文案不上传。">
+<meta name="twitter:title" content="合规卫士 · 9 大行业内容合规检测">
+<meta name="twitter:description" content="1200+ 条规则，含 9 大行业专属红线与变体抗规避识别，还支持自建词库。纯浏览器运行，文案不上传。">
 <meta name="twitter:image" content="https://8631801c57884774a30e85edbfbf5624.app.workbuddy.host/og.png">
 
 <!-- 内联 SVG 图标：避免额外请求，也避免浏览器自动请求 /favicon.ico 打出 404 -->
@@ -44,11 +44,11 @@
             stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     合规卫士
-    <span class="brand__sub">AdCompli · 移民 / 留学文案合规检测</span>
+    <span class="brand__sub">AdCompli · 9 大行业内容合规检测</span>
   </div>
   <div class="topbar__right">
     <span class="privacy" title="检测全部在浏览器内完成，不发任何网络请求">
-      <span class="privacy__dot"></span>数据不出本机 · 无网络请求
+      <span class="privacy__dot"></span><span class="privacy__txt">数据不出本机 · 无网络请求</span>
     </span>
     <button class="iconbtn" id="themeBtn" type="button" aria-label="切换主题">浅色</button>
   </div>
@@ -58,41 +58,60 @@
 <div class="hero">
   <h1>粘一段文案，立刻知道哪里会被平台判违规</h1>
   <p>
-    覆盖<b>移民 / 留学</b>行业红线与《广告法》极限词，共 <b id="heroRuleCount">…</b> 条规则。
+    覆盖<b>医美、教培、金融、房产、食品保健、美妆、电商带货</b>等 9 个强监管行业的红线，
+    加上《广告法》极限词，共 <b id="heroRuleCount">…</b> 条规则。
     不仅能认出关键词本身，还能识破<b>谐音、跳字、全角、繁体</b>这类"规避写法"——
     正是这些写法最容易被人工漏掉。检测在浏览器本地完成，<b>文案不上传</b>。
   </p>
 
-  <!-- 3 步体验路径：访客不需要猜该怎么玩 -->
-  <ol class="guide">
-    <li>
-      <span class="guide__n">1</span>
-      <span class="guide__t">看检测能力</span>
-      <span class="guide__d">点下面任一示例，立刻出结果</span>
-    </li>
-    <li>
-      <span class="guide__n">2</span>
-      <span class="guide__t">看它和通用工具差在哪</span>
-      <span class="guide__d">看结果区的「对照实验」</span>
-    </li>
-    <li>
-      <span class="guide__n">3</span>
-      <span class="guide__t">真拿去用</span>
-      <span class="guide__d">「批量检测」整批过筛，「词库浏览」查证规则</span>
-    </li>
-  </ol>
+  <!-- 3 步体验路径：访客不需要猜该怎么玩。窄屏折叠成一行，不占首屏 -->
+  <details class="guide-wrap" open>
+    <summary>第一次用？三步就能试明白</summary>
+    <ol class="guide">
+      <li>
+        <span class="guide__n">1</span>
+        <span class="guide__t">看检测能力</span>
+        <span class="guide__d">点下面任一示例，立刻出结果</span>
+      </li>
+      <li>
+        <span class="guide__n">2</span>
+        <span class="guide__t">看它和通用工具差在哪</span>
+        <span class="guide__d">看结果区的「对照实验」</span>
+      </li>
+      <li>
+        <span class="guide__n">3</span>
+        <span class="guide__t">换成你自己的词</span>
+        <span class="guide__d">「我的词库」把自己公司的禁用词加进去</span>
+      </li>
+    </ol>
+  </details>
 </div>
 
 <!-- ============================================================ 标签页 -->
+<!--
+  同一组按钮在两种布局下复用：桌面端是页面上方的横向标签，
+  窄屏（≤720px）由 CSS 变成固定在底部、拇指可达的 tab bar。
+  不复制一套 DOM，是因为"两份同样的按钮"必然在某次改动后不同步。
+-->
 <nav class="tabs" id="tabbar" role="tablist" aria-label="功能切换">
   <button class="tabs__btn is-on" type="button" role="tab" data-tab="single" aria-selected="true">
-    单条检测
+    <svg class="tabs__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.5h9M4.5 10h15M4.5 14.5h15M4.5 19h9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    <span class="tabs__txt">单条检测</span>
   </button>
   <button class="tabs__btn" type="button" role="tab" data-tab="batch" aria-selected="false">
-    批量检测<span class="tabs__badge">整批过筛</span>
+    <svg class="tabs__ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.6" y="4.4" width="16.8" height="5.2" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="3.6" y="14.4" width="16.8" height="5.2" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+    <span class="tabs__txt">批量检测</span>
+    <span class="tabs__badge">整批过筛</span>
   </button>
   <button class="tabs__btn" type="button" role="tab" data-tab="rules" aria-selected="false">
-    词库浏览<span class="tabs__badge" id="tabRuleCount">…</span>
+    <svg class="tabs__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.8 4.6h9.4a3 3 0 0 1 3 3v11.8H7.8a3 3 0 0 1-3-3V4.6Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7.8 8.4h6M7.8 12h6M7.8 15.6h3.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    <span class="tabs__txt">词库浏览</span>
+    <span class="tabs__badge" id="tabRuleCount">…</span>
+  </button>
+  <button class="tabs__btn" type="button" role="tab" data-tab="my" aria-selected="false">
+    <svg class="tabs__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.4l7.2 3v5.4c0 4.2-3 7.9-7.2 9.2-4.2-1.3-7.2-5-7.2-9.2V6.4l7.2-3Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 8.6v5.2M9.4 11.2h5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    <span class="tabs__txt">我的词库</span>
+    <span class="tabs__badge" id="tabMyCount" hidden></span>
   </button>
 </nav>
 
@@ -103,31 +122,48 @@
   <section class="panel">
     <div class="panel__head">
       <h2 class="panel__title">待检文案</h2>
-      <div class="controls">
-        <select id="platform" aria-label="目标平台">
-          <option value="all">全部平台</option>
-          <option value="xiaohongshu">小红书</option>
-          <option value="douyin">抖音</option>
-          <option value="weixin">微信</option>
-        </select>
-        <select id="accountType" aria-label="账号类型">
-          <option value="non_blue_v">普通账号</option>
-          <option value="blue_v">蓝 V 认证</option>
-        </select>
-        <select id="industry" aria-label="行业词库">
-          <option value="all">移民 + 留学</option>
-          <option value="immigration">仅移民</option>
-          <option value="study_abroad">仅留学</option>
-          <option value="none">仅通用词库</option>
-        </select>
-        <label class="switch" title="识别谐音 / 跳字 / 全角 / 繁体等规避写法">
-          <input type="checkbox" id="variants" checked>变体检测
-        </label>
-        <label class="switch" title="生成一版改好的文案（只改写词库给出替换词的命中）">
-          <input type="checkbox" id="autoReplace">自动改写
-        </label>
-      </div>
+      <span class="risk-sub" id="singleBrief"></span>
     </div>
+
+    <!-- 检测设置：桌面端平铺成一行，窄屏折叠起来（选好一次就不用再动，
+         不该长期占掉手机首屏的三分之一） -->
+    <details class="settings" id="settingsBox" open>
+      <summary class="settings__sum">
+        <span class="settings__label">检测设置</span>
+        <span class="settings__brief" id="settingsBrief"></span>
+      </summary>
+      <div class="controls">
+        <label class="field"><span class="field__k">平台</span>
+          <select id="platform" aria-label="目标平台">
+            <option value="all">全部平台</option>
+            <option value="xiaohongshu">小红书</option>
+            <option value="douyin">抖音</option>
+            <option value="weixin">微信</option>
+          </select>
+        </label>
+        <label class="field"><span class="field__k">账号</span>
+          <select id="accountType" aria-label="账号类型">
+            <option value="non_blue_v">普通账号</option>
+            <option value="blue_v">蓝 V 认证</option>
+          </select>
+        </label>
+        <label class="field"><span class="field__k">行业词库</span>
+          <select id="industry" aria-label="行业词库">
+            <option value="all">全部行业</option>
+            <option value="none">仅通用词库</option>
+            <!-- 各行业包按 meta.industry_packs 动态填充：新增行业包时前端零改动 -->
+          </select>
+        </label>
+        <div class="field field--switches">
+          <label class="switch" title="识别谐音 / 跳字 / 全角 / 繁体等规避写法">
+            <input type="checkbox" id="variants" checked>变体检测
+          </label>
+          <label class="switch" title="生成一版改好的文案（只改写词库给出替换词的命中）">
+            <input type="checkbox" id="autoReplace">自动改写
+          </label>
+        </div>
+      </div>
+    </details>
 
     <textarea id="input" spellcheck="false"
       placeholder="把准备发布的文案粘到这里，边打边检测……"></textarea>
@@ -219,28 +255,43 @@
   <section class="panel">
     <div class="panel__head">
       <h2 class="panel__title">批量文案（每条之间空一行）</h2>
-      <div class="controls">
-        <select id="bPlatform" aria-label="目标平台">
-          <option value="all">全部平台</option>
-          <option value="xiaohongshu">小红书</option>
-          <option value="douyin">抖音</option>
-          <option value="weixin">微信</option>
-        </select>
-        <select id="bAccountType" aria-label="账号类型">
-          <option value="non_blue_v">普通账号</option>
-          <option value="blue_v">蓝 V 认证</option>
-        </select>
-        <select id="bIndustry" aria-label="行业词库">
-          <option value="all">移民 + 留学</option>
-          <option value="immigration">仅移民</option>
-          <option value="study_abroad">仅留学</option>
-          <option value="none">仅通用词库</option>
-        </select>
-        <label class="switch" title="识别谐音 / 跳字 / 全角 / 繁体等规避写法">
-          <input type="checkbox" id="bVariants" checked>变体检测
-        </label>
-      </div>
+      <span class="risk-sub" id="bBrief"></span>
     </div>
+
+    <details class="settings" id="bSettingsBox" open>
+      <summary class="settings__sum">
+        <span class="settings__label">检测设置</span>
+        <span class="settings__brief" id="bSettingsBrief"></span>
+      </summary>
+      <div class="controls">
+        <label class="field"><span class="field__k">平台</span>
+          <select id="bPlatform" aria-label="目标平台">
+            <option value="all">全部平台</option>
+            <option value="xiaohongshu">小红书</option>
+            <option value="douyin">抖音</option>
+            <option value="weixin">微信</option>
+          </select>
+        </label>
+        <label class="field"><span class="field__k">账号</span>
+          <select id="bAccountType" aria-label="账号类型">
+            <option value="non_blue_v">普通账号</option>
+            <option value="blue_v">蓝 V 认证</option>
+          </select>
+        </label>
+        <label class="field"><span class="field__k">行业词库</span>
+          <select id="bIndustry" aria-label="行业词库">
+            <option value="all">全部行业</option>
+            <option value="none">仅通用词库</option>
+            <!-- 与单条检测同一份数据源，由 JS 统一填充 -->
+          </select>
+        </label>
+        <div class="field field--switches">
+          <label class="switch" title="识别谐音 / 跳字 / 全角 / 繁体等规避写法">
+            <input type="checkbox" id="bVariants" checked>变体检测
+          </label>
+        </div>
+      </div>
+    </details>
 
     <textarea id="bInput" spellcheck="false" placeholder="每一条文案之间用空行隔开，一次可以粘几十条。
 例如：
@@ -286,31 +337,51 @@
   <section class="panel">
     <div class="panel__head">
       <h2 class="panel__title">词库</h2>
-      <div class="controls">
-        <input class="search" id="rSearch" type="search" spellcheck="false"
-               placeholder="搜关键词 / 类别 / 建议，例如：保签、极限词、名额">
-        <select id="rSource" aria-label="规则来源">
-          <option value="">全部来源</option>
-          <option value="ad_law">广告法</option>
-          <option value="platform">平台规则</option>
-          <option value="blue_v">蓝V规则</option>
-          <option value="industry:immigration">移民红线</option>
-          <option value="industry:study_abroad">留学红线</option>
-          <option value="regex">组合正则</option>
-        </select>
-        <select id="rSeverity" aria-label="严重度">
-          <option value="">全部等级</option>
-          <option value="critical">高危</option>
-          <option value="high">中危</option>
-          <option value="medium">低危</option>
-        </select>
-        <select id="rPlatform" aria-label="平台">
-          <option value="">全部平台</option>
-          <option value="xiaohongshu">仅小红书</option>
-          <option value="douyin">仅抖音</option>
-          <option value="weixin">仅微信</option>
-        </select>
-      </div>
+    </div>
+
+    <!-- 搜索常显（词库页最常用的动作），筛选条件收起：
+         手机上把 5 个控件都摊开，等于把结果列表挤到屏幕外。
+         桌面端用 display:contents 让筛选控件回到同一行，不额外占一行高度。 -->
+    <div class="rbar">
+      <input class="search" id="rSearch" type="search" spellcheck="false"
+             placeholder="搜关键词 / 类别 / 建议，例如：保签、极限词、名额">
+      <details class="rfilters" id="rFilters">
+        <summary class="rfilters__sum">
+          筛选<span class="rfilters__n" id="rFilterN" hidden></span>
+        </summary>
+        <div class="controls">
+          <label class="field"><span class="field__k">来源</span>
+            <select id="rSource" aria-label="规则来源">
+              <option value="">全部来源</option>
+              <!-- 来源随词库产物动态生成（行业包增删时前端零改动） -->
+            </select>
+          </label>
+          <label class="field"><span class="field__k">等级</span>
+            <select id="rSeverity" aria-label="严重度">
+              <option value="">全部等级</option>
+              <option value="critical">高危</option>
+              <option value="high">中危</option>
+              <option value="medium">低危</option>
+              <option value="low">提示</option>
+            </select>
+          </label>
+          <label class="field"><span class="field__k">平台</span>
+            <select id="rPlatform" aria-label="平台">
+              <option value="">全部平台</option>
+              <option value="xiaohongshu">仅小红书</option>
+              <option value="douyin">仅抖音</option>
+              <option value="weixin">仅微信</option>
+            </select>
+          </label>
+          <label class="field"><span class="field__k">范围</span>
+            <select id="rScope" aria-label="规则范围">
+              <option value="">全部规则</option>
+              <option value="builtin">仅内置词库</option>
+              <option value="mine">仅我的词库</option>
+            </select>
+          </label>
+        </div>
+      </details>
     </div>
 
     <!-- 词库健康度：规则驱动型工具真正的死法不是"做不出来"，是"安静地过期"。
@@ -337,6 +408,95 @@
       <button class="btn btn--ghost" id="rPrev" type="button">上一页</button>
       <span id="rPageInfo"></span>
       <button class="btn btn--ghost" id="rNext" type="button">下一页</button>
+    </div>
+  </section>
+</main>
+
+<!-- ============================================================ 我的词库 -->
+<!--
+  为什么值得单开一页、而不是塞进"词库浏览"当筛选条件
+  --------------------------------------------------
+  两者回答的是不同问题：词库浏览回答"你凭什么判我这句违规"（查证官方规则），
+  我的词库回答"我自己的禁用词在哪"（管理私有规则）。混在一页里，
+  用户既找不到入口，也分不清哪些词是自己加的。
+
+  这些词没有法规依据，也不该进公共词库——但每家公司都有自己的内部名单：
+  某个项目名被明令不许再提、某个竞品词要回避。公共词库天生覆盖不到，
+  只能让用户自己维护。
+-->
+<main class="mylib" id="pane-my" role="tabpanel" hidden>
+  <section class="panel">
+    <div class="panel__head">
+      <h2 class="panel__title">我的词库</h2>
+      <span class="risk-sub" id="mMeta"></span>
+    </div>
+
+    <div class="myhint">
+      这里加的词会<b>立刻参与检测</b>，和内置的 <b id="mBuiltin">…</b> 条一起判定，命中时会标成
+      <b>「我的词库」</b>。数据只存在你自己的浏览器（localStorage），不联网、
+      不上传，换设备用「导出 / 导入 JSON」搬运。
+      内置已收录的词不用重复加——系统会挡下并告诉你。
+    </div>
+
+    <details class="myadd" open>
+      <summary class="myadd__sum">添加词条</summary>
+
+      <form class="myform" id="mForm" autocomplete="off">
+        <label class="field field--wide">
+          <span class="field__k">关键词 <b class="req">必填</b></span>
+          <input id="mKeyword" type="text" placeholder="例如：内部优惠名额" maxlength="40">
+        </label>
+        <label class="field">
+          <span class="field__k">风险等级</span>
+          <select id="mSeverity">
+            <option value="high">中危 · 建议改</option>
+            <option value="critical">高危 · 必须删</option>
+            <option value="medium">低危 · 留意</option>
+            <option value="low">提示 · 仅供参考</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field__k">类别</span>
+          <input id="mCategory" type="text" placeholder="内部禁用" maxlength="12">
+        </label>
+        <label class="field field--wide">
+          <span class="field__k">改写建议（可选）</span>
+          <input id="mSuggestion" type="text" placeholder="例如：改为「定向服务」" maxlength="60">
+        </label>
+        <label class="field field--wide">
+          <span class="field__k">依据 / 备注（可选）</span>
+          <input id="mLaw" type="text" placeholder="例如：公司内部合规要求" maxlength="80">
+        </label>
+        <div class="myform__actions">
+          <button class="btn" id="mAddBtn" type="submit">加入词库</button>
+          <span class="myform__msg" id="mAddMsg" role="status"></span>
+        </div>
+      </form>
+
+      <details class="mybulk">
+        <summary>批量添加（每行一个词）</summary>
+        <textarea id="mBulk" spellcheck="false"
+          placeholder="内部优惠名额&#10;竞品品牌名&#10;包您满意"></textarea>
+        <div class="myform__actions">
+          <button class="btn btn--ghost" id="mBulkBtn" type="button">批量加入</button>
+          <span class="myform__msg" id="mBulkMsg" role="status"></span>
+        </div>
+      </details>
+    </details>
+
+    <div class="panel__foot">
+      <span id="mStats">…</span>
+      <span>检测时与内置词库合并生效</span>
+    </div>
+
+    <div class="mlist" id="mList"></div>
+
+    <div class="actions">
+      <button class="btn btn--ghost" id="mExportBtn" type="button">导出 JSON</button>
+      <button class="btn btn--ghost" id="mImportBtn" type="button">导入 JSON</button>
+      <button class="btn btn--ghost" id="mTemplateBtn" type="button">下载空白模板</button>
+      <button class="btn btn--ghost" id="mClearBtn" type="button">全部清空</button>
+      <input type="file" id="mFile" accept="application/json,.json" hidden>
     </div>
   </section>
 </main>
@@ -373,12 +533,13 @@
     <article class="dcard">
       <h3>② 行业词库是「红线」，不是通用词表</h3>
       <p>
-        移民、留学这类强监管行业，真正的风险不在「最/第一」这种通用极限词，
-        而在「保签」「包过」「官方授权」「内部名额」这类<b>结果承诺与资质宣称</b>
+        医美、教培、金融、房产这类强监管行业，真正的风险不在「最/第一」这种通用极限词，
+        而在「保证治愈」「保过」「保本保息」「学区房」这类<b>结果承诺与资质宣称</b>
         ——它们通常不违法，但会直接导致平台限流或封号。
       </p>
       <p class="dcard__fact">
-        本页含移民 <b id="dImm">…</b> 条、留学 <b id="dStudy">…</b> 条行业专属红线。
+        本页含 <b id="dPacks">…</b> 个行业包、<b id="dIndustry">…</b> 条行业专属红线，
+        每条都标注了对应的法规条款。
       </p>
       <button class="dcard__demo" type="button" data-demo="industry">
         试一下：这句在通用词库里是干净的
@@ -403,7 +564,7 @@
       <h3>④ 告诉你「为什么」，而不只是「哪里红」</h3>
       <p>
         每一处命中都带：严重度分级（高危/中危/低危/提示）、规则来源（广告法/平台规则/行业包）、
-        命中类型（字面/组合词/规避写法）、<b>可替换词</b>，以及一段自动改写预览。
+        命中类型（字面/组合词/规避写法）、<b>可替换词</b>，以及<b>对应的法规条款</b>。
       </p>
       <p class="dcard__fact">
         计分口径公开：高危 10 分 · 中危 5 分 · 低危 2 分 · 提示 0 分，满分 100。
@@ -420,7 +581,7 @@
 <footer class="footer">
   <div class="footer__stats">
     <span>规则 <b id="fRuleCount">…</b> 条</span>
-    <span>行业包：移民 / 留学</span>
+    <span id="fPacks">行业包：…</span>
     <span>匹配引擎：Aho-Corasick 多模式匹配</span>
     <span>纯前端 · 零依赖 · 零后端</span>
   </div>

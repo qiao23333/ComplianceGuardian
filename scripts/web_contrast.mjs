@@ -197,6 +197,19 @@ const VIEWS = [
     tab: 'rules',
     open: 'rHealth',
   },
+  {
+    // 「我的词库」空态只有一句提示，量不到条目行/风险标/来源标签这些
+    // 真正会出问题的文字。所以先塞两条进去（一条启用、一条停用，
+    // 覆盖 is-off 那种半透明态）再量。
+    name: '我的词库（含词条）',
+    tab: 'my',
+    seed: `localStorage.setItem('adcompli-my-rules', JSON.stringify([
+      { id:'u_c1', keyword:'ZZ对比度探针甲', category:'内部禁用', severity:'critical',
+        suggestion:'改成「定向邀约」', law_ref:'公司内部合规要求', note:'', enabled:true },
+      { id:'u_c2', keyword:'ZZ对比度探针乙', category:'竞品名', severity:'medium',
+        suggestion:'', law_ref:'', note:'', enabled:false }
+    ]));`,
+  },
 ];
 
 const browser = await puppeteer.launch({
@@ -212,6 +225,14 @@ for (const theme of themes) {
     const page = await browser.newPage();
     await page.setViewport({ width: 1440, height: 1200 });
     await page.goto(BASE_URL, { waitUntil: 'networkidle0' });
+
+    // 有的视图要先有数据才有可量的文字；塞完必须 reload 让它重新初始化，
+    // 于是 data-theme 也得在那之后再设一次（reload 会还原主题）。
+    if (view.seed) {
+      await page.evaluate(view.seed);
+      await page.reload({ waitUntil: 'networkidle0' });
+    }
+
     await page.evaluate((t) => {
       document.documentElement.setAttribute('data-theme', t);
     }, theme);

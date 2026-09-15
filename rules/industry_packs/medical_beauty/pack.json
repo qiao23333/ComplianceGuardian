@@ -1,0 +1,28 @@
+{
+  "id": "medical_beauty",
+  "name": "医疗美容合规包",
+  "short": "医美",
+  "version": "1.0.0",
+  "description": "医美机构与生活美容、健康理疗行业专属合规词库。覆盖疗效保证性承诺、治愈率与有效率宣称、容貌焦虑营销、患者代言证明，以及非医疗机构越界使用医疗用语等高发红线。",
+  "author": "Compliance Guardian",
+  "industry": "医疗美容/健康",
+  "categories": [
+    "代言证明",
+    "医疗用语越界",
+    "容貌焦虑",
+    "疗效承诺",
+    "疗效数据",
+    "疗效断言",
+    "资质与安全承诺",
+    "违法操作"
+  ],
+  "rules_file": "rules.json",
+  "rule_count": 52,
+  "platforms": [
+    "xiaohongshu",
+    "douyin",
+    "weixin"
+  ],
+  "created": "2026-09-15",
+  "updated": "2026-09-15"
+}

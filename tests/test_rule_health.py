@@ -40,17 +40,38 @@ from guardian.schema import Rule  # noqa: E402
 
 _WEB_RULES = _ROOT / "web" / "data" / "rules.json"
 
-#: 条款号必须长这样："《广告法》第九条"。允许只写法规名（个别规则如此），
-#: 但只要带了"第…条"就必须完整成对，避免出现"《广告法》第条"这类半截。
-_LAW_REF_OK = re.compile(r"^《[^》]+》(第[一二三四五六七八九十百零〇\d]+条)?$")
+#: 条款号允许的形态：
+#:
+#:   《广告法》第九条                         —— 法规 + 条
+#:   《广告法》第九条第三项                    —— 法规 + 条 + 项
+#:   《刑法》第二百八十四条之一                —— 刑法特有的"条之一"
+#:   《…规定》第十条第二项、第五项；《刑法》…  —— 多条/多法规用"；"并列
+#:
+#: 只写法规名也放行（个别规则只到法规层级），但只要带了"第…条"就必须完整
+#: 成对，避免出现"《广告法》第条"这类半截。
+#:
+#: 2026-09-15 放宽过一次：原来只认到"第X条"，于是"第十条第一项""第三百一十九
+#: 条之一""两法并列"这几种**更精确**的写法反而被判成格式错 —— 门禁把更严谨的
+#: 依据挡在门外，本身就是个 bug。
+_NUM = r"[一二三四五六七八九十百零〇\d]+"
+_LAW_CLAUSE = rf"《[^》]+》(第{_NUM}条(之{_NUM})?(第{_NUM}项(、第{_NUM}项)*)?)?"
+_LAW_REF_OK = re.compile(rf"^{_LAW_CLAUSE}(；{_LAW_CLAUSE})*$")
 
 #: "法条类来源"——依据应当是法律条款。
 #: platform / blue_v 的依据是平台规范，本来就不该有法条。
-_LAW_BASED_SOURCES = ("ad_law", "industry:immigration", "industry:study_abroad", "regex")
+#: "法条类来源"——依据应当是法律条款。
+#: platform / blue_v 的依据是平台规范，本来就不该有法条。
+#:
+#: 行业包一律纳入。早先这里手写了两个行业包的名字，于是后来新增的 7 个包
+#: **根本不在门禁范围内** —— 覆盖率再低也不会响。手写名单必然漏，按前缀匹配。
+def _is_law_based(source: str) -> bool:
+    return source in ("ad_law", "regex") or source.startswith("industry:")
+
 
 #: 法条类规则的条款覆盖率下限。低于此值说明新加的规则普遍没写依据。
-#: 当前实测约 86%，留出余量；调低它就等于默认接受退化。
-_MIN_LAW_COVERAGE = 0.80
+#: 目前 ad_law / regex / 全部行业包均为 100%，留一点余量给个别例外，
+#: 但批量忘写必须能红。
+_MIN_LAW_COVERAGE = 0.98
 
 
 def _load_script(name: str):
@@ -105,7 +126,7 @@ def test_law_based_coverage_meets_floor():
     一次一条，没人会注意到。做成断言才有回退压力。
     """
     rules = RuleBank().all
-    scoped = [r for r in rules if r.source in _LAW_BASED_SOURCES]
+    scoped = [r for r in rules if _is_law_based(r.source)]
     assert scoped, "语料假设失效：没有法条类规则"
     covered = [r for r in scoped if r.law_ref]
     ratio = len(covered) / len(scoped)

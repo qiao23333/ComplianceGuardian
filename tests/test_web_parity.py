@@ -73,9 +73,29 @@ def test_web_rules_artifact_exists_and_has_rules():
     assert len(rules) > 900, f"前端词库只有 {len(rules)} 条，疑似导出不完整"
     assert data["meta"]["rule_count"] == len(rules), "meta.rule_count 与实际条数不符"
 
-    # 行业包必须真的在（这是这个作品的主要差异点，不能悄悄丢）
-    industries = {r.get("i") for r in rules if r.get("i")}
-    assert industries == {"immigration", "study_abroad"}, f"行业包异常：{industries}"
+    # 行业包必须真的在（这是这个作品的主要差异点，不能悄悄丢）。
+    #
+    # 期望值**从磁盘上实际存在的包目录推出来**，而不是写死一个集合：
+    # 写死的话，每加一个行业包都得回来改测试，测试就从"守住事实"退化成了
+    # "记录历史" —— 而且加包的人未必想得到来改这里。
+    pack_dir = _ROOT / "rules" / "industry_packs"
+    want = {p.name for p in pack_dir.iterdir() if (p / "rules.json").exists()}
+    assert want, f"一个行业包都没找到，路径可能不对：{pack_dir}"
+
+    got = {r.get("i") for r in rules if r.get("i")}
+    assert got == want, f"词库里的行业包与磁盘不一致：缺 {want - got}，多 {got - want}"
+
+    # meta.industry_packs 是前端渲染"行业词库"选择器的唯一数据源 ——
+    # 它一旦与规则不同步，用户会选到一个没有规则的行业，或者看不到新加的行业。
+    meta_packs = {p["id"]: p for p in data["meta"].get("industry_packs", [])}
+    assert set(meta_packs) == want, (
+        f"meta.industry_packs 与磁盘不一致：{set(meta_packs) ^ want}"
+    )
+    for pid, p in meta_packs.items():
+        real = sum(1 for r in rules if r.get("i") == pid)
+        assert p["rule_count"] == real, (
+            f"行业包 {pid} 的 rule_count={p['rule_count']}，实际 {real} 条"
+        )
 
 
 def test_artifact_rules_js_is_generated_next_to_json():

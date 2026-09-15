@@ -1,0 +1,29 @@
+{
+  "id": "real_estate",
+  "name": "房地产合规包",
+  "short": "房产",
+  "version": "1.0.0",
+  "description": "房地产开发、经纪与中介宣传专属合规词库。覆盖升值与投资回报承诺、学区学位暗示、以时间表示位置、价格违规、规划配套误导、风水迷信、变相融资等《广告法》第二十六条与《房地产广告发布规定》禁止的情形。",
+  "author": "Compliance Guardian",
+  "industry": "房地产/家居",
+  "categories": [
+    "价格违规",
+    "位置时间",
+    "升值承诺",
+    "学区承诺",
+    "性质混淆",
+    "稀缺夸大",
+    "融资违规",
+    "规划误导",
+    "风水迷信"
+  ],
+  "rules_file": "rules.json",
+  "rule_count": 37,
+  "platforms": [
+    "xiaohongshu",
+    "douyin",
+    "weixin"
+  ],
+  "created": "2026-09-15",
+  "updated": "2026-09-15"
+}

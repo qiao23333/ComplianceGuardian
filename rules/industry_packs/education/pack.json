@@ -1,0 +1,26 @@
+{
+  "id": "education",
+  "name": "教育培训合规包",
+  "short": "教培",
+  "version": "1.0.0",
+  "description": "教育、培训、职业技能与志愿填报服务专属合规词库。覆盖结果保证性承诺、命题人员关联暗示、借名师与状元背书、制造家长焦虑、速成效果夸大等《广告法》第二十四条明令禁止的情形。",
+  "author": "Compliance Guardian",
+  "industry": "教育培训",
+  "categories": [
+    "低价引流",
+    "保证性承诺",
+    "借背书",
+    "命题关联",
+    "焦虑营销",
+    "速成与效果"
+  ],
+  "rules_file": "rules.json",
+  "rule_count": 42,
+  "platforms": [
+    "xiaohongshu",
+    "douyin",
+    "weixin"
+  ],
+  "created": "2026-09-15",
+  "updated": "2026-09-15"
+}

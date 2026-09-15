@@ -92,6 +92,47 @@ def _law_family(law_ref: str) -> str:
 
 
 
+def _industry_packs_payload() -> list[dict]:
+    """读取各行业包的 pack.json，供前端动态渲染"行业词库"选择器。
+
+    为什么不让前端写死一张行业表
+    ----------------------------
+    行业包是**可插拔**的：新增一个包只需要在 ``rules/industry_packs/`` 下
+    放两个文件。如果前端把行业名、条数写在 JS 里，每加一个包都要改前端、
+    改文档、改测试——而这正是"同一事实存两处必然漂移"的经典场景。
+
+    所以行业元信息随词库产物一起下发，前端只负责渲染。
+    """
+    packs_dir = _ROOT / "rules" / "industry_packs"
+    if not packs_dir.is_dir():
+        return []
+    out = []
+    for pack_dir in sorted(packs_dir.iterdir()):
+        meta_path = pack_dir / "pack.json"
+        rules_path = pack_dir / "rules.json"
+        if not (meta_path.is_file() and rules_path.is_file()):
+            continue
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            rules = json.loads(rules_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        # rule_count 以实际条数为准：pack.json 里那个字段是给人看的摘要，
+        # 一旦手写就会与实际漂移（历史上就漂过一次：写 140 实际 179）。
+        out.append({
+            "id": pack_dir.name,
+            "name": meta.get("name", pack_dir.name),
+            # 短名供下拉框与徽章使用。用"名称去掉'合规包'三字"这种办法凑短名，
+            # 看着省事，实则把命名约定变成了隐式契约——改一次包名就会悄悄失效。
+            "short": meta.get("short", meta.get("name", pack_dir.name)),
+            "industry": meta.get("industry", ""),
+            "description": meta.get("description", ""),
+            "version": meta.get("version", ""),
+            "rule_count": len(rules) if isinstance(rules, list) else 0,
+        })
+    return out
+
+
 def build_t2s_map() -> dict[str, str]:
     """逐字生成繁→简映射（与 pipeline 的逐字符转换口径一致）。
 
@@ -156,6 +197,9 @@ def export(out_path: Path = _DEFAULT_OUT) -> tuple[dict, Path]:
                 Counter(r.source.split(":")[0] for r in rules).most_common()
             ),
             "industries": sorted({r.industry for r in rules if r.industry}),
+            # 行业包元信息（名称/条数/说明）。前端据此渲染行业选择器，
+            # 新增行业包时前端零改动。见 _industry_packs_payload 的说明。
+            "industry_packs": _industry_packs_payload(),
             "platforms": ["xiaohongshu", "douyin", "weixin"],
             # 依据覆盖率：有条款号的规则占比。这是一个可以持续盯着看的
             # 健康度指标——掉下去就说明新加的规则没写依据。

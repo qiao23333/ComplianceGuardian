@@ -1,8 +1,9 @@
 {
   "id": "study_abroad",
   "name": "留学行业合规包",
-  "version": "1.0.0",
-  "description": "留学/升学中介行业专属合规词库，覆盖虚假承诺、学术不端、虚假资质、费用与时间承诺等高风险表达。",
+  "short": "留学",
+  "version": "2.0.0",
+  "description": "留学 / 升学中介行业专属合规词库。覆盖录取与退费的保证性承诺、代考替考伪造材料等学术不端、对入学条件的不实承诺等高风险表达。依据《广告法》第二十四条及《刑法》第二百八十四条之一等现行条文。",
   "author": "Compliance Guardian",
   "industry": "留学/升学",
   "categories": [
@@ -15,7 +16,7 @@
     "过程简化"
   ],
   "rules_file": "rules.json",
-  "rule_count": 33,
+  "rule_count": 30,
   "platforms": [
     "xiaohongshu",
     "douyin",

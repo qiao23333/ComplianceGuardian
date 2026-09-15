@@ -1,0 +1,27 @@
+{
+  "id": "ecommerce",
+  "name": "电商带货合规包",
+  "short": "电商带货",
+  "version": "1.0.0",
+  "description": "直播带货、电商详情页与促销活动专属合规词库。覆盖虚假价格、虚假紧迫感、数据造假、无依据质量宣称，以及 2026 年新规下带货场景中「天花板」「yyds」这类被判定为绝对化宣传的网络用语。",
+  "author": "Compliance Guardian",
+  "industry": "电商/直播带货",
+  "categories": [
+    "数据造假",
+    "无依据质量宣称",
+    "绝对化口语",
+    "虚假价格",
+    "虚假紧迫",
+    "虚假背书",
+    "诱导点击"
+  ],
+  "rules_file": "rules.json",
+  "rule_count": 36,
+  "platforms": [
+    "xiaohongshu",
+    "douyin",
+    "weixin"
+  ],
+  "created": "2026-09-15",
+  "updated": "2026-09-15"
+}

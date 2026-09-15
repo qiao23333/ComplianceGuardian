@@ -1,235 +1,75 @@
 [
   {
-    "keyword": "保录取",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "改为'协助提升申请竞争力'",
-    "note": "录取决定权在学校，机构无法保证",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "包录取",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "改为'协助提交申请材料'",
-    "note": "录取结果不可承诺",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "保证录取",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "改为'协助提升申请通过率'",
-    "note": "结果性保证",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "保offer",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "改为'协助准备申请材料'",
-    "note": "offer 由学校发放，不可保证",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "包offer",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "删除该表述",
-    "note": "结果性保证",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "名校保录",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "删除，改为'协助申请目标院校'",
-    "note": "'保录'属虚假承诺",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "100%录取",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "删除该表述",
-    "note": "绝对化承诺",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "百分百录取",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "删除该表述",
-    "note": "绝对化承诺",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "保入学",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "改为'协助办理入学申请'",
-    "note": "入学结果不可保证",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "包入学",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "改为'协助办理入学申请'",
-    "note": "结果性保证",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "保毕业",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "删除，改为'提供学业辅导'",
-    "note": "毕业由学校按学业标准决定",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "包毕业",
-    "category": "虚假承诺",
-    "severity": "high",
-    "suggestion": "删除该表述",
-    "note": "结果性保证",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "内部招生名额",
-    "category": "虚假资质",
-    "severity": "critical",
-    "suggestion": "删除该表述",
-    "note": "不存在所谓内部招生名额",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "内推名额",
-    "category": "虚假资质",
-    "severity": "critical",
-    "suggestion": "改为'校友推荐渠道'并明确真实性",
-    "note": "需核实真实性，避免误导",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "招生官推荐",
-    "category": "虚假资质",
-    "severity": "critical",
-    "suggestion": "删除该表述",
-    "note": "冒充与招生官的关系属误导",
-    "law_ref": "《广告法》第二十八条"
-  },
-  {
-    "keyword": "不成功退全款",
-    "category": "费用承诺",
-    "severity": "medium",
-    "suggestion": "改为'按合同约定退费'",
-    "note": "退费承诺须与合同一致"
-  },
-  {
-    "keyword": "保过退款",
-    "category": "费用承诺",
-    "severity": "medium",
-    "suggestion": "改为'按合同约定处理'",
-    "note": "避免无法兑现的承诺"
-  },
-  {
-    "keyword": "一周下offer",
-    "category": "时间承诺",
-    "severity": "medium",
-    "suggestion": "改为'尽早递交，缩短审理等待'",
-    "note": "审理周期由学校决定"
-  },
-  {
-    "keyword": "一个月出offer",
-    "category": "时间承诺",
-    "severity": "medium",
-    "suggestion": "改为'尽快递交申请'",
-    "note": "时间承诺不可控"
-  },
-  {
-    "keyword": "代考",
+    "keyword": "买论文",
     "category": "学术不端",
     "severity": "critical",
     "suggestion": "删除该表述",
-    "note": "代考属严重学术不端与违法行为"
-  },
-  {
-    "keyword": "替考",
-    "category": "学术不端",
-    "severity": "critical",
-    "suggestion": "删除该表述",
-    "note": "替考违法"
+    "note": "买卖论文违法",
+    "law_ref": "《广告法》第四条；《刑法》第二百八十四条之一"
   },
   {
     "keyword": "代写",
     "category": "学术不端",
     "severity": "critical",
     "suggestion": "删除，改为'提供写作辅导'",
-    "note": "代写论文属学术不端"
+    "note": "代写论文属学术不端",
+    "law_ref": "《广告法》第四条；《刑法》第二百八十四条之一"
   },
   {
-    "keyword": "保分",
-    "category": "学术不端",
-    "severity": "critical",
-    "suggestion": "改为'提分课程'",
-    "note": "'保分'承诺违反考试机构规定"
-  },
-  {
-    "keyword": "买论文",
+    "keyword": "代考",
     "category": "学术不端",
     "severity": "critical",
     "suggestion": "删除该表述",
-    "note": "买卖论文违法"
-  },
-  {
-    "keyword": "假成绩单",
-    "category": "学术不端",
-    "severity": "critical",
-    "suggestion": "删除该表述；材料造假将被取消录取",
-    "note": "伪造成绩单违法"
-  },
-  {
-    "keyword": "假推荐信",
-    "category": "学术不端",
-    "severity": "critical",
-    "suggestion": "删除该表述",
-    "note": "伪造推荐信违法"
+    "note": "代考属严重学术不端与违法行为",
+    "law_ref": "《广告法》第四条；《刑法》第二百八十四条之一"
   },
   {
     "keyword": "假实习",
     "category": "学术不端",
     "severity": "critical",
     "suggestion": "删除该表述",
-    "note": "伪造实习经历属造假"
+    "note": "伪造实习经历属造假",
+    "law_ref": "《广告法》第四条；《刑法》第二百八十四条之一"
   },
   {
-    "keyword": "免语言成绩",
-    "category": "过程简化",
-    "severity": "medium",
-    "suggestion": "改为'部分院校可凭语言内测申请'",
-    "note": "需说明具体适用条件，避免以偏概全"
+    "keyword": "假成绩单",
+    "category": "学术不端",
+    "severity": "critical",
+    "suggestion": "删除该表述；材料造假将被取消录取",
+    "note": "伪造成绩单违法",
+    "law_ref": "《广告法》第四条；《刑法》第二百八十四条之一"
   },
   {
-    "keyword": "免雅思入学",
-    "category": "过程简化",
-    "severity": "medium",
-    "suggestion": "改为'部分院校接受内测或语言班'",
-    "note": "以免误导"
+    "keyword": "假推荐信",
+    "category": "学术不端",
+    "severity": "critical",
+    "suggestion": "删除该表述",
+    "note": "伪造推荐信违法",
+    "law_ref": "《广告法》第四条；《刑法》第二百八十四条之一"
   },
   {
-    "keyword": "无需高考成绩",
-    "category": "过程简化",
-    "severity": "medium",
-    "suggestion": "改为'部分院校可用高中成绩申请'",
-    "note": "需注明适用范围"
+    "keyword": "替考",
+    "category": "学术不端",
+    "severity": "critical",
+    "suggestion": "删除该表述",
+    "note": "替考违法",
+    "law_ref": "《广告法》第四条；《刑法》第二百八十四条之一"
   },
   {
-    "keyword": "免高考",
-    "category": "过程简化",
+    "keyword": "一个月出offer",
+    "category": "时间承诺",
     "severity": "medium",
-    "suggestion": "改为'部分院校接受高中成绩申请'",
-    "note": "需注明适用范围"
+    "suggestion": "改为'尽快递交申请'",
+    "note": "时间承诺不可控",
+    "law_ref": "《广告法》第二十四条第一项"
+  },
+  {
+    "keyword": "一周下offer",
+    "category": "时间承诺",
+    "severity": "medium",
+    "suggestion": "改为'尽早递交，缩短审理等待'",
+    "note": "审理周期由学校决定",
+    "law_ref": "《广告法》第二十四条第一项"
   },
   {
     "keyword": "留学第一",
@@ -246,5 +86,157 @@
     "suggestion": "改为'服务多年的留学机构'",
     "note": "绝对化用语需审慎",
     "law_ref": "《广告法》第九条"
+  },
+  {
+    "keyword": "100%录取",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "删除该表述",
+    "note": "绝对化承诺",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "保offer",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "改为'协助准备申请材料'",
+    "note": "offer 由学校发放，不可保证",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "保入学",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "改为'协助办理入学申请'",
+    "note": "入学结果不可保证",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "保录取",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "改为'协助提升申请竞争力'",
+    "note": "录取决定权在学校，机构无法保证",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "保毕业",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "删除，改为'提供学业辅导'",
+    "note": "毕业由学校按学业标准决定",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "保证录取",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "改为'协助提升申请通过率'",
+    "note": "结果性保证",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "包offer",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "删除该表述",
+    "note": "结果性保证",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "包入学",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "改为'协助办理入学申请'",
+    "note": "结果性保证",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "包录取",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "改为'协助提交申请材料'",
+    "note": "录取结果不可承诺",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "包毕业",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "删除该表述",
+    "note": "结果性保证",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "百分百录取",
+    "category": "虚假承诺",
+    "severity": "high",
+    "suggestion": "删除该表述",
+    "note": "绝对化承诺",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "内推名额",
+    "category": "虚假资质",
+    "severity": "critical",
+    "suggestion": "改为'校友推荐渠道'并明确真实性",
+    "note": "需核实真实性，避免误导",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "内部招生名额",
+    "category": "虚假资质",
+    "severity": "critical",
+    "suggestion": "删除该表述",
+    "note": "不存在所谓内部招生名额",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "招生官推荐",
+    "category": "虚假资质",
+    "severity": "critical",
+    "suggestion": "删除该表述",
+    "note": "冒充与招生官的关系属误导",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "保过退款",
+    "category": "费用承诺",
+    "severity": "medium",
+    "suggestion": "改为'按合同约定处理'",
+    "note": "避免无法兑现的承诺",
+    "law_ref": "《广告法》第二十四条第一项；《国务院关于出境入境管理的规定》第十条第一项"
+  },
+  {
+    "keyword": "免语言成绩",
+    "category": "过程简化",
+    "severity": "medium",
+    "suggestion": "改为'部分院校可凭语言内测申请'",
+    "note": "需说明具体适用条件，避免以偏概全",
+    "law_ref": "《广告法》第二十四条第一项；《广告法》第二十八条"
+  },
+  {
+    "keyword": "免雅思入学",
+    "category": "过程简化",
+    "severity": "medium",
+    "suggestion": "改为'部分院校接受内测或语言班'",
+    "note": "以免误导",
+    "law_ref": "《广告法》第二十四条第一项；《广告法》第二十八条"
+  },
+  {
+    "keyword": "免高考",
+    "category": "过程简化",
+    "severity": "medium",
+    "suggestion": "改为'部分院校接受高中成绩申请'",
+    "note": "需注明适用范围",
+    "law_ref": "《广告法》第二十四条第一项；《广告法》第二十八条"
+  },
+  {
+    "keyword": "无需高考成绩",
+    "category": "过程简化",
+    "severity": "medium",
+    "suggestion": "改为'部分院校可用高中成绩申请'",
+    "note": "需注明适用范围",
+    "law_ref": "《广告法》第二十四条第一项；《广告法》第二十八条"
   }
 ]
