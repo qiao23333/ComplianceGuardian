@@ -315,6 +315,10 @@ class DetectionEngine:
             "allow_auto_replace": allow,
             "match_type": match_type, "variant_of": variant_of,
             "confidence": conf,
+            # 依据随命中一起走完全程：所有命中（字面/正则/变体）都经由
+            # 这一个函数构造，所以接在这一处就够，不会漏任何路径。
+            "law_ref": rule.law_ref,
+            "note": rule.note,
         }
 
     def _account(self) -> str:
@@ -364,6 +368,7 @@ class DetectionEngine:
             allow_auto_replace=h["allow_auto_replace"],
             match_type=h["match_type"], variant_of=h["variant_of"],
             confidence=h["confidence"],
+            law_ref=h.get("law_ref", ""), note=h.get("note", ""),
         )
 
     def _build_safe_text(self, text: str, findings: list[Finding],

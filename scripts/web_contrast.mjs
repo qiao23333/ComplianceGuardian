@@ -140,6 +140,18 @@ const COLLECT = () => {
     if (cs.visibility === 'hidden' || cs.display === 'none') continue;
     if (parseFloat(cs.opacity) < 0.05) continue;
 
+    // 必须用 checkVisibility()，不能只靠"有没有盒子"。
+    //
+    // 收起的 <details> 用的是 content-visibility —— 内容**不绘制，但布局盒
+    // 照旧存在**，getBoundingClientRect() 照样返回真实高度（实测 294px）。
+    // 早期版本因此把收起面板里的文字也算进了"可见文字"，量了一堆用户根本
+    // 看不见的东西：数字虚高，还可能给出假的"对比度不达标"。
+    if (typeof el.checkVisibility === 'function') {
+      if (!el.checkVisibility({ contentVisibilityAuto: true, opacityProperty: true })) {
+        continue;
+      }
+    }
+
     const fg0 = parseColor(cs.color);
     if (!fg0) continue;
     const bg = effectiveBg(el);
@@ -169,53 +181,97 @@ const COLLECT = () => {
 
 // ---------------------------------------------------------------- 主流程
 
+/**
+ * 要量的视图。
+ *
+ * 早期版本只量了默认的「单条检测」页 —— 于是其他标签页的文字**从来没被
+ * 量过**：词库列表、批量结果表、以及默认收起的词库健康度面板，它们
+ * 颜色改坏了这个门禁也不会响。只在首屏量，等于门禁只守住了 1/N。
+ */
+const VIEWS = [
+  { name: '单条检测', tab: 'single' },
+  { name: '批量检测', tab: 'batch' },
+  { name: '词库浏览', tab: 'rules' },
+  {
+    name: '词库健康度（展开）',
+    tab: 'rules',
+    open: 'rHealth',
+  },
+];
+
 const browser = await puppeteer.launch({
   executablePath: CHROME, headless: 'new', args: ['--no-sandbox'],
 });
 
 const themes = ONLY_THEME ? [ONLY_THEME] : ['dark', 'light'];
 let bad = 0;
+let totalMeasured = 0;
 
 for (const theme of themes) {
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1440, height: 1200 });
-  await page.goto(BASE_URL, { waitUntil: 'networkidle0' });
-  await page.evaluate((t) => {
-    document.documentElement.setAttribute('data-theme', t);
-  }, theme);
-  // 让检测跑起来，结果区那些动态文字也要量到
-  await page.evaluate(() => {
-    const el = document.getElementById('input');
-    if (el) {
-      el.value = '保签包过，百分百成功，全国最低价，内部名额有限。';
-      el.dispatchEvent(new Event('input', { bubbles: true }));
+  for (const view of VIEWS) {
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1440, height: 1200 });
+    await page.goto(BASE_URL, { waitUntil: 'networkidle0' });
+    await page.evaluate((t) => {
+      document.documentElement.setAttribute('data-theme', t);
+    }, theme);
+
+    // 让检测跑起来，结果区那些动态文字也要量到
+    await page.evaluate(() => {
+      const el = document.getElementById('input');
+      if (el) {
+        el.value = '保签包过，百分百成功，全国最低价，内部名额有限。';
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    });
+    await new Promise((r) => setTimeout(r, 500));
+
+    // 切到目标标签页（批量页要先把结果跑出来，才有表格式的文字）
+    if (view.tab && view.tab !== 'single') {
+      await page.evaluate((t) => {
+        const btn = document.querySelector('.tabs__btn[data-tab="' + t + '"]');
+        if (btn) btn.click();
+      }, view.tab);
+      await new Promise((r) => setTimeout(r, 300));
     }
-  });
-  await new Promise((r) => setTimeout(r, 900));
 
-  const rows = await page.evaluate(COLLECT);
-  const fail = rows.filter((r) => r.cr < r.need);
-  bad += fail.length;
+    // 默认收起的 <details> 里的文字量不到，必须显式展开
+    if (view.open) {
+      await page.evaluate((id) => {
+        const el = document.getElementById(id);
+        if (el) el.open = true;
+      }, view.open);
+      await new Promise((r) => setTimeout(r, 250));
+    }
 
-  console.log('\n' + '='.repeat(62));
-  console.log('主题 ' + theme + '：量了 ' + rows.length + ' 处文字，不达标 ' + fail.length + ' 处');
-  console.log('='.repeat(62));
+    const rows = await page.evaluate(COLLECT);
+    const fail = rows.filter((r) => r.cr < r.need);
+    bad += fail.length;
+    totalMeasured += rows.length;
 
-  const list = SHOW_ALL ? rows.sort((a, b) => a.cr - b.cr) : fail.sort((a, b) => a.cr - b.cr);
-  for (const r of list) {
-    const mark = r.cr < r.need ? '✗' : '✓';
-    console.log(mark + ' ' + String(r.cr).padEnd(6) + '需≥' + r.need +
-      '  ' + String(r.size).padStart(5) + 'px  ' +
-      r.sel.slice(0, 40).padEnd(42) +
-      r.color + ' on ' + r.bg);
-    if (r.cr < r.need) console.log('      「' + r.text + '」');
+    console.log('\n' + '='.repeat(62));
+    console.log(`主题 ${theme} · ${view.name}：量了 ${rows.length} 处文字，不达标 ${fail.length} 处`);
+    console.log('='.repeat(62));
+
+    const list = SHOW_ALL
+      ? rows.sort((a, b) => a.cr - b.cr)
+      : fail.sort((a, b) => a.cr - b.cr);
+    for (const r of list) {
+      const mark = r.cr < r.need ? '✗' : '✓';
+      console.log(mark + ' ' + String(r.cr).padEnd(6) + '需≥' + r.need +
+        '  ' + String(r.size).padStart(5) + 'px  ' +
+        r.sel.slice(0, 40).padEnd(42) +
+        r.color + ' on ' + r.bg);
+      if (r.cr < r.need) console.log('      「' + r.text + '」');
+    }
+    await page.close();
   }
-  await page.close();
 }
 
 await browser.close();
 
 console.log('\n' + '='.repeat(62));
+console.log(`共量 ${totalMeasured} 处文字（${themes.length} 主题 × ${VIEWS.length} 视图）`);
 console.log(bad === 0
   ? '全部达标 ✓'
   : '共 ' + bad + ' 处未达 WCAG 2.1（正常文字 4.5:1 / 大字 3.0:1）');

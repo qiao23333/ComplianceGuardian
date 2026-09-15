@@ -6,23 +6,28 @@
   "author": "Compliance Guardian",
   "industry": "移民/出入境",
   "categories": [
-    "虚假承诺",
-    "虚假宣传",
-    "雇主担保红线",
-    "违法操作",
-    "综合极限词",
+    "价格宣传",
+    "入籍承诺",
+    "关系暗示",
+    "引诱消费",
+    "成功率宣传",
     "时间承诺",
+    "综合极限词",
+    "虚假宣传",
+    "虚假承诺",
     "虚假资质",
     "费用承诺",
-    "关系暗示",
-    "成功率宣传",
     "过程简化",
-    "价格宣传",
-    "入籍承诺"
+    "违法操作",
+    "雇主担保红线"
   ],
   "rules_file": "rules.json",
-  "rule_count": 140,
-  "platforms": ["xiaohongshu", "douyin", "weixin"],
+  "rule_count": 179,
+  "platforms": [
+    "xiaohongshu",
+    "douyin",
+    "weixin"
+  ],
   "created": "2026-07-01",
   "updated": "2026-08-23"
 }

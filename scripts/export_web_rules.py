@@ -50,6 +50,48 @@ from guardian.schema import SEVERITY_LEVELS  # noqa: E402
 _DEFAULT_OUT = _ROOT / "web" / "data" / "rules.json"
 
 
+def _review_log_payload() -> dict:
+    """读取复核台账，只保留前端展示需要的字段（原样事实，不做日期运算）。
+
+    台账文件缺失时返回空 dict —— 页面据此显示"未登记复核信息"，
+    而不是让整个导出失败。
+    """
+    path = _ROOT / "rules" / "review_log.json"
+    if not path.exists():
+        return {}
+    try:
+        log = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+    out = {}
+    for src, meta in (log.get("sources") or {}).items():
+        out[src] = {
+            "label": meta.get("label", src),
+            "basis": meta.get("basis", ""),
+            "last": meta.get("last_reviewed", ""),
+            "days": meta.get("review_interval_days", 0),
+            "note": meta.get("note", ""),
+        }
+    return out
+
+
+def _law_family(law_ref: str) -> str:
+    """从条款号里抽出法规名做聚合："《广告法》第九条" → "《广告法》"。
+
+    抽不出来就原样返回（如 "《化妆品监督管理条例》" 没带条款号，
+    还有少数历史规则直接写条款不带书名号）。
+    """
+    if not law_ref:
+        return ""
+    end = law_ref.find("》")
+    if end != -1:
+        return law_ref[: end + 1]
+    # 无书名号：按"第X条/第X款"切开，留住前缀
+    idx = law_ref.find("第")
+    return law_ref[:idx].strip() if idx > 0 else law_ref.strip()
+
+
+
 def build_t2s_map() -> dict[str, str]:
     """逐字生成繁→简映射（与 pipeline 的逐字符转换口径一致）。
 
@@ -92,6 +134,16 @@ def export(out_path: Path = _DEFAULT_OUT) -> tuple[dict, Path]:
             item["g"] = r.suggestion             # guidance / suggestion
         if r.severity_by_account:
             item["sa"] = r.severity_by_account
+        # 法规条款号（如 "《广告法》第九条"）。源词库里本来就有，
+        # 此前导出时被丢掉，于是 Web 端只能说"这是广告法来的"，
+        # 说不到"违反第几条"——而"依据可追溯到条款"恰恰是合规工具
+        # 与"违禁词表"的分水岭。
+        if r.law_ref:
+            item["l"] = r.law_ref
+        # 规则说明：解释"为什么有问题 / 什么条件下才合规"
+        # （如"无激素类表述需检测报告支撑"），是建议之外的第二层信息。
+        if r.note:
+            item["n"] = r.note
         payload_rules.append(item)
 
     payload = {
@@ -105,6 +157,31 @@ def export(out_path: Path = _DEFAULT_OUT) -> tuple[dict, Path]:
             ),
             "industries": sorted({r.industry for r in rules if r.industry}),
             "platforms": ["xiaohongshu", "douyin", "weixin"],
+            # 依据覆盖率：有条款号的规则占比。这是一个可以持续盯着看的
+            # 健康度指标——掉下去就说明新加的规则没写依据。
+            "law_coverage": {
+                "with_ref": sum(1 for r in rules if r.law_ref),
+                "total": len(rules),
+            },
+            # 分来源的依据覆盖：平台规则本就不该有法条（依据是平台规范），
+            # 混在一起算总覆盖率会把"法律类词库 99% 有依据"这个事实淹掉。
+            "coverage_by_source": {
+                src: {
+                    "n": sum(1 for r in rules if r.source == src),
+                    "ref": sum(1 for r in rules if r.source == src and r.law_ref),
+                }
+                for src in sorted({r.source for r in rules})
+            },
+            # 依据分布（按法规聚合）：词库页展示"我们的规则站在哪些法条上"
+            "by_law": dict(
+                Counter(
+                    _law_family(r.law_ref) for r in rules if r.law_ref
+                ).most_common()
+            ),
+            # 复核台账（原样带上，**不预先算剩余天数**）。
+            # "还剩几天有效"是相对"今天"的，一旦写进产物，产物就会每天漂移，
+            # 双端对拍门禁会天天变红。所以只导事实，由浏览器现算。
+            "review_log": _review_log_payload(),
         },
         "severity": {
             k: {"label": v[0], "tone": v[1], "weight": v[2]}
@@ -181,30 +258,73 @@ def check(out_path: Path) -> int:
     if len(fa) != len(da):
         print(f"  · 规则数：源 {len(fa)} 条 vs 前端 {len(da)} 条")
 
-    set_a = {(r.get("k"), r.get("s")) for r in fa}
-    set_b = {(r.get("k"), r.get("s")) for r in da}
-    missing = sorted(set_a - set_b)
-    stale = sorted(set_b - set_a)
+    # 键取 (关键词, 来源, 平台) 三元组而非仅 (关键词, 严重度)：
+    # 同词同级但依据（law_ref）或建议改了的漂移，旧写法是看不见的。
+    def _key(r):
+        return (r.get("k"), r.get("o"), tuple(r.get("p") or ()))
+
+    map_a = {_key(r): r for r in fa}
+    map_b = {_key(r): r for r in da}
+    missing = sorted(set(map_a) - set(map_b))
+    stale = sorted(set(map_b) - set(map_a))
+    # 键相同但内容不同 = 字段级漂移（依据/建议/定级任一项被改过）
+    field_drift = sorted(
+        k for k in set(map_a) & set(map_b) if map_a[k] != map_b[k]
+    )
 
     for label, diff in (("前端缺少（源里有、前端没有）", missing),
                         ("前端过时（前端有、源里已改或已删）", stale)):
         if not diff:
             continue
         print(f"  · {label} {len(diff)} 条：")
-        for k, s in diff[:10]:
+        for k, s, _p in diff[:10]:
             print(f"      {k}  [{s}]")
         if len(diff) > 10:
             print(f"      …… 另有 {len(diff) - 10} 条")
 
-    if not missing and not stale:
+    if field_drift:
+        print(f"  · 同词条但字段已变 {len(field_drift)} 条：")
+        for k in field_drift[:8]:
+            a, b = map_a[k], map_b[k]
+            changed = [f for f in set(a) | set(b) if a.get(f) != b.get(f)]
+            detail = "，".join(
+                f"{f}: {_brief(a.get(f), 30)} → {_brief(b.get(f), 30)}"
+                for f in sorted(changed)
+            )
+            print(f"      {k[0]}：{detail}")
+        if len(field_drift) > 8:
+            print(f"      …… 另有 {len(field_drift) - 8} 条")
+
+    if not missing and not stale and not field_drift:
         other = [k for k in fresh
                  if k not in ("rules", "meta") and fresh[k] != on_disk.get(k)]
-        meta_diff = [k for k in ("rule_count", "by_severity", "by_source", "industries")
-                     if fresh.get("meta", {}).get(k) != on_disk.get("meta", {}).get(k)]
-        where = other + [f"meta.{m}" for m in meta_diff]
+        # meta 逐键通用对比。早先这里写死了一张键名单，结果新增 meta 字段
+        # （law_coverage / by_law）漂移时，诊断只能输出"未能定位到具体字段"——
+        # 门禁能失败但说不清为什么失败，等于把排查成本又丢回给人。
+        _skip = {"generated"}
+        meta_diff = [
+            k for k in set(fresh.get("meta", {})) | set(on_disk.get("meta", {}))
+            if k not in _skip
+            and fresh.get("meta", {}).get(k) != on_disk.get("meta", {}).get(k)
+        ]
+        where = other + [f"meta.{m}" for m in sorted(meta_diff)]
+        hint = ""
+        if meta_diff:
+            for m in sorted(meta_diff):
+                a = fresh.get("meta", {}).get(m)
+                b = on_disk.get("meta", {}).get(m)
+                hint += f"      meta.{m}：源 {_brief(a)} vs 前端 {_brief(b)}\n"
         print(f"  · 规则集合一致，差异在：{where or '（未能定位到具体字段）'}")
+        if hint:
+            print(hint.rstrip("\n"))
 
     return 1
+
+
+def _brief(value, limit: int = 90) -> str:
+    """把值压成一行短摘要，供漂移诊断打印。"""
+    text = json.dumps(value, ensure_ascii=False, sort_keys=True)
+    return text if len(text) <= limit else text[:limit] + "…"
 
 
 def main() -> int:

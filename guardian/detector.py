@@ -411,8 +411,11 @@ class ComplianceDetector:
                 "platform": f.platform,
                 "blue_v_label": "",
                 "suggestion": f.suggestion or "",
-                "law_ref": "",
-                "note": "",
+                # 法规依据（条款号）与规则说明 —— 此前这里写死成空字符串，
+                # 于是源词库里的 law_ref 一路走到 UI 前最后一厘米被丢掉，
+                # 用户只看到"违规"却看不到"违反哪一条"。
+                "law_ref": getattr(f, "law_ref", "") or "",
+                "note": getattr(f, "note", "") or "",
                 "match_type": f.match_type,
                 "variant_of": f.variant_of,
                 "confidence": f.confidence,

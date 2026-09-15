@@ -102,6 +102,8 @@
       // 词库浏览
       'rSearch', 'rSource', 'rSeverity', 'rPlatform', 'rStats', 'rList',
       'rPrev', 'rNext', 'rPageInfo',
+      // 词库健康度
+      'rHealth', 'rHealthDot', 'rHealthBrief', 'rHealthBody',
       // 最近检测
       'histStoreText', 'histClear', 'histHint', 'histList',
     ].forEach(function (id) { els[id] = $(id); });
@@ -773,6 +775,15 @@
       tips += '<div class="finding__tip"><b>对应词条</b><span>' +
         esc(f.variantOf) + '</span></div>';
     }
+    // 依据：条款号 + 规则说明。合规工具说"违规"还不够，得说清"违反哪一条"，
+    // 否则用户没法复核、也没法拿去跟平台/法务对话。
+    if (f.lawRef || f.note) {
+      tips += '<div class="finding__tip finding__tip--law"><b>依据</b><span>' +
+        (f.lawRef ? '<code>' + esc(f.lawRef) + '</code>' : '') +
+        (f.lawRef && f.note ? ' · ' : '') +
+        (f.note ? esc(f.note) : '') +
+        '</span></div>';
+    }
 
     return '<div class="finding" data-sev="' + esc(f.severity) + '">' +
       '<div class="finding__top">' +
@@ -798,6 +809,7 @@
         '<td>' + esc(f.keyword) + '</td>' +
         '<td>' + esc(f.category || '') + '</td>' +
         '<td>' + esc(SOURCE_LABEL[f.source] || f.source || '') + '</td>' +
+        '<td>' + (f.lawRef ? esc(f.lawRef) : '<span class="dim">—</span>') + '</td>' +
         '<td>' + (f.matchType === 'variant' ? '疑似规避写法' :
           f.matchType === 'regex' ? '组合词' : '字面') + '</td>' +
         '<td>' + esc(f.suggestion || '') +
@@ -807,7 +819,7 @@
         '</tr>';
     }).join('');
 
-    var emptyRow = '<tr><td colspan="8" class="dim">未发现风险词。</td></tr>';
+    var emptyRow = '<tr><td colspan="9" class="dim">未发现风险词。</td></tr>';
 
     return '<!DOCTYPE html>\n<html lang="zh-CN"><head><meta charset="utf-8">' +
       '<title>合规检测报告 ' + stamp() + '</title><style>' +
@@ -849,7 +861,7 @@
 
       '<h2>命中明细</h2>' +
       '<table><thead><tr><th>#</th><th>等级</th><th>命中片段</th><th>对应词条</th>' +
-      '<th>类别</th><th>来源</th><th>类型</th><th>建议</th></tr></thead><tbody>' +
+      '<th>类别</th><th>来源</th><th>法规依据</th><th>类型</th><th>建议</th></tr></thead><tbody>' +
       (rows || emptyRow) + '</tbody></table>' +
 
       '<h2>原文</h2><pre>' + esc(text) + '</pre>' +
@@ -1120,7 +1132,11 @@
       }, []).slice(0, 3);
       var words = picks.length
         ? picks.map(function (f) {
-          return '<em style="color:' + SEV_VAR[f.severity] + '">' + esc(f.matchedText) + '</em>';
+          // 悬停给出条款号——批量表列宽有限，依据放进 tooltip
+          // 比再塞一列更实际，需要完整依据可导出报告或 CSV。
+          var tip = f.lawRef ? ' title="依据' + esc(f.lawRef) + '"' : '';
+          return '<em' + tip + ' style="color:' + SEV_VAR[f.severity] + '">' +
+            esc(f.matchedText) + '</em>';
         }).join('、')
         : '<span style="color:var(--ok)">未发现风险词</span>';
 
@@ -1145,7 +1161,8 @@
   /** 导出 CSV。加 BOM，否则 Excel 打开中文是乱码（Windows 上必踩）。 */
   function exportBatchCsv() {
     if (!lastBatch) return;
-    var head = ['序号', '合规分', '风险等级', '高危', '中危', '低危', '命中数', '主要风险词', '原文'];
+    var head = ['序号', '合规分', '风险等级', '高危', '中危', '低危', '命中数',
+                '主要风险词', '法规依据', '原文'];
     var q = function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; };
 
     var lines = [head.map(q).join(',')];
@@ -1153,10 +1170,15 @@
       var s = r.res.summary;
       var words = r.res.findings.slice(0, 5)
         .map(function (f) { return f.matchedText; }).join('、');
+      // 同一段文案常命中同一法条多次，去重后按首次出现顺序排列
+      var laws = [];
+      r.res.findings.forEach(function (f) {
+        if (f.lawRef && laws.indexOf(f.lawRef) === -1) laws.push(f.lawRef);
+      });
       lines.push([
         r.idx, s.score, s.riskLevel,
         s.counts.critical || 0, s.counts.high || 0, s.counts.medium || 0,
-        r.res.findings.length, words, r.text,
+        r.res.findings.length, words, laws.join('；'), r.text,
       ].map(q).join(','));
     });
 
@@ -1186,7 +1208,7 @@
     });
   }
 
-  // ============================================================ 词库浏览
+  // ============================================================ 词库浏览 · 筛选
 
   var RULES_PAGE_SIZE = 40;
   var rulesPage = 0;
@@ -1207,12 +1229,130 @@
         if (p.indexOf(plat) === -1 || p.indexOf('*') !== -1) return false;
       }
       if (q) {
-        var hay = [r.k, r.c, r.g, (r.r || []).join(' ')].join(' ').toLowerCase();
+        var hay = [r.k, r.c, r.g, r.l, r.n, (r.r || []).join(' ')]
+          .join(' ').toLowerCase();
         if (hay.indexOf(q) === -1) return false;
       }
       return true;
     });
   }
+
+  // ============================================================ 词库健康度
+
+  /**
+   * 词库复核状态。
+   *
+   * 为什么值得在页面上单开一块
+   * --------------------------
+   * 规则驱动型工具不会"坏掉"，只会**过期**：平台规则改了、监管口径变了，
+   * 静态词库仍在照常打分，只是分数开始失真。功能不报错、测试不变红，
+   * 这是最隐蔽也最致命的失效模式。所以把它摆到明面上。
+   *
+   * 台账里只存**事实**（上次复核日、复核周期），"还剩几天"在这里现算。
+   * 一旦把剩余天数写进产物文件，产物就会每天漂移，双端对拍门禁天天变红。
+   */
+  var REVIEW_SOON_RATIO = 0.2;
+
+  function daysSince(dateStr, today) {
+    var p = String(dateStr || '').split('-');
+    if (p.length !== 3) return null;
+    var from = new Date(+p[0], +p[1] - 1, +p[2]);
+    if (isNaN(from.getTime())) return null;
+    return Math.round((today - from) / 86400000);
+  }
+
+  function reviewStatus(row, today) {
+    var elapsed = daysSince(row.last, today);
+    if (elapsed === null || !row.days) {
+      return { status: 'unknown', elapsed: null, remain: null };
+    }
+    var remain = row.days - elapsed;
+    var status = remain < 0
+      ? 'overdue'
+      : (remain <= row.days * REVIEW_SOON_RATIO ? 'due_soon' : 'ok');
+    return { status: status, elapsed: elapsed, remain: remain };
+  }
+
+  var REVIEW_LABEL = {
+    ok: '有效', due_soon: '临近复核', overdue: '已过期', unknown: '未登记',
+  };
+
+  //: 依据是"法条"的来源。platform / blue_v 的依据是平台规范，不在此列。
+  var LAW_BASED = /^(ad_law|industry:|regex)/;
+
+  function renderHealth() {
+    if (!els.rHealthBody) return;
+    var meta = (window.GUARDIAN_RULES && window.GUARDIAN_RULES.meta) || {};
+    var log = meta.review_log || {};
+    var cov = meta.coverage_by_source || {};
+
+    var srcs = Object.keys(log);
+    if (!srcs.length) {
+      els.rHealthBrief.textContent = '未登记复核信息';
+      els.rHealthBody.innerHTML = '<div class="health__empty">' +
+        '这份词库产物里没有复核台账，无法判断规则是否已过期。</div>';
+      return;
+    }
+
+    var today = new Date();
+    var rows = srcs.map(function (src) {
+      var r = log[src] || {};
+      var c = cov[src] || { n: 0, ref: 0 };
+      return { src: src, row: r, st: reviewStatus(r, today), n: c.n, ref: c.ref };
+    });
+
+    var overdue = rows.filter(function (x) { return x.st.status === 'overdue'; });
+    var soon = rows.filter(function (x) { return x.st.status === 'due_soon'; });
+
+    // 依据覆盖率只对"法条类来源"统计。平台规则/蓝V规则的依据是平台规范
+    // 而非法律，把它们算进分母会把真实覆盖率压低，反过来说也说不通。
+    var lawSrcs = rows.filter(function (x) { return LAW_BASED.test(x.src); });
+    var lawRef = lawSrcs.reduce(function (s, x) { return s + x.ref; }, 0);
+    var lawAll = lawSrcs.reduce(function (s, x) { return s + x.n; }, 0);
+    var pctText = lawAll ? Math.round(lawRef * 100 / lawAll) + '%' : '—';
+
+    // 摘要先给结论，明细按需展开——健康度是"扫一眼就知道"的指标
+    els.rHealthDot.className = 'health__dot health__dot--' +
+      (overdue.length ? 'bad' : (soon.length ? 'warn' : 'ok'));
+    els.rHealthBrief.textContent = overdue.length
+      ? (overdue.length + ' 个来源已超过复核周期')
+      : (soon.length
+        ? (soon.length + ' 个来源临近复核')
+        : ('全部 ' + rows.length + ' 个来源在复核周期内 · ' +
+          '法条类词库 ' + lawRef + '/' + lawAll + ' 条标注条款依据（' + pctText + '）'));
+
+    var body = rows.map(function (x) {
+      var remain = x.st.remain === null ? '—' : (x.st.remain + ' 天');
+      return '<tr>' +
+        '<td>' + esc(x.row.label || x.src) + '</td>' +
+        '<td class="num">' + x.n + '</td>' +
+        '<td class="num">' + (x.n ? (x.ref + ' / ' + x.n) : '—') + '</td>' +
+        '<td class="num">' + esc(x.row.last || '—') + '</td>' +
+        '<td class="num">' + (x.row.days ? x.row.days + ' 天' : '—') + '</td>' +
+        '<td class="num">' + esc(remain) + '</td>' +
+        '<td><span class="hstat" data-status="' + esc(x.st.status) + '">' +
+        esc(REVIEW_LABEL[x.st.status]) + '</span></td>' +
+        '</tr>';
+    }).join('');
+
+    // 超期/临近的来源才展开依据与复核要点——不超期的不占视线
+    var notes = rows.filter(function (x) { return x.st.status !== 'ok'; })
+      .map(function (x) {
+        return '<div class="health__note"><b>' + esc(x.row.label || x.src) + '</b>' +
+          '<span>依据：' + esc(x.row.basis || '—') + '</span>' +
+          '<span>' + esc(x.row.note || '') + '</span></div>';
+      }).join('');
+
+    els.rHealthBody.innerHTML =
+      '<table><thead><tr><th>来源</th><th>规则</th><th>标注依据</th>' +
+      '<th>上次复核</th><th>周期</th><th>剩余</th><th>状态</th>' +
+      '</tr></thead><tbody>' + body + '</tbody></table>' +
+      (notes ? '<div class="health__notes">' + notes + '</div>' : '') +
+      '<div class="health__legend">「标注依据」= 该来源中有多少条规则写明具体法条。' +
+      '平台规则与蓝V规则的依据是平台规范而非法律，因此不标注法条，这是预期行为。</div>';
+  }
+
+  // ============================================================ 词库浏览 · 列表
 
   function renderRules() {
     var list = rulesFiltered();
@@ -1259,12 +1399,21 @@
     var g = r.g ? '<div class="ritem__g">' + esc(r.g) + '</div>' : '';
     var rep = (r.r && r.r.length)
       ? '<div class="ritem__r">可改为：' + r.r.map(esc).join(' / ') + '</div>' : '';
+    // 依据：条款号 + 说明。词库页是唯一能逐条看清"我们的规则站在哪些
+    // 法条上"的地方，缺了它就退化成一张违禁词表。
+    var law = (r.l || r.n)
+      ? '<div class="ritem__law">' +
+        (r.l ? '<code>' + esc(r.l) + '</code>' : '') +
+        (r.l && r.n ? ' · ' : '') +
+        (r.n ? esc(r.n) : '') +
+        '</div>'
+      : '';
 
     return '<div class="ritem">' +
       '<div class="ritem__k">' + esc(r.k) + '</div>' +
       '<div class="ritem__body">' +
       '<div class="ritem__meta">' + tags + '</div>' +
-      g + rep +
+      g + rep + law +
       '</div></div>';
   }
 
@@ -1582,6 +1731,7 @@
     // 标签页上的规则数角标
     if (els.tabRuleCount) els.tabRuleCount.textContent = String(total);
 
+    renderHealth();
     fillDiffStats();
     initHistoryPref();
     runDetect();

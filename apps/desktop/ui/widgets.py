@@ -445,6 +445,7 @@ class HoverTooltip:
         suggestion = data.get("suggestion", "")
         source = data.get("source", "")
         law_ref = data.get("law_ref", "")
+        note = data.get("note", "")
         blue_v_label = data.get("blue_v_label", "")
 
         # 严重程度颜色
@@ -473,6 +474,10 @@ class HoverTooltip:
         if law_ref:
             ctk.CTkLabel(frame, text=f"📜 {law_ref}", font=font_typo("micro"),
                          text_color=colors["text_secondary"]).pack(anchor="w", padx=SPACING["md"])
+        if note:
+            ctk.CTkLabel(frame, text=note, font=font_typo("micro"),
+                         text_color=colors["text_tertiary"], wraplength=300,
+                         justify="left", anchor="w").pack(fill="x", padx=SPACING["md"])
 
         # 蓝V标签
         if blue_v_label:

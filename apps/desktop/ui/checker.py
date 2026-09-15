@@ -964,6 +964,20 @@ class CheckerPage(ctk.CTkFrame):
                      text_color=colors["text"], wraplength=340, justify="left",
                      anchor="w").pack(fill="x", pady=(2, 0))
 
+        # 依据：条款号 + 规则说明。
+        # 只说"违规"不说"违反哪一条"，用户没法复核、也没法拿去跟平台或法务对话。
+        # 后端一直在算 law_ref，只是这条链路以前没接到 UI 上。
+        law_ref = (v.get("law_ref") or "").strip()
+        note = (v.get("note") or "").strip()
+        if law_ref or note:
+            law_text = law_ref
+            if law_ref and note:
+                law_text += " · "
+            law_text += note
+            ctk.CTkLabel(inner, text=f"§ {law_text}", font=font_typo("micro"),
+                         text_color=colors["text_secondary"], wraplength=340,
+                         justify="left", anchor="w").pack(fill="x", pady=(1, 0))
+
     # ============================================================
     # 高亮预览 + 悬停浮窗
     # ============================================================

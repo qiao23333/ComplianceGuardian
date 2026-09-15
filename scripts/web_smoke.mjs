@@ -67,6 +67,55 @@ function check(name, ok, detail) {
   }
 }
 
+/**
+ * 断言"只有当前页签真的可见"。
+ *
+ * 为什么不能只查 hidden 属性
+ * --------------------------
+ * `[hidden] { display: none }` 来自浏览器默认样式表，权重仅 (0,1,0)；
+ * 作者写的 `.layout { display: grid }` 与它同权重、且作者样式优先，
+ * 一句话就把它盖掉 —— 于是 `el.hidden === true` 而元素照样参与布局。
+ *
+ * 2026-09-15 真实踩到：切到「词库浏览」时，目标页被渲染在下方约 1000px 处，
+ * 用户看到的是**"点了没反应"**；而当时的断言查的正是 hidden 属性，一路全绿。
+ * 属性对、页面坏 —— 所以这里必须量几何。
+ */
+async function assertOnlyPaneVisible(page, activeTab) {
+  const want = { single: 'pane-single', batch: 'pane-batch', rules: 'pane-rules' }[activeTab];
+  const panes = await page.evaluate(() => ['pane-single', 'pane-batch', 'pane-rules']
+    .map((id) => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { id, h: Math.round(r.height), display: getComputedStyle(el).display };
+    })
+    .filter(Boolean));
+
+  const visible = panes.filter((p) => p.h > 0);
+  check('页签「' + activeTab + '」真的可见（量几何，不查属性）',
+    visible.length === 1 && visible[0].id === want,
+    '可见：' + (visible.map((p) => p.id + '(' + p.h + 'px)').join('、') || '无'));
+
+  // 顺带做一次全局审计：凡是带 hidden 属性的元素都不该可见。
+  // 这一条守的是**整类** bug，不只是某一个页签。
+  //
+  // 判定用 checkVisibility() 而不是"盒子高度>0"：收起的 <details> 走的是
+  // content-visibility（不绘制但保留布局盒），只量高度会漏判。
+  const leak = await page.evaluate(() =>
+    Array.from(document.querySelectorAll('[hidden]'))
+      .map((el) => {
+        const visible = typeof el.checkVisibility === 'function'
+          ? el.checkVisibility({ contentVisibilityAuto: true })
+          : el.getBoundingClientRect().height > 0;
+        return visible
+          ? el.tagName.toLowerCase() + (el.id ? '#' + el.id : '') +
+            ' (' + Math.round(el.getBoundingClientRect().height) + 'px)'
+          : null;
+      })
+      .filter(Boolean));
+  check('没有 hidden 元素仍在渲染', leak.length === 0, leak.join('、'));
+}
+
 // ============================================================ 主流程
 
 const jsErrors = [];
@@ -122,6 +171,18 @@ try {
   check('高危样例有命中', r1.findings > 0, '命中 ' + r1.findings + ' 处');
   check('合规分已下降到 100 以下', Number(r1.score) < 100, 'score=' + r1.score);
   check('全文高亮预览出现', r1.preview);
+  await assertOnlyPaneVisible(page, 'single');
+
+  // 命中必须能追溯到条款。只报"违规"不报"违反哪条"，用户没法复核，
+  // 也没法拿去跟平台/法务对话——这条断言守的就是这个下限。
+  const lawTips = await page.evaluate(() =>
+    Array.from(document.querySelectorAll('#findings .finding__tip--law'))
+      .map((e) => e.textContent.trim()));
+  check('命中卡片给出法规依据', lawTips.length > 0,
+    lawTips.length + ' 处带依据');
+  check('依据写明具体条款号',
+    lawTips.some((t) => /《[^》]+》第[一二三四五六七八九十百零〇\d]+条/.test(t)),
+    lawTips[0] || '（无）');
 
   // ---- 跨平台矩阵 ----
   console.log('\n[4] 跨平台对比矩阵');
@@ -315,6 +376,12 @@ try {
     };
   });
   check('切到批量页且单条页已隐藏', batch.paneVisible && batch.singleHidden);
+  // 上面这条断言的是 hidden **属性**。属性对不代表页面对：
+  // `[hidden]{display:none}` 来自浏览器默认样式表，权重只有 (0,1,0)，
+  // 被作者写的 `.layout{display:grid}` 一盖就失效 —— 属性是 true，
+  // 页面却照样把这一页渲染出来（下拉 1000px 处，「点了没反应」）。
+  // 所以再断一次"实际几何"：只有当前页签该有非零高度。
+  await assertOnlyPaneVisible(page, 'batch');
   check('5 条示例全部进表', batch.tableRows === 5, '实际 ' + batch.tableRows + ' 行');
   check('统计卡 4 项', batch.cards === 4, '实际 ' + batch.cards);
   check('总条数正确', batch.total === 5, 'total=' + batch.total);
@@ -346,6 +413,45 @@ try {
     /共\s*\d+\s*条规则/.test(rl.stats) && /筛选命中/.test(rl.stats), rl.stats);
   check('分页信息正确', /第\s*1\s*\/\s*\d+\s*页/.test(rl.page), rl.page);
   check('标签页角标显示规则数', /^\d+$/.test(rl.badge) && Number(rl.badge) > 0, rl.badge);
+  await assertOnlyPaneVisible(page, 'rules');
+
+  // 依据可追溯：词库里每一条法条类规则都该说得出"违反哪一条"，
+  // 只写"来源=广告法"是违禁词表，写到条款号才是合规工具。
+  const law = await page.evaluate(() => {
+    const first = document.querySelector('#rList .ritem');
+    const total = document.querySelectorAll('#rList .ritem').length;
+    const shown = document.querySelectorAll('#rList .ritem__law').length;
+    return {
+      total: total,
+      shown: shown,
+      first: first && first.querySelector('.ritem__law')
+        ? first.querySelector('.ritem__law').textContent.trim() : '',
+    };
+  });
+  check('词库条目显示法规依据', law.shown > 0,
+    law.shown + '/' + law.total + ' 条可见');
+  check('依据含具体条款号（含「第…条」）',
+    /第[一二三四五六七八九十百零〇\d]+条/.test(law.first), law.first);
+
+  // 词库健康度：规则会"安静地过期"，这是本页最该被看见的指标
+  const health = await page.evaluate(() => {
+    const brief = document.getElementById('rHealthBrief');
+    const body = document.getElementById('rHealthBody');
+    return {
+      brief: (brief.textContent || '').trim(),
+      dot: (document.getElementById('rHealthDot').className || ''),
+      rows: body.querySelectorAll('tbody tr').length,
+      hasLegend: !!body.querySelector('.health__legend'),
+      hasPeriod: !!body.querySelectorAll('tbody tr')[0],
+    };
+  });
+  check('健康度面板给出复核状态摘要',
+    /复核周期内|临近复核|已超过复核周期/.test(health.brief), health.brief);
+  check('健康度摘要含依据覆盖率（法条类口径）',
+    /法条类词库\s*\d+\/\d+\s*条/.test(health.brief), health.brief);
+  check('健康度状态点已着色', /health__dot--/.test(health.dot), health.dot);
+  check('健康度列出各来源（≥5 行）', health.rows >= 5, health.rows + ' 行');
+  check('健康度带口径说明', health.hasLegend);
 
   // 搜索
   await page.type('#rSearch', '保签');
@@ -697,6 +803,18 @@ try {
   await new Promise((r) => setTimeout(r, 500));
   await page.screenshot({ path: SHOT_DIR + '/web-rules.png' });
 
+  // 健康度面板展开态：默认收起，截图要看的是展开后的明细
+  await page.evaluate(() => {
+    const h = document.getElementById('rHealth');
+    if (h) { h.open = true; h.scrollIntoView({ block: 'start' }); }
+  });
+  await new Promise((r) => setTimeout(r, 350));
+  await page.screenshot({ path: SHOT_DIR + '/web-health.png' });
+  await page.evaluate(() => {
+    const h = document.getElementById('rHealth');
+    if (h) h.open = false;
+  });
+
   await page.setViewport({ width: 390, height: 844, isMobile: true });
   await new Promise((r) => setTimeout(r, 400));
   await page.screenshot({ path: SHOT_DIR + '/web-mobile.png', fullPage: true });
@@ -704,6 +822,7 @@ try {
   check('迭代对比截图已生成', fs.existsSync(SHOT_DIR + '/web-iter.png'));
   check('批量页截图已生成', fs.existsSync(SHOT_DIR + '/web-batch.png'));
   check('词库页截图已生成', fs.existsSync(SHOT_DIR + '/web-rules.png'));
+  check('健康度截图已生成', fs.existsSync(SHOT_DIR + '/web-health.png'));
 
   // ---- 汇总 ----
   console.log('\n' + '='.repeat(56));

@@ -4,175 +4,200 @@
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'协助申请'，移民局不允许承诺签证结果",
-    "note": "移民行业红线：不能对签证结果做保证性承诺"
+    "note": "移民行业红线：不能对签证结果做保证性承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "保证下签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'协助递交申请'",
-    "note": "签证结果由移民局决定，机构无权保证"
+    "note": "签证结果由移民局决定，机构无权保证",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "包过",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除，改为'专业团队协助'",
-    "note": "移民行业红线：不能承诺包通过"
+    "note": "移民行业红线：不能承诺包通过",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "包拿PR",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'PR申请服务'",
-    "note": "PR审批权在移民局，任何机构无权保证"
+    "note": "PR审批权在移民局，任何机构无权保证",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "包拿绿卡",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'绿卡申请服务'",
-    "note": "绿卡审批权在移民局"
+    "note": "绿卡审批权在移民局",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "保证绿卡",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'绿卡申请服务'",
-    "note": "移民行业红线"
+    "note": "移民行业红线",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "保证成功",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'提高成功率'",
-    "note": "不能对签证结果做保证性承诺"
+    "note": "不能对签证结果做保证性承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "承诺获批",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'协助申请'",
-    "note": "移民行业红线"
+    "note": "移民行业红线",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "一定通过",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "绝对化承诺"
+    "note": "绝对化承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "必定下签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "绝对化承诺"
+    "note": "绝对化承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "零拒签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'专业团队降低拒签风险'",
-    "note": "无法保证零拒签"
+    "note": "无法保证零拒签",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "拒签为零",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "虚假宣传"
+    "note": "虚假宣传",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "签证必过",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "绝对化承诺"
+    "note": "绝对化承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "绝对通过",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "绝对化用语+虚假承诺"
+    "note": "绝对化用语+虚假承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "稳过",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'专业团队把关'",
-    "note": "口语化保证承诺"
+    "note": "口语化保证承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "稳拿",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "口语化保证承诺"
+    "note": "口语化保证承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "稳下签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "口语化保证承诺"
+    "note": "口语化保证承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "包下签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "口语化保证承诺"
+    "note": "口语化保证承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "成功率99%",
     "category": "成功率宣传",
     "severity": "high",
     "suggestion": "改为'丰富的申请经验'，删除具体百分比",
-    "note": "无法验证的具体数据，涉嫌虚假宣传"
+    "note": "无法验证的具体数据，涉嫌虚假宣传",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "成功率100%",
     "category": "成功率宣传",
     "severity": "high",
     "suggestion": "删除",
-    "note": "绝对化数据"
+    "note": "绝对化数据",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "通过率100%",
     "category": "成功率宣传",
     "severity": "high",
     "suggestion": "删除",
-    "note": "绝对化数据"
+    "note": "绝对化数据",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "通过率99%",
     "category": "成功率宣传",
     "severity": "high",
     "suggestion": "删除",
-    "note": "无法验证的具体数据"
+    "note": "无法验证的具体数据",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "通过率95%",
     "category": "成功率宣传",
     "severity": "high",
     "suggestion": "删除",
-    "note": "无法验证的具体数据"
+    "note": "无法验证的具体数据",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "批签率最高",
     "category": "成功率宣传",
     "severity": "high",
     "suggestion": "改为'专业团队'",
-    "note": "极限词+虚假宣传"
+    "note": "极限词+虚假宣传",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "成功率最高",
     "category": "成功率宣传",
     "severity": "high",
     "suggestion": "改为'经验丰富'",
-    "note": "极限词"
+    "note": "极限词",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "不成功不收费",
@@ -228,70 +253,80 @@
     "category": "虚假资质",
     "severity": "critical",
     "suggestion": "改为'持牌移民代理'",
-    "note": "移民局不授权任何中介机构，只有MARA注册代理"
+    "note": "移民局不授权任何中介机构，只有MARA注册代理",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "政府指定",
     "category": "虚假资质",
     "severity": "critical",
     "suggestion": "删除",
-    "note": "移民局不指定任何中介"
+    "note": "移民局不指定任何中介",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "移民局认证",
     "category": "虚假资质",
     "severity": "critical",
     "suggestion": "改为'MARA注册移民代理'",
-    "note": "移民局不认证中介机构"
+    "note": "移民局不认证中介机构",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "移民局指定",
     "category": "虚假资质",
     "severity": "critical",
     "suggestion": "删除",
-    "note": "移民局不指定任何中介"
+    "note": "移民局不指定任何中介",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "移民局合作",
     "category": "虚假资质",
     "severity": "critical",
     "suggestion": "删除",
-    "note": "移民局不与中介合作"
+    "note": "移民局不与中介合作",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "官方合作",
     "category": "虚假资质",
     "severity": "critical",
     "suggestion": "改为'专业移民服务'",
-    "note": "除非有官方书面合作协议否则不能声称"
+    "note": "除非有官方书面合作协议否则不能声称",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "政府合作",
     "category": "虚假资质",
     "severity": "critical",
     "suggestion": "删除",
-    "note": "除非有政府书面合作协议"
+    "note": "除非有政府书面合作协议",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "大使馆认证",
     "category": "虚假资质",
     "severity": "critical",
     "suggestion": "删除",
-    "note": "大使馆不认证移民中介"
+    "note": "大使馆不认证移民中介",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "独家合作",
     "category": "虚假资质",
     "severity": "critical",
     "suggestion": "删除",
-    "note": "极限词+虚假资质暗示"
+    "note": "极限词+虚假资质暗示",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "使馆认可",
     "category": "虚假资质",
     "severity": "critical",
     "suggestion": "删除",
-    "note": "使馆不认可移民中介"
+    "note": "使馆不认可移民中介",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "最快下签",
@@ -326,7 +361,7 @@
     "category": "时间承诺",
     "severity": "high",
     "suggestion": "改为'审理时间以移民局为准'",
-    "note": "无法保证具体审批时间｜时间承诺：把'保证X天获批'从占位符死规则改写成等价正则，覆盖'保证3个月出签'这类真实表述｜严重度校准：移民语境下承诺获批时间属虚假承诺（《广告法》第28条），不是提示级",
+    "note": "无法保证具体审批时间",
     "match_mode": "regex"
   },
   {
@@ -369,133 +404,152 @@
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'移民方案'",
-    "note": "暗示有非正规途径"
+    "note": "暗示有非正规途径",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "快速移民",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'移民方案规划'",
-    "note": "暗示可以加速移民进程"
+    "note": "暗示可以加速移民进程",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "轻松移民",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'专业移民服务'",
-    "note": "淡化移民难度，可能误导"
+    "note": "淡化移民难度，可能误导",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "无门槛移民",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "移民都有门槛要求"
+    "note": "移民都有门槛要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "零门槛",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "移民都有门槛要求"
+    "note": "移民都有门槛要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "零要求",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "签证都有要求"
+    "note": "签证都有要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "无需英语",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'英语要求视签证类型而定'",
-    "note": "大部分澳洲签证有英语要求"
+    "note": "大部分澳洲签证有英语要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "不用英语",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'英语要求视签证类型而定'",
-    "note": "大部分澳洲签证有英语要求"
+    "note": "大部分澳洲签证有英语要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "不需要英语",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'英语要求视签证类型而定'",
-    "note": "大部分澳洲签证有英语要求"
+    "note": "大部分澳洲签证有英语要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "零英语要求",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'英语要求视签证类型而定'",
-    "note": "大部分澳洲签证有英语要求"
+    "note": "大部分澳洲签证有英语要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "免英语",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'英语要求视签证类型而定'",
-    "note": "大部分澳洲签证有英语要求"
+    "note": "大部分澳洲签证有英语要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "不需要学历",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'学历要求视签证类型而定'",
-    "note": "部分签证有学历要求"
+    "note": "部分签证有学历要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "免学历",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'学历要求视签证类型而定'",
-    "note": "部分签证有学历要求"
+    "note": "部分签证有学历要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "不需要工作经验",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'工作经验要求视签证类型而定'",
-    "note": "雇主担保签证需要工作经验"
+    "note": "雇主担保签证需要工作经验",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "免工作经验",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'工作经验要求视签证类型而定'",
-    "note": "雇主担保签证需要工作经验"
+    "note": "雇主担保签证需要工作经验",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "免面试",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'面试要求视情况而定'",
-    "note": "部分签证可能需要面试"
+    "note": "部分签证可能需要面试",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "免体检",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'体检要求以移民局规定为准'",
-    "note": "大部分澳洲签证需要体检"
+    "note": "大部分澳洲签证需要体检",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "免打分",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'打分要求视签证类型而定'",
-    "note": "部分签证需要打分"
+    "note": "部分签证需要打分",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "不用打分",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'打分要求视签证类型而定'",
-    "note": "部分签证需要打分"
+    "note": "部分签证需要打分",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "包安排雇主",
@@ -691,21 +745,24 @@
     "category": "入籍承诺",
     "severity": "critical",
     "suggestion": "改为'入籍申请服务'",
-    "note": "入籍审批权在政府"
+    "note": "入籍审批权在政府",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "包入籍",
     "category": "入籍承诺",
     "severity": "critical",
     "suggestion": "删除",
-    "note": "入籍审批权在政府"
+    "note": "入籍审批权在政府",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "保证公民身份",
     "category": "入籍承诺",
     "severity": "critical",
     "suggestion": "改为'入籍申请服务'",
-    "note": "入籍审批权在政府"
+    "note": "入籍审批权在政府",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "一步拿PR",
@@ -768,70 +825,80 @@
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "极限词+虚假承诺"
+    "note": "极限词+虚假承诺",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "业内第一",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "改为'专业移民服务'",
-    "note": "极限词"
+    "note": "极限词",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "行业领先",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "改为'专业移民服务'",
-    "note": "极限词，需有证据支撑"
+    "note": "极限词，需有证据支撑",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "澳洲最佳",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "极限词"
+    "note": "极限词",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "澳洲最强",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "极限词"
+    "note": "极限词",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "澳洲最大",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "极限词"
+    "note": "极限词",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "澳洲顶级",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "极限词"
+    "note": "极限词",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "华人第一",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "极限词"
+    "note": "极限词",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "华人最大",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "极限词"
+    "note": "极限词",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "华人最强",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "极限词"
+    "note": "极限词",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "保签",
@@ -843,7 +910,8 @@
       "担保签证",
       "担保签",
       "担保签证申请"
-    ]
+    ],
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "包签",
@@ -854,56 +922,64 @@
     "context_excludes": [
       "担保签证",
       "承包签证业务"
-    ]
+    ],
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "稳签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "暗示保证下签"
+    "note": "暗示保证下签",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "必签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "暗示必定下签"
+    "note": "暗示必定下签",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "秒批",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "暗示极快审批，虚假承诺"
+    "note": "暗示极快审批，虚假承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "秒签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "暗示极快下签，虚假承诺"
+    "note": "暗示极快下签，虚假承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "秒过",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "暗示极快通过，虚假承诺"
+    "note": "暗示极快通过，虚假承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "无需资产证明",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'资产要求视签证类型而定'",
-    "note": "部分签证需要资产证明"
+    "note": "部分签证需要资产证明",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "不需要资金证明",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "改为'资金要求视签证类型而定'",
-    "note": "部分签证需要资金证明"
+    "note": "部分签证需要资金证明",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "无条件",
@@ -919,126 +995,144 @@
       "无条件信任",
       "无条件投降",
       "无条件退款"
-    ]
+    ],
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "零条件",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "签证都有条件"
+    "note": "签证都有条件",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "任何人都能",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "签证有资格要求"
+    "note": "签证有资格要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "谁都能",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "签证有资格要求"
+    "note": "签证有资格要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "想去就能去",
     "category": "虚假宣传",
     "severity": "medium",
     "suggestion": "删除",
-    "note": "签证有资格要求"
+    "note": "签证有资格要求",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "保登",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "暗示保证登陆澳洲"
+    "note": "暗示保证登陆澳洲",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "包登",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除",
-    "note": "暗示保证登陆澳洲"
+    "note": "暗示保证登陆澳洲",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "保证通过",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'协助准备材料'，签证结果由移民局决定",
-    "note": "签证审批权在移民局，任何机构无权保证结果"
+    "note": "签证审批权在移民局，任何机构无权保证结果",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "包获批",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'协助递交并跟进'",
-    "note": "承诺获批属虚假宣传"
+    "note": "承诺获批属虚假宣传",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "必获批",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除，改为'按流程递交申请'",
-    "note": "绝对化结果承诺"
+    "note": "绝对化结果承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "稳获批",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除，改为'协助提高材料完整度'",
-    "note": "'稳'字暗示结果可控，与事实不符"
+    "note": "'稳'字暗示结果可控，与事实不符",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "百分百下签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除，改为'协助递交签证申请'",
-    "note": "百分百承诺违反广告法绝对化用语规定"
+    "note": "百分百承诺违反广告法绝对化用语规定",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "100%下签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除该表述",
-    "note": "结果性保证"
+    "note": "结果性保证",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "百分百获批",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除该表述",
-    "note": "结果性保证"
+    "note": "结果性保证",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "保证签证",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'协助办理签证'",
-    "note": "不能对签证结果做保证"
+    "note": "不能对签证结果做保证",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "包签证",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "改为'协助办理签证'",
-    "note": "包办承诺"
+    "note": "包办承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "一次过签",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除，改为'协助准备签证材料'",
-    "note": "一次过签不可承诺"
+    "note": "一次过签不可承诺",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "一签过",
     "category": "虚假承诺",
     "severity": "high",
     "suggestion": "删除该表述",
-    "note": "结果性保证的变体写法"
+    "note": "结果性保证的变体写法",
+    "law_ref": "《广告法》第二十八条"
   },
   {
     "keyword": "跟移民局有关系",
@@ -1171,28 +1265,32 @@
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "改为'服务多年的持牌机构'",
-    "note": "'第一'属广告法禁用绝对化用语"
+    "note": "'第一'属广告法禁用绝对化用语",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "全澳第一",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "改为'服务多年的持牌机构'",
-    "note": "绝对化用语"
+    "note": "绝对化用语",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "移民行业第一",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "改为'专注移民服务'",
-    "note": "绝对化用语"
+    "note": "绝对化用语",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "澳洲唯一",
     "category": "综合极限词",
     "severity": "medium",
     "suggestion": "改为'具备相关资质的机构'",
-    "note": "'唯一'属绝对化用语"
+    "note": "'唯一'属绝对化用语",
+    "law_ref": "《广告法》第九条"
   },
   {
     "keyword": "不成功退全款",

@@ -276,6 +276,13 @@ class Finding:
     confidence: float = 1.0            # variant=0.8 / llm=模型自评
     context: str = ""                  # 前后各 ~10 字，供 UI 展示
 
+    # ---- 依据（让结论可追溯，而不是"我说违规就违规"）----
+    #: 法规条款号，如 "《广告法》第九条"。源词库里本来就有，此前只在
+    #: 管道中途 `detector._convert` 被写成空字符串丢掉，这里补齐。
+    law_ref: str = ""
+    #: 规则制定方的说明（为什么这个词有问题），用于"依据"展开区。
+    note: str = ""
+
     def excerpt(self, text: str, radius: int = 10) -> str:
         """从原文截取命中位置的上下文片段（首次调用时填充 context）。"""
         if not self.context:

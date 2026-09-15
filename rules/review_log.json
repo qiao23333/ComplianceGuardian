@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "updated": "2026-09-15",
+  "sources": {
+    "ad_law": {
+      "label": "广告法关键词库",
+      "basis": "《中华人民共和国广告法》（2021 年修正）",
+      "last_reviewed": "2026-09-15",
+      "review_interval_days": 365,
+      "note": "上位法修订频率低，年度复核；重点盯第九条（绝对化用语）与第十七条（医疗效果）"
+    },
+    "platform": {
+      "label": "平台规则词库",
+      "basis": "小红书社区规范 / 抖音社区自律公约 / 微信视频号运营规范",
+      "last_reviewed": "2026-09-15",
+      "review_interval_days": 90,
+      "note": "平台规则调整最频繁，也是漏检风险最高的来源，季度必复核"
+    },
+    "blue_v": {
+      "label": "蓝V账号规则",
+      "basis": "各平台企业号 / 认证账号的差异化权限说明",
+      "last_reviewed": "2026-09-15",
+      "review_interval_days": 180,
+      "note": "同一词在蓝V与普通号下定级不同，复核时须同时核对两档"
+    },
+    "industry:immigration": {
+      "label": "移民行业合规包",
+      "basis": "《因私出入境中介活动管理办法》及行业监管口径",
+      "last_reviewed": "2026-09-15",
+      "review_interval_days": 180,
+      "note": "行业监管口径随出入境政策变动，半年复核"
+    },
+    "industry:study_abroad": {
+      "label": "留学行业合规包",
+      "basis": "教育部留学服务相关规定及行业自律口径",
+      "last_reviewed": "2026-09-15",
+      "review_interval_days": 180,
+      "note": "同上"
+    },
+    "regex": {
+      "label": "组合词正则库",
+      "basis": "对词库的兜底扩展（非独立法规来源）",
+      "last_reviewed": "2026-09-15",
+      "review_interval_days": 365,
+      "note": "本质是其它来源的派生规则，随被派生来源一起复核"
+    },
+    "custom": {
+      "label": "用户自定义词条",
+      "basis": "使用方自行维护",
+      "last_reviewed": "2026-09-15",
+      "review_interval_days": 365,
+      "note": "由使用方负责时效，不计入维护者负担"
+    }
+  }
+}

@@ -270,6 +270,10 @@
       variantOf: null,
       confidence: matchType === 'variant' ? 0.8 : 1.0,
       contextExcludes: rule.x || null,
+      // 依据：条款号 + 规则说明。与 Python 端同名字段口径一致，
+      // 命中卡片上的"依据《广告法》第X条"就来自这里。
+      lawRef: rule.l || '',
+      note: rule.n || '',
     };
     if (extra) for (var k in extra) h[k] = extra[k];
     return h;
@@ -455,6 +459,8 @@
         matchType: h.matchType,
         variantOf: h.variantOf,
         confidence: h.confidence,
+        lawRef: h.lawRef,
+        note: h.note,
         context: excerpt(textChars, h.start, h.end),
       };
     });

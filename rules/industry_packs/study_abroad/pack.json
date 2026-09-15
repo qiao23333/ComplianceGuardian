@@ -1,0 +1,26 @@
+{
+  "id": "study_abroad",
+  "name": "留学行业合规包",
+  "version": "1.0.0",
+  "description": "留学/升学中介行业专属合规词库，覆盖虚假承诺、学术不端、虚假资质、费用与时间承诺等高风险表达。",
+  "author": "Compliance Guardian",
+  "industry": "留学/升学",
+  "categories": [
+    "学术不端",
+    "时间承诺",
+    "综合极限词",
+    "虚假承诺",
+    "虚假资质",
+    "费用承诺",
+    "过程简化"
+  ],
+  "rules_file": "rules.json",
+  "rule_count": 33,
+  "platforms": [
+    "xiaohongshu",
+    "douyin",
+    "weixin"
+  ],
+  "created": "2026-07-01",
+  "updated": "2026-09-15"
+}

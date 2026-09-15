@@ -59,6 +59,23 @@ html[data-theme="light"] {
 
 * { box-sizing: border-box; }
 
+/* ------------------------------------------------------------
+   hidden 必须是"真的隐藏"
+
+   `[hidden] { display: none }` 来自浏览器默认样式表，优先级只有 (0,1,0)，
+   任何作者写的 `.layout { display: grid }` 都能把它盖掉 —— 而属性选择器
+   和类选择器**同权重**，作者样式又后于默认样式，于是 hidden 彻底失效。
+
+   真实后果（2026-09-15 体检发现）：标签页的 <main hidden> 依然参与布局，
+   点「词库浏览」时目标页被渲染在页面下方 1000px 处 —— **看起来像点击没反应**。
+   更糟的是，单条检测页下方一直拖着整个批量检测面板。
+
+   而当时的冒烟测试断言的是 `el.hidden`（属性值），属性明明是对的，
+   测试全绿。属性是对的、页面是坏的 —— 所以这里显式兜底，
+   并且把测试改成断言"实际可见性"。
+   ------------------------------------------------------------ */
+[hidden] { display: none !important; }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -411,6 +428,24 @@ textarea#bInput::placeholder { color: var(--text-3); }
   align-items: flex-start;
 }
 .finding__tip b { color: var(--text-3); font-weight: 400; flex: 0 0 auto; }
+
+/* 依据行：把"违反哪一条"作为**可核验的引用**呈现。
+   刻意做成一块浅底引用区（而非又一行灰字），因为它是这个工具与
+   "违禁词表"的分界线——用户要能选中、复制、拿去跟平台/法务对话。 */
+.finding__tip--law {
+  margin-top: 6px;
+  padding: 5px 9px;
+  background: var(--bg-elev-2);
+  border-left: 2px solid var(--border-strong);
+  border-radius: 0 6px 6px 0;
+}
+.finding__tip--law b { color: var(--text-2); }
+.finding__tip--law code {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 12px;
+  color: var(--text-2);
+  user-select: text;
+}
 
 /* ============================================================ 高亮预览 */
 
@@ -1012,6 +1047,105 @@ textarea#bInput::placeholder { color: var(--text-3); }
   .iter__k { min-width: 0; }
 }
 
+/* ============================================================ 词库健康度 */
+
+/* 规则驱动型工具不会"坏掉"，只会过期。这块面板把"规则有没有过期"
+   做成页面上可扫一眼的指标，而不是藏在维护者脑子里的约定。 */
+.health {
+  margin: 0 16px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev-2);
+  overflow: hidden;
+}
+.health__sum {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  list-style: none;
+  user-select: none;
+}
+.health__sum::-webkit-details-marker { display: none; }
+.health__sum b { font-weight: 600; color: var(--text); flex: 0 0 auto; }
+.health__brief {
+  color: var(--text-2);
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.health__chev { color: var(--text-3); font-size: 12px; flex: 0 0 auto; }
+.health[open] .health__chev::after { content: " ▾"; }
+.health:not([open]) .health__chev::after { content: " ▸"; }
+
+.health__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: var(--text-3);
+}
+.health__dot--ok { background: var(--ok); }
+.health__dot--warn { background: var(--sev-high); }
+.health__dot--bad { background: var(--sev-critical); }
+
+.health__body {
+  padding: 0 14px 12px;
+  border-top: 1px solid var(--border);
+}
+.health__body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 10px;
+}
+.health__body th,
+.health__body td {
+  padding: 5px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.health__body th { color: var(--text-3); font-weight: 500; }
+.health__body td { color: var(--text-2); }
+.health__body td.num { font-variant-numeric: tabular-nums; }
+
+.hstat {
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text-3);
+}
+.hstat[data-status="ok"] { color: var(--ok); }
+.hstat[data-status="due_soon"] { color: var(--sev-high); }
+.hstat[data-status="overdue"] { color: var(--sev-critical); font-weight: 600; }
+
+.health__notes { margin-top: 10px; display: grid; gap: 6px; }
+.health__note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: 12px;
+  color: var(--text-2);
+  padding: 6px 9px;
+  border-left: 2px solid var(--border-strong);
+  border-radius: 0 6px 6px 0;
+  background: var(--bg);
+}
+.health__note b { color: var(--text); font-weight: 600; }
+.health__legend,
+.health__empty {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-3);
+  line-height: 1.6;
+}
+
 /* ============================================================ 最近检测 */
 
 .hist {
@@ -1158,6 +1292,21 @@ textarea#bInput::placeholder { color: var(--text-3); }
 .ritem__meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
 .ritem__g { font-size: 12px; color: var(--text-2); }
 .ritem__r { font-size: 12px; color: var(--ok); margin-top: 3px; }
+.ritem__law {
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 3px;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+.ritem__law code {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 11.5px;
+  color: var(--text-2);
+  user-select: text;
+}
 
 /* ============================================================ 分页 */
 

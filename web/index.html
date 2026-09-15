@@ -313,6 +313,19 @@
       </div>
     </div>
 
+    <!-- 词库健康度：规则驱动型工具真正的死法不是"做不出来"，是"安静地过期"。
+         功能不报错、测试不变红、分数照常给——只是开始失真。所以把复核
+         周期与依据覆盖率摆在词库页最上面，让它成为可见指标。 -->
+    <details class="health" id="rHealth">
+      <summary class="health__sum">
+        <span class="health__dot" id="rHealthDot" aria-hidden="true"></span>
+        <b>词库健康度</b>
+        <span class="health__brief" id="rHealthBrief">统计中…</span>
+        <span class="health__chev">明细</span>
+      </summary>
+      <div class="health__body" id="rHealthBody"></div>
+    </details>
+
     <div class="panel__foot">
       <span id="rStats">…</span>
       <span>这里是检测引擎真正在用的那份词库，不是节选</span>
