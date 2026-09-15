@@ -1,0 +1,75 @@
+name: Deploy Web demo to GitHub Pages
+
+# 合规卫士有两个界面：
+#   1. 桌面端（Python + CustomTkinter）—— 需要下载安装，只有 Windows 能用；
+#   2. Web 端（web/ 目录）—— **零构建纯静态**，12 个文件全部相对路径引用，
+#      打开就能用，还能装到手机主屏、断网也能跑。
+#
+# 给 Web 端一个永久地址，是为了把「先试试」这一步的摩擦降到最低：
+# 不用下载、不用装 Python、不用注册，点开就是。
+#
+# 为什么不用 npm build：web/ 本来就没有构建步骤（没有 package.json）。
+# 硬塞一个构建反而多一层可能坏的地方 —— 直接把目录当产物上传。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      # 改代码/改词库/改样式才重新部署；改文档不必触发
+      - "web/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 连续推送时只跑最后一次，避免旧产物覆盖新产物
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 产物体检：宁可部署失败，也不要把一个「白屏站」发到线上。
+      # 静态站最坏的失败形态就是这里 —— 页面能开、但功能全无，而且没人报错。
+      - name: Verify web artifact is complete
+        run: |
+          set -e
+          test -f web/index.html      || { echo "缺少 web/index.html"; exit 1; }
+          test -f web/js/app.js       || { echo "缺少 web/js/app.js"; exit 1; }
+          test -f web/js/engine.js    || { echo "缺少 web/js/engine.js"; exit 1; }
+          test -f web/data/rules.js   || { echo "缺少 web/data/rules.js（词库产物，跑 scripts/export_web_rules.py）"; exit 1; }
+          test -f web/css/style.css   || { echo "缺少 web/css/style.css"; exit 1; }
+          # 词库产物至少要有点体积，空文件说明导出脚本没跑或跑挂了
+          size=$(wc -c < web/data/rules.js)
+          echo "web/data/rules.js = ${size} 字节"
+          test "$size" -gt 10000 || { echo "web/data/rules.js 过小（${size} 字节），疑似导出失败"; exit 1; }
+
+      # enablement: true —— 仓库此前从未启用过 Pages。带上这个参数，action 会
+      # 用 GITHUB_TOKEN 尝试自动建站；如果仓库策略不允许（需要 admin），
+      # 它会在这一步明确报出来，而不是让后面的 deploy 以一个含糊的错误失败。
+      # 真被拦住时，人工只需在 Settings → Pages → Source 选 "GitHub Actions"，
+      # 之后每次 push 都全自动。
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

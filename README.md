@@ -9,9 +9,14 @@
 >
 > 源于移民行业内容运营的真实痛点，从 v1.0 迭代到 v3.5。
 
-**▶ 在线体验（零安装，打开即用）**：<https://8631801c57884774a30e85edbfbf5624.app.workbuddy.host>
+**▶ 在线体验（零安装，打开即用）**：<https://qiaozt.pages.dev/guardian/>
 
 > 纯静态页面，文案不出浏览器，无需注册。桌面端功能更全（批量检测、历史库、拼音变体通道）。
+>
+> 这个地址挂在个人博客域名下 —— Web 端是零构建纯静态，镜像到博客的 `public/guardian/`
+> 随博客一起部署（同一份产物由此有了两个出处，同步与校验走 `scripts/sync_to_blog.py`，
+> 不手抄）。仓库自身也有 GitHub Pages 部署（`.github/workflows/pages.yml`），
+> 首次启用需在仓库 Settings → Pages 选 “GitHub Actions”。
 
 ---
 
@@ -75,7 +80,7 @@
 这一条是 v3.5.0 补的：在那之前口径读的是配置文件里写死的 `["immigration"]`，
 导致新增的 7 个包、313 条规则**从未被评测过**，而"误报率 0%"被当成卖点。
 
-测试规模：**332 个 pytest 用例** + **160 项浏览器冒烟** + **WCAG 对比度审计**，
+测试规模：**341 个 pytest 用例** + **160 项浏览器冒烟** + **WCAG 对比度审计**，
 含反误报/反漏检语料门禁、UI 布局约定与布局可达性守卫、双端引擎对拍、断网可用性验证。
 
 ---
@@ -314,7 +319,7 @@ python apps/desktop/app.py
 
 # 测试
 pip install -r requirements-dev.txt
-pytest                          # 332 个用例（含 GUI 布局可达性，需显示或 xvfb）
+pytest                          # 341 个用例（含 GUI 布局可达性，需显示或 xvfb）
 
 # 评测误报率 / 漏检率
 python -c "from tests.corpus import report; print(report())"
@@ -383,7 +388,7 @@ ComplianceGuardian/
 │   ├── regex_patterns.json      # 正则兜底 13
 │   ├── overrides/               # 同音词 / 替换词覆盖
 │   └── industry_packs/          # 行业词库包（9 个，共 475 条）
-├── tests/                       # 332 个用例
+├── tests/                       # 341 个用例
 │   ├── corpus/                  # 反误报 / 反漏检评测语料（按行业分档）
 │   ├── conftest.py              # 会话级共享 Tk 根窗口（见文件内说明）
 │   ├── test_false_positive.py   # 误报率 / 漏检率门禁（全行业包口径）
@@ -392,8 +397,12 @@ ComplianceGuardian/
 │   ├── test_ui_layout.py        # 页面布局可达性守卫（运行期实测）
 │   └── test_rule_health.py      # 条款依据格式 / 覆盖度
 ├── scripts/                     # 词库治理 / 导出 / 对拍 / 打包
+│   ├── export_web_rules.py      # 导出前端词库产物（改词库后必跑）
+│   ├── sync_to_blog.py          # 同步 Web 端到个人博客 /guardian/（--check 校验）
 │   └── web_smoke.mjs            # Web 端真实浏览器冒烟测试（160 项）
-├── .github/workflows/ci.yml     # 门禁：332 测试 + 反误杀指标 + 词库时效
+├── .github/workflows/
+│   ├── ci.yml                   # 门禁：341 测试 + 反误杀指标 + 词库时效
+│   └── pages.yml                # 把 web/ 发布到 GitHub Pages（零构建）
 ├── docs/
 │   ├── DESIGN.md                # 设计决策与权衡
 │   ├── AI-USAGE.md              # AI 用在哪、为什么（判定 vs 改写）

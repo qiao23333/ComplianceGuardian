@@ -30,7 +30,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="合规卫士">
 </head>
-<body>
+<!-- data-pagefind-ignore：本页同时被镜像到个人博客的 public/guardian/ 下，
+     而博客的 pagefind 会索引 dist/ 里**所有** HTML。不加这个属性，
+     站内搜索会搜到一整页工具界面（每条记录都是同一页的不同片段）。
+     对独立部署（GitHub Pages）无影响 —— 那边没有 pagefind。 -->
+<body data-pagefind-ignore>
 
 <!-- ============================================================ 顶栏 -->
 <header class="topbar">
