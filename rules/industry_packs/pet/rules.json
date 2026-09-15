@@ -1,0 +1,186 @@
+[
+  {
+    "keyword": "治疗犬瘟",
+    "category": "疾病治疗宣称",
+    "severity": "high",
+    "suggestion": "删除；犬瘟须由执业兽医诊疗",
+    "note": "普通宠物食品/用品不得涉及疾病治疗功能",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "治疗细小",
+    "category": "疾病治疗宣称",
+    "severity": "high",
+    "suggestion": "删除；及时送医",
+    "note": "同上，细小病毒属急性传染病",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "治愈猫瘟",
+    "category": "疾病治疗宣称",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "同上，且\"治愈\"为绝对化医疗表述",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "包治好",
+    "category": "效果承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "对治疗结果作保证，属虚假广告",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "一吃就好",
+    "category": "效果承诺",
+    "severity": "critical",
+    "suggestion": "改为'适口性好'等感官描述",
+    "note": "即时见效承诺，无任何依据",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "七天见好",
+    "category": "效果承诺",
+    "severity": "high",
+    "suggestion": "删除周期与效果",
+    "note": "以天数承诺改善结果",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "根治皮肤病",
+    "category": "疾病治疗宣称",
+    "severity": "high",
+    "suggestion": "删除；皮肤病须兽医诊断",
+    "note": "涉及疾病根治的医疗表述",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "一粒驱虫",
+    "category": "功效断言",
+    "severity": "high",
+    "suggestion": "改为'按说明书定期驱虫'；兽药须标明批准文号",
+    "note": "驱虫属兽药功能，普通饲料/零食不得宣称",
+    "law_ref": "《广告法》第二十一条"
+  },
+  {
+    "keyword": "驱虫不用药",
+    "category": "功效断言",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "以非药物手段宣称驱虫效果，属功效断言",
+    "law_ref": "《广告法》第二十一条"
+  },
+  {
+    "keyword": "处方粮",
+    "category": "功效断言",
+    "severity": "high",
+    "suggestion": "须由执业兽医开具处方后使用，不得作为卖点宣传",
+    "note": "处方粮属兽医专用，面向公众宣传易误导",
+    "law_ref": "《饲料和饲料添加剂管理条例》第三十条"
+  },
+  {
+    "keyword": "处方猫粮",
+    "category": "功效断言",
+    "severity": "high",
+    "suggestion": "同上",
+    "note": "同上",
+    "law_ref": "《饲料和饲料添加剂管理条例》第三十条"
+  },
+  {
+    "keyword": "兽药级",
+    "category": "功效断言",
+    "severity": "high",
+    "suggestion": "删除；按实际标准标注",
+    "note": "以\"兽药级\"暗示疗效，属易使人误解的用语",
+    "law_ref": "《广告法》第二十一条"
+  },
+  {
+    "keyword": "增强体质",
+    "category": "功效断言",
+    "severity": "medium",
+    "suggestion": "改为'营养均衡配方'",
+    "note": "体质改善属功效表述，无普通宠物食品依据",
+    "law_ref": "《广告法》第二十一条"
+  },
+  {
+    "keyword": "防病",
+    "category": "功效断言",
+    "severity": "medium",
+    "suggestion": "改为'注意日常免疫与驱虫计划'",
+    "note": "疾病预防功能宣称",
+    "law_ref": "《广告法》第二十一条"
+  },
+  {
+    "keyword": "全天然粮",
+    "category": "安全性绝对化",
+    "severity": "high",
+    "suggestion": "改为如实标注原料组成",
+    "note": "\"全天然\"为绝对化表述，需有依据支撑",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "有机猫粮",
+    "category": "安全性绝对化",
+    "severity": "high",
+    "suggestion": "须取得有机产品认证后方可使用，并标注认证编号",
+    "note": "未获认证使用\"有机\"属虚假宣传",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "兽医推荐",
+    "category": "兽医背书",
+    "severity": "high",
+    "suggestion": "删除；如需引用须有书面授权并注明身份",
+    "note": "饲料广告不得利用专业人士的名义或形象作推荐证明",
+    "law_ref": "《广告法》第二十一条"
+  },
+  {
+    "keyword": "大学实验室研发",
+    "category": "兽医背书",
+    "severity": "high",
+    "suggestion": "改为如实描述生产条件与备案信息",
+    "note": "饲料广告不得利用科研单位、学术机构名义作推荐证明",
+    "law_ref": "《广告法》第二十一条"
+  },
+  {
+    "keyword": "零副作用",
+    "category": "安全性绝对化",
+    "severity": "high",
+    "suggestion": "删除；改为提示'如有不适请停用'",
+    "note": "安全性绝对化保证，属广告法第二十一条禁止情形",
+    "law_ref": "《广告法》第二十一条"
+  },
+  {
+    "keyword": "包活",
+    "category": "效果承诺",
+    "severity": "critical",
+    "suggestion": "删除；活体交易应签订书面协议约定健康责任",
+    "note": "活体动物存活承诺，既不可验证也易引发纠纷",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "保证纯种",
+    "category": "效果承诺",
+    "severity": "high",
+    "suggestion": "删除；如需展示血统应提供可核验的登记文件",
+    "note": "无依据的品种保证属虚假宣传",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "赛级纯种",
+    "category": "效果承诺",
+    "severity": "medium",
+    "suggestion": "改为如实标注血统登记信息",
+    "note": "\"赛级\"无统一标准，用于营销易误导",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "绝育包好",
+    "category": "效果承诺",
+    "severity": "medium",
+    "suggestion": "删除；绝育属诊疗行为，须由执业兽医实施",
+    "note": "对诊疗结果作保证",
+    "law_ref": "《广告法》第二十八条"
+  }
+]

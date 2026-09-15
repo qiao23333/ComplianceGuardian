@@ -1,0 +1,194 @@
+[
+  {
+    "keyword": "轻松月入",
+    "category": "虚假招聘信息",
+    "severity": "high",
+    "suggestion": "改为具体岗位与薪资区间，注明构成",
+    "note": "以轻松/高薪组合吸引投递，与实际岗位不符即属虚假信息",
+    "law_ref": "《人力资源市场暂行条例》第二十四条"
+  },
+  {
+    "keyword": "保证上岗",
+    "category": "结果承诺",
+    "severity": "critical",
+    "suggestion": "删除；改为'协助推荐岗位'",
+    "note": "录用结果由用人单位决定，中介不得承诺",
+    "law_ref": "《人力资源市场暂行条例》第二十四条"
+  },
+  {
+    "keyword": "保证录用",
+    "category": "结果承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《人力资源市场暂行条例》第二十四条"
+  },
+  {
+    "keyword": "内推保过",
+    "category": "收费类违规",
+    "severity": "critical",
+    "suggestion": "删除；正规内推不收费用",
+    "note": "以招聘为名牟取不正当利益的典型形态",
+    "law_ref": "《人力资源市场暂行条例》第二十七条"
+  },
+  {
+    "keyword": "付费内推",
+    "category": "收费类违规",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上，且多为诈骗手法",
+    "law_ref": "《人力资源市场暂行条例》第二十七条"
+  },
+  {
+    "keyword": "花钱内推",
+    "category": "收费类违规",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《人力资源市场暂行条例》第二十七条"
+  },
+  {
+    "keyword": "无需经验高薪",
+    "category": "虚假招聘信息",
+    "severity": "high",
+    "suggestion": "改为如实描述岗位要求与薪酬范围",
+    "note": "\"无需经验\"与\"高薪\"并列是典型诱导性表述",
+    "law_ref": "《人力资源市场暂行条例》第二十四条"
+  },
+  {
+    "keyword": "学历不限高薪",
+    "category": "虚假招聘信息",
+    "severity": "high",
+    "suggestion": "同上",
+    "note": "同上",
+    "law_ref": "《人力资源市场暂行条例》第二十四条"
+  },
+  {
+    "keyword": "日结高薪",
+    "category": "虚假招聘信息",
+    "severity": "medium",
+    "suggestion": "注明结算方式与具体金额",
+    "note": "模糊的高薪+快速结算组合，常见于兼职诈骗",
+    "law_ref": "《人力资源市场暂行条例》第二十四条"
+  },
+  {
+    "keyword": "入职押金",
+    "category": "收费类违规",
+    "severity": "critical",
+    "suggestion": "删除；用人单位不得以任何名义收取财物",
+    "note": "直接违反劳动合同法禁止性规定",
+    "law_ref": "《劳动合同法》第九条"
+  },
+  {
+    "keyword": "交押金上岗",
+    "category": "收费类违规",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《劳动合同法》第九条"
+  },
+  {
+    "keyword": "先交培训费",
+    "category": "收费类违规",
+    "severity": "critical",
+    "suggestion": "删除；上岗前收费一律违规",
+    "note": "以培训名义收费，属劳动合同法禁止的\"以其他名义收取财物\"",
+    "law_ref": "《劳动合同法》第九条"
+  },
+  {
+    "keyword": "服装费",
+    "category": "收费类违规",
+    "severity": "medium",
+    "suggestion": "删除，工作服由用人单位提供",
+    "note": "常见变相收费名目",
+    "law_ref": "《劳动合同法》第九条"
+  },
+  {
+    "keyword": "挂靠代缴",
+    "category": "社保挂靠",
+    "severity": "high",
+    "suggestion": "删除；参保须以真实劳动关系为前提",
+    "note": "虚构劳动关系代缴社保不受法律保护，多地人社已明确为违法。刻意**不收**裸「社保挂靠」四字 —— 那是政策解读、科普类内容的**话题名词**（\"社保挂靠政策解读，本文讲的是养老金计算\"这种标题完全合法），收了就会把最守规矩的科普作者判成违规。只收行动语态，与移民包收「挂靠办理 / 挂靠服务」而不收裸「挂靠」同一个道理。",
+    "law_ref": "《社会保险基金行政监督办法》第三十二条；《社会保险法》第八十八条"
+  },
+  {
+    "keyword": "代缴社保",
+    "category": "社保挂靠",
+    "severity": "high",
+    "suggestion": "改为说明灵活就业人员参保渠道",
+    "note": "同上；仅人力资源服务机构依法受托代办才合规",
+    "law_ref": "《社会保险基金行政监督办法》第三十二条；《社会保险法》第八十八条"
+  },
+  {
+    "keyword": "挂靠社保",
+    "category": "社保挂靠",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《社会保险基金行政监督办法》第三十二条；《社会保险法》第八十八条"
+  },
+  {
+    "keyword": "不签合同",
+    "category": "用工违规",
+    "severity": "high",
+    "suggestion": "删除；建立劳动关系应订立书面合同",
+    "note": "以不签合同为卖点的招聘宣传本身违规",
+    "law_ref": "《劳动合同法》第十条"
+  },
+  {
+    "keyword": "试用期不缴社保",
+    "category": "用工违规",
+    "severity": "high",
+    "suggestion": "删除；用工之日起即应参保",
+    "note": "试用期同样属于用工期间，须依法参保",
+    "law_ref": "《劳动合同法》第十条；《社会保险法》第五十八条"
+  },
+  {
+    "keyword": "限男性",
+    "category": "歧视性内容",
+    "severity": "critical",
+    "suggestion": "删除性别限制，改为岗位客观要求",
+    "note": "招聘信息不得含性别歧视性内容（国家规定的特殊工种除外）",
+    "law_ref": "《人力资源市场暂行条例》第二十四条"
+  },
+  {
+    "keyword": "限女性",
+    "category": "歧视性内容",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《人力资源市场暂行条例》第二十四条"
+  },
+  {
+    "keyword": "不招某省人",
+    "category": "歧视性内容",
+    "severity": "critical",
+    "suggestion": "删除地域限制",
+    "note": "地域歧视同样违反公平就业规定",
+    "law_ref": "《就业促进法》第三条"
+  },
+  {
+    "keyword": "年龄限35岁以下",
+    "category": "歧视性内容",
+    "severity": "high",
+    "suggestion": "改为岗位所需的客观身体条件描述",
+    "note": "无正当理由的年龄限制构成就业歧视",
+    "law_ref": "《就业促进法》第三条"
+  },
+  {
+    "keyword": "形象好气质佳",
+    "category": "歧视性内容",
+    "severity": "medium",
+    "suggestion": "改为岗位实际需要的能力要求",
+    "note": "外貌要求多为性别歧视的隐性表述",
+    "law_ref": "《就业促进法》第三条"
+  },
+  {
+    "keyword": "只招本地人",
+    "category": "歧视性内容",
+    "severity": "high",
+    "suggestion": "删除地域限制",
+    "note": "户籍/地域限制不得作为招聘条件",
+    "law_ref": "《就业促进法》第三条"
+  }
+]

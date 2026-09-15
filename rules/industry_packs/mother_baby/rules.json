@@ -1,0 +1,194 @@
+[
+  {
+    "keyword": "替代母乳",
+    "category": "母乳替代宣称",
+    "severity": "critical",
+    "suggestion": "删除；改为'适合 0-6 月龄婴儿的配方食品'",
+    "note": "《广告法》第二十条直接禁止声称全部或部分替代母乳，与产品真假无关",
+    "law_ref": "《广告法》第二十条"
+  },
+  {
+    "keyword": "母乳替代",
+    "category": "母乳替代宣称",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同第二十条禁止情形",
+    "law_ref": "《广告法》第二十条"
+  },
+  {
+    "keyword": "接近母乳",
+    "category": "母乳替代宣称",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "行业惯用卖点，但属第二十条禁止的\"部分替代母乳\"声称",
+    "law_ref": "《广告法》第二十条"
+  },
+  {
+    "keyword": "媲美母乳",
+    "category": "母乳替代宣称",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《广告法》第二十条"
+  },
+  {
+    "keyword": "母乳般的营养",
+    "category": "母乳替代宣称",
+    "severity": "critical",
+    "suggestion": "删除，改为列明营养成分表",
+    "note": "以营养等同暗示替代母乳，仍落入第二十条",
+    "law_ref": "《广告法》第二十条"
+  },
+  {
+    "keyword": "婴儿奶粉推荐",
+    "category": "母乳替代宣称",
+    "severity": "high",
+    "suggestion": "改为介绍配方食品选购要点，不指向具体产品",
+    "note": "大众媒介上的婴儿乳制品推荐易构成变相广告",
+    "law_ref": "《广告法》第二十条"
+  },
+  {
+    "keyword": "配方奶评测",
+    "category": "母乳替代宣称",
+    "severity": "high",
+    "suggestion": "改为育儿科普，不排名不推荐",
+    "note": "母婴自媒体常见的变相推广形态",
+    "law_ref": "《广告法》第二十条"
+  },
+  {
+    "keyword": "1段奶粉推荐",
+    "category": "母乳替代宣称",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "1 段配方食品面向 0-6 月龄，宣传限制最严",
+    "law_ref": "《广告法》第二十条"
+  },
+  {
+    "keyword": "促进智力发育",
+    "category": "发育功效断言",
+    "severity": "high",
+    "suggestion": "改为列明 DHA 等成分含量，不落到结果",
+    "note": "以发育结果承诺替代成分说明",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "促进身高发育",
+    "category": "发育功效断言",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "身高属发育结果承诺，无普通食品依据",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "宝宝长高",
+    "category": "发育功效断言",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "宝宝少生病",
+    "category": "疾病预防暗示",
+    "severity": "high",
+    "suggestion": "改为'注重日常营养搭配'",
+    "note": "暗示降低患病概率，属疾病预防功能",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "宝宝不生病",
+    "category": "疾病预防暗示",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "同上，且为绝对化表述",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "治疗湿疹",
+    "category": "疾病预防暗示",
+    "severity": "high",
+    "suggestion": "删除；婴儿皮肤问题应就医",
+    "note": "护理用品不得宣称治疗疾病",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "缓解胀气",
+    "category": "疾病预防暗示",
+    "severity": "high",
+    "suggestion": "改为'喂养时注意拍嗝'等操作提示",
+    "note": "症状缓解宣称属医疗用语",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "不含激素",
+    "category": "绝对化安全宣称",
+    "severity": "high",
+    "suggestion": "改为'成分表见包装'",
+    "note": "以\"不含\"作绝对承诺需有检测依据，否则属虚假宣传",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "无任何添加",
+    "category": "绝对化安全宣称",
+    "severity": "high",
+    "suggestion": "改为如实标注配料表",
+    "note": "\"无任何\"为绝对化表述，实际加工食品不可能成立",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "医护级",
+    "category": "绝对化安全宣称",
+    "severity": "high",
+    "suggestion": "删除；按实际执行标准标注",
+    "note": "不存在\"医护级\"法定标准，属自造等级暗示",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "医院同款",
+    "category": "诱导性内容",
+    "severity": "medium",
+    "suggestion": "改为说明产品适用范围",
+    "note": "以医疗机构背书暗示专业性，无授权即违规",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "月子病",
+    "category": "疾病预防暗示",
+    "severity": "medium",
+    "suggestion": "改为'产后身体恢复注意事项'",
+    "note": "\"月子病\"非规范医学术语，用于营销即医疗化暗示",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "产后修复",
+    "category": "发育功效断言",
+    "severity": "medium",
+    "suggestion": "涉及盆底/腹直肌等医疗项目须由医疗机构开展",
+    "note": "生活服务业不得开展医疗性质的产后修复宣传",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "催乳",
+    "category": "疾病预防暗示",
+    "severity": "high",
+    "suggestion": "删除；改为'哺乳期饮食建议'",
+    "note": "涉及泌乳功能的医疗化表述，需相应资质",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "通乳",
+    "category": "疾病预防暗示",
+    "severity": "high",
+    "suggestion": "删除，同上",
+    "note": "乳腺相关操作属医疗行为",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "赢在子宫里",
+    "category": "焦虑营销",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "以教育焦虑裹挟孕期消费，平台明确限制",
+    "law_ref": "《广告法》第九条"
+  }
+]

@@ -113,6 +113,28 @@ def test_pack_rules_are_well_formed(pack_dir: Path):
     )
 
 
+@pytest.mark.parametrize("pack_dir", _PACKS, ids=_PACK_IDS or ["(无)"])
+def test_pack_categories_are_all_used(pack_dir: Path):
+    """pack.json 声明的类别必须真有人用，反过来实际用到的也必须声明。
+
+    声明了却没人用 —— 前端筛选器是照着 ``categories`` 渲染的，会多出一个
+    点进去永远空的格子：用户看到"焦虑营销"这个筛选项，点完一条都不剩，
+    只会以为是工具坏了（2026-09-15 扩 5 个新包时真踩到）。
+    用了却没声明 —— 那些规则在筛选器里永远被埋着，等于不存在。
+    """
+    meta = _read(pack_dir / "pack.json")
+    rules = _read(pack_dir / meta["rules_file"])
+    declared = set(meta.get("categories") or [])
+    used = {r.get("category") for r in rules}
+
+    assert declared == used, (
+        f"{pack_dir.name} 的类别声明与实际使用对不上：\n"
+        f"  只在 pack.json 里、没有规则用它：{sorted(declared - used)}\n"
+        f"  规则在用、pack.json 没声明：{sorted(used - declared)}\n"
+        "两边应该严格相等 —— 多一个空格子或少一个可筛的类，用户都要踩。"
+    )
+
+
 def test_packs_do_not_collide_with_legacy_keywords():
     """新包不得与旧库撞关键词。
 

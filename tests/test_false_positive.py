@@ -27,7 +27,7 @@
 * ``test_industry_packs_carry_real_detection_weight`` —— 行业包全关时漏检率
   必须变差。不成立就说明行业包在承重上是摆设（规则被搬去通用库、
   或包加载失败却没人发现）；
-* ``test_known_false_positive_defects_stay_fixed`` —— 把实测修掉的 9 处
+* ``test_known_false_positive_defects_stay_fixed`` —— 把实测修掉的 12 处
   真误报逐句钉住，防止后继改动把它们放回来。
 
 同时补充两组"结构性"用例，锁住容易退化的两类具体行为：
@@ -158,7 +158,9 @@ def test_industry_packs_carry_real_detection_weight():
 #: 两类成因：
 #: * **条件违规被实现成无条件匹配** —— "光子嫩肤"这类项目名，规则自己的
 #:   note 都写着"非医疗机构不得开展"，说明意图是有条件的，但实现是无条件
-#:   high，于是持证医美机构写正常业务介绍就被判违规；
+#:   high，于是持证医美机构写正常业务介绍就被判违规。同一类的还有
+#:   "婴幼儿配方食品 / 保健食品"这类**中性品类名**：真正要管的是"有没有
+#:   注册备案"，词本身不违规；
 #: * **否定/法定声明语境被判违规** —— "本品为普通食品，不具有疾病预防、
 #:   治疗功能"是《食品安全法》第七十三条要求写的法定声明。
 _KNOWN_FP_FIXED: list[tuple[str, str]] = [
@@ -171,6 +173,14 @@ _KNOWN_FP_FIXED: list[tuple[str, str]] = [
     ("本品为非保健食品，未取得保健功能注册", "中性术语：保健食品"),
     ("本产品为净值型理财产品，收益随市场波动", "中性术语：理财产品"),
     ("本店承诺绝不刷单，所有评价均来自真实买家", "否定语境：绝不刷单"),
+    # —— 2026-09-15 扩 5 个新行业包时补语料暴露的第二批（都在旧库 ad_law）——
+    ("母乳是婴儿理想的天然食物，本产品为婴幼儿配方食品，请在儿科医生指导下选用",
+     "中性术语：婴幼儿配方食品（资质提醒，降为提示）"),
+    ("宝宝发育情况请以儿科医生评估为准，本产品不能替代药物治疗",
+     "否定语境：不能替代药物治疗"),
+    ("本品为宠物配合饲料，不具有疾病治疗功能，请在执业兽医指导下使用",
+     "法定声明：不具有疾病治疗功能"),
+    ("本产品非兽药，不能替代兽医诊疗", "否定语境：不能替代兽医诊疗"),
 ]
 
 
@@ -300,5 +310,5 @@ def test_guakao_warning_context_is_not_flagged(detector, text, reason):
     从漏检手里换回来。
     """
     result = detector.detect(text, "xiaohongshu", "non_blue_v", industries=ALL_PACKS)
-    hits = [v["matched_text"] for v in result["violations"]]
+    hits = [v["keyword"] for v in result["violations"]]
     assert result["summary"]["violations"] == 0, f"误报（{reason}）：{text} → {hits}"

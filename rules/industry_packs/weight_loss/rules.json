@@ -1,0 +1,210 @@
+[
+  {
+    "keyword": "月瘦",
+    "category": "速效承诺",
+    "severity": "critical",
+    "suggestion": "删除斤数与周期，改为'配合饮食与运动管理'",
+    "note": "\"月瘦20斤\"类具体减重数字承诺无医学依据，属虚假广告",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "周瘦",
+    "category": "速效承诺",
+    "severity": "critical",
+    "suggestion": "删除具体减重幅度",
+    "note": "与斤数连用构成对减重速度的效果承诺",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "三天瘦",
+    "category": "速效承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "短期速效减重承诺，无法验证且客观不成立",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "七天瘦",
+    "category": "速效承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上，短期速效承诺",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "暴瘦",
+    "category": "速效承诺",
+    "severity": "high",
+    "suggestion": "改为'体重变化'",
+    "note": "暗示非正常速度的体重下降，且易被理解为健康风险",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "速瘦",
+    "category": "速效承诺",
+    "severity": "high",
+    "suggestion": "改为'体重管理'",
+    "note": "速效减重宣称",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "掉秤",
+    "category": "速效承诺",
+    "severity": "high",
+    "suggestion": "改为'体重记录'",
+    "note": "行业内代指体重下降，与数字连用即效果承诺",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "躺着瘦",
+    "category": "速效承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "宣称无需付出即可减重，典型虚假宣传",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "不运动也能瘦",
+    "category": "速效承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上，否定能量守恒的减重承诺",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "不节食也能瘦",
+    "category": "速效承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "想瘦就瘦",
+    "category": "速效承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "结果可任意控制的承诺",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "燃脂",
+    "category": "功效断言",
+    "severity": "high",
+    "suggestion": "普通食品/外用产品改'配合运动'；医疗级表述需资质",
+    "note": "把脂肪代谢说成产品功能，非医疗商品不得使用",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "溶脂",
+    "category": "医疗用语",
+    "severity": "high",
+    "suggestion": "删除；医美项目须持《医疗机构执业许可证》",
+    "note": "医疗美容项目用语，非医疗机构不得宣传",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "刮油",
+    "category": "功效断言",
+    "severity": "high",
+    "suggestion": "改为'清爽口感'等感官描述",
+    "note": "以中医/代谢概念暗示减脂功效",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "排油",
+    "category": "功效断言",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "暗示阻断脂肪吸收的生理作用",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "阻断碳水",
+    "category": "功效断言",
+    "severity": "high",
+    "suggestion": "删除，改为'低糖配方'",
+    "note": "宣称干预人体代谢机制，属医疗/保健功能范畴",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "抑制食欲",
+    "category": "医疗用语",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "药物作用描述，普通食品不得使用",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "提升代谢",
+    "category": "功效断言",
+    "severity": "medium",
+    "suggestion": "改为'均衡营养'",
+    "note": "生理机能宣称，无普通食品依据",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "不反弹",
+    "category": "效果承诺",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "保证长期效果的绝对化承诺，无法验证",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "易瘦体质",
+    "category": "功效断言",
+    "severity": "medium",
+    "suggestion": "改为'饮食习惯养成'",
+    "note": "体质概念暗示产品可改变基础代谢",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "体脂率下降",
+    "category": "效果承诺",
+    "severity": "high",
+    "suggestion": "改为'记录身体数据变化'",
+    "note": "以量化指标承诺效果，需有可验证依据",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "减肥茶",
+    "category": "功效暗示",
+    "severity": "high",
+    "suggestion": "改为'茶饮'，删除减肥表述",
+    "note": "普通食品（代用茶）宣称减肥功效，属违规",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "代餐减肥",
+    "category": "功效暗示",
+    "severity": "high",
+    "suggestion": "改为'代餐食品'，不涉功效",
+    "note": "代餐产品不能宣称替代正餐实现减重",
+    "law_ref": "《广告法》第十七条"
+  },
+  {
+    "keyword": "水桶腰",
+    "category": "贬损营销",
+    "severity": "medium",
+    "suggestion": "改为中性描述，不评价身体形态",
+    "note": "以身体羞辱制造焦虑，平台明确限制",
+    "law_ref": "《广告法》第九条"
+  },
+  {
+    "keyword": "大象腿",
+    "category": "贬损营销",
+    "severity": "medium",
+    "suggestion": "改为中性描述",
+    "note": "同上，身体羞辱类话术",
+    "law_ref": "《广告法》第九条"
+  },
+  {
+    "keyword": "胖着活该",
+    "category": "贬损营销",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "歧视性表述，违反平台价值导向规定",
+    "law_ref": "《广告法》第九条"
+  }
+]

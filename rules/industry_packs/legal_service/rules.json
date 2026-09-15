@@ -1,0 +1,186 @@
+[
+  {
+    "keyword": "保证胜诉",
+    "category": "结果承诺",
+    "severity": "critical",
+    "suggestion": "删除；改为'根据现有材料评估诉讼风险'",
+    "note": "裁决权在法院，律师不得对办理结果作承诺",
+    "law_ref": "《律师执业管理办法》第三十三条"
+  },
+  {
+    "keyword": "包打赢",
+    "category": "结果承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上，典型的\"包赢\"招揽话术",
+    "law_ref": "《律师执业管理办法》第三十三条"
+  },
+  {
+    "keyword": "包赢",
+    "category": "结果承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《律师执业管理办法》第三十三条"
+  },
+  {
+    "keyword": "必赢",
+    "category": "结果承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《律师执业管理办法》第三十三条"
+  },
+  {
+    "keyword": "100%胜诉",
+    "category": "结果承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "以量化指标承诺办案结果",
+    "law_ref": "《律师执业管理办法》第三十三条"
+  },
+  {
+    "keyword": "胜诉率",
+    "category": "结果承诺",
+    "severity": "critical",
+    "suggestion": "删除；如需展示业绩，应按律协规定限于已办案件概述",
+    "note": "以胜诉率作宣传可能使公众产生不合理期望",
+    "law_ref": "《律师执业行为规范》第三十二条"
+  },
+  {
+    "keyword": "不赢不收费",
+    "category": "风险代理话术",
+    "severity": "high",
+    "suggestion": "改为'可协商风险代理收费方式'，且不得用于禁止风险代理的案件",
+    "note": "风险代理本身合法，但与\"赢\"绑定即暗示结果；婚姻继承、刑事等案件禁止风险代理",
+    "law_ref": "《律师执业管理办法》第三十三条"
+  },
+  {
+    "keyword": "胜诉后再付费",
+    "category": "风险代理话术",
+    "severity": "high",
+    "suggestion": "同上",
+    "note": "同上，以结果为导向的收费宣传",
+    "law_ref": "《律师执业管理办法》第三十三条"
+  },
+  {
+    "keyword": "不成功退费",
+    "category": "结果承诺",
+    "severity": "critical",
+    "suggestion": "删除；退费规则应写入委托合同而非宣传语",
+    "note": "\"成功\"由服务方自行定义，实质仍是结果承诺",
+    "law_ref": "《律师执业管理办法》第三十三条"
+  },
+  {
+    "keyword": "承诺办成",
+    "category": "结果承诺",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《律师执业管理办法》第三十三条"
+  },
+  {
+    "keyword": "百分百追回",
+    "category": "效果断言",
+    "severity": "critical",
+    "suggestion": "删除；改为'协助主张债权'",
+    "note": "以绝对化结果承诺招揽，且涉及执行回款的不确定性",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "保证追回",
+    "category": "效果断言",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "保证要回",
+    "category": "效果断言",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "100%和解",
+    "category": "效果断言",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "和解须对方同意，无法单方保证",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "认识法官",
+    "category": "特殊关系暗示",
+    "severity": "critical",
+    "suggestion": "删除；改为说明专业领域与办案经验",
+    "note": "暗示与办案机关有特殊关系承揽业务，属明令禁止的不正当手段",
+    "law_ref": "《律师执业管理办法》第四十二条"
+  },
+  {
+    "keyword": "法院有关系",
+    "category": "特殊关系暗示",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《律师执业管理办法》第四十二条"
+  },
+  {
+    "keyword": "关系硬",
+    "category": "特殊关系暗示",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "同上，暗示非正常渠道影响办案",
+    "law_ref": "《律师执业管理办法》第四十二条"
+  },
+  {
+    "keyword": "内部有人",
+    "category": "特殊关系暗示",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《律师执业管理办法》第四十二条"
+  },
+  {
+    "keyword": "疏通关系",
+    "category": "特殊关系暗示",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "可能涉嫌介绍贿赂，法律风险极高",
+    "law_ref": "《律师执业管理办法》第四十二条"
+  },
+  {
+    "keyword": "专家律师",
+    "category": "权威自居",
+    "severity": "high",
+    "suggestion": "改为列明执业年限与业务领域",
+    "note": "不得自我声明或暗示为某一领域的权威或专家",
+    "law_ref": "《律师执业行为规范》第三十三条"
+  },
+  {
+    "keyword": "业界权威",
+    "category": "权威自居",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "同上",
+    "law_ref": "《律师执业行为规范》第三十三条"
+  },
+  {
+    "keyword": "第一律师",
+    "category": "权威自居",
+    "severity": "high",
+    "suggestion": "删除；不得进行同行之间的比较宣传",
+    "note": "兼有绝对化用语与比较宣传两重问题",
+    "law_ref": "《律师执业行为规范》第三十四条"
+  },
+  {
+    "keyword": "律师函代写",
+    "category": "诱导性内容",
+    "severity": "medium",
+    "suggestion": "改为'代理发送律师函'，须由执业律师以律所名义出具",
+    "note": "律师函只能由律师事务所依法出具，不得作为商品代写",
+    "law_ref": "《律师执业管理办法》第三十三条"
+  }
+]
