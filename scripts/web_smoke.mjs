@@ -1162,6 +1162,14 @@ try {
   check('词库页截图已生成', fs.existsSync(SHOT_DIR + '/web-rules.png'));
   check('健康度截图已生成', fs.existsSync(SHOT_DIR + '/web-health.png'));
 
+  // 只断言"文件存在"是不够的：截图脚本半路挂掉时，照样会留下一个几 KB 的
+  // 纯色文件（甚至 0 字节）。一张真的渲染出内容的 1440×1200 PNG 在这个页面
+  // 上稳定在 100KB 以上，所以拿体积做个粗筛 —— 白板要能红。
+  const shots = ['web-desktop.png', 'web-mobile.png', 'web-rules.png']
+    .map((f) => ({ f, kb: Math.round(fs.statSync(SHOT_DIR + '/' + f).size / 1024) }));
+  check('截图不是白板（体积过小＝没渲染出东西）',
+    shots.every((s) => s.kb > 40), shots.map((s) => s.f + '=' + s.kb + 'KB').join(' '));
+
   // ---- 汇总 ----
   console.log('\n' + '='.repeat(56));
   if (failures.length) {
