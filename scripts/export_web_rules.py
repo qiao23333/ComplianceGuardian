@@ -41,6 +41,7 @@ from pathlib import Path
 _ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_ROOT))
 
+from guardian import __version__ as GUARDIAN_VERSION  # noqa: E402
 from guardian import context_guard  # noqa: E402
 from guardian.normalize.pipeline import _get_opencc, _load_homophone_map, _NOISE_CHARS  # noqa: E402
 from guardian.rulebank import RuleBank  # noqa: E402
@@ -96,7 +97,7 @@ def export(out_path: Path = _DEFAULT_OUT) -> tuple[dict, Path]:
     payload = {
         "meta": {
             "generated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "engine": "3.0.0-alpha",
+            "engine": GUARDIAN_VERSION,
             "rule_count": len(payload_rules),
             "by_severity": dict(Counter(r.severity for r in rules).most_common()),
             "by_source": dict(
@@ -134,12 +135,90 @@ def export(out_path: Path = _DEFAULT_OUT) -> tuple[dict, Path]:
     return payload, js_path
 
 
+def _strip_volatile(payload: dict) -> dict:
+    """去掉每次都会变的字段（生成时间戳），只留下"实质内容"用于比较。"""
+    clone = json.loads(json.dumps(payload, ensure_ascii=False))
+    clone.get("meta", {}).pop("generated", None)
+    return clone
+
+
+def check(out_path: Path) -> int:
+    """校验磁盘上的前端词库是否仍与 Python 端一致（只读，不写文件）。
+
+    为什么必须有这一步
+    ------------------
+    真实踩过一次**静默腐烂**：``harden_rulebank.py`` 改了源词库，
+    但没人重新跑导出，于是 Web 体验页连续几天跑的是旧词库 ——
+    少 12 条规则，「全网最低」的严重度也还是旧值（中危被降回低危）。
+
+    两端不一致时，页面输出的就不再是"同一个工具"的结论，
+    而"前端与内核同源"恰恰是这个作品最核心的宣称。
+    所以把它做成可进 CI 的检查，而不是依赖人记得手动跑。
+    """
+    if not out_path.exists():
+        print(f"[失败] 找不到 {out_path}")
+        print("       请先运行：python scripts/export_web_rules.py")
+        return 1
+
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as td:
+        fresh, _ = export(Path(td) / "rules.json")
+
+    on_disk = json.loads(out_path.read_text(encoding="utf-8"))
+    fresh = _strip_volatile(fresh)
+    on_disk = _strip_volatile(on_disk)
+
+    if fresh == on_disk:
+        print("=== 前端词库与 Python 端一致 ===")
+        print(f"规则：{len(fresh.get('rules', []))} 条 · 无漂移")
+        return 0
+
+    print("=== 前端词库已与 Python 端漂移 ===")
+    print("       修复：python scripts/export_web_rules.py")
+
+    fa, da = fresh.get("rules", []), on_disk.get("rules", [])
+    if len(fa) != len(da):
+        print(f"  · 规则数：源 {len(fa)} 条 vs 前端 {len(da)} 条")
+
+    set_a = {(r.get("k"), r.get("s")) for r in fa}
+    set_b = {(r.get("k"), r.get("s")) for r in da}
+    missing = sorted(set_a - set_b)
+    stale = sorted(set_b - set_a)
+
+    for label, diff in (("前端缺少（源里有、前端没有）", missing),
+                        ("前端过时（前端有、源里已改或已删）", stale)):
+        if not diff:
+            continue
+        print(f"  · {label} {len(diff)} 条：")
+        for k, s in diff[:10]:
+            print(f"      {k}  [{s}]")
+        if len(diff) > 10:
+            print(f"      …… 另有 {len(diff) - 10} 条")
+
+    if not missing and not stale:
+        other = [k for k in fresh
+                 if k not in ("rules", "meta") and fresh[k] != on_disk.get(k)]
+        meta_diff = [k for k in ("rule_count", "by_severity", "by_source", "industries")
+                     if fresh.get("meta", {}).get(k) != on_disk.get("meta", {}).get(k)]
+        where = other + [f"meta.{m}" for m in meta_diff]
+        print(f"  · 规则集合一致，差异在：{where or '（未能定位到具体字段）'}")
+
+    return 1
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="导出前端词库 JSON")
     ap.add_argument("--out", default=str(_DEFAULT_OUT), help="输出路径")
+    ap.add_argument("--check", action="store_true",
+                    help="只校验产物是否仍与 Python 端一致，不写文件（CI 用）")
     args = ap.parse_args()
 
     out_path = Path(args.out)
+
+    if args.check:
+        return check(out_path)
+
     payload, js_path = export(out_path)
     size_kb = out_path.stat().st_size / 1024
 

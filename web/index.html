@@ -3,11 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>合规卫士 · 文案合规检测（在线体验）</title>
-<meta name="description" content="移民 / 留学行业文案合规检测：1000 条规则、变体抗规避识别、四级风险评分、三平台对比。纯浏览器运行，文案不出本机。">
+<title>合规卫士 · 移民 / 留学文案合规检测（在线体验）</title>
+<meta name="description" content="移民 / 留学行业文案合规检测：1000+ 条规则、变体抗规避识别、四级风险评分、三平台对比、批量检测与词库浏览。纯浏览器运行，文案不出本机。">
+
+<!-- 分享卡片：作品集场景下，链接经常是被人转发的第一印象 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="合规卫士 · 移民 / 留学文案合规检测">
+<meta property="og:description" content="1000+ 条规则，含移民 / 留学行业专属红线。同一句文案，通用违禁词工具判它「干净」，这里能挖出 3 处会限流封号的风险。纯浏览器运行，文案不上传。">
+<meta property="og:url" content="https://8631801c57884774a30e85edbfbf5624.app.workbuddy.host/">
+<meta property="og:image" content="https://8631801c57884774a30e85edbfbf5624.app.workbuddy.host/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="合规卫士 · 移民 / 留学文案合规检测">
+<meta name="twitter:description" content="1000+ 条规则，含行业专属红线与变体抗规避识别。纯浏览器运行，文案不上传。">
+<meta name="twitter:image" content="https://8631801c57884774a30e85edbfbf5624.app.workbuddy.host/og.png">
+
 <!-- 内联 SVG 图标：避免额外请求，也避免浏览器自动请求 /favicon.ico 打出 404 -->
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNSIgZmlsbD0iIzBkMTExNyIvPjxwYXRoIGQ9Ik0xMiAzLjYgNS40IDYuMnY1YzAgMy45IDIuOCA3LjQgNi42IDguNSAzLjgtMS4xIDYuNi00LjYgNi42LTguNXYtNUwxMiAzLjZaIiBmaWxsPSJub25lIiBzdHJva2U9IiMzZmI5NTAiIHN0cm9rZS13aWR0aD0iMS43IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTguNyAxMi4xbDIuMyAyLjMgNC4zLTQuNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2ZiOTUwIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+">
 <link rel="stylesheet" href="css/style.css">
+
+<!-- 可安装 / 可离线：PWA 清单。图标由 scripts/make_icons.py 生成，
+     与上面的 favicon 共用同一份盾牌几何，不会出现"两套视觉"。 -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="合规卫士">
 </head>
 <body>
 
@@ -41,10 +62,42 @@
     不仅能认出关键词本身，还能识破<b>谐音、跳字、全角、繁体</b>这类"规避写法"——
     正是这些写法最容易被人工漏掉。检测在浏览器本地完成，<b>文案不上传</b>。
   </p>
+
+  <!-- 3 步体验路径：访客不需要猜该怎么玩 -->
+  <ol class="guide">
+    <li>
+      <span class="guide__n">1</span>
+      <span class="guide__t">看检测能力</span>
+      <span class="guide__d">点下面任一示例，立刻出结果</span>
+    </li>
+    <li>
+      <span class="guide__n">2</span>
+      <span class="guide__t">看它和通用工具差在哪</span>
+      <span class="guide__d">看结果区的「对照实验」</span>
+    </li>
+    <li>
+      <span class="guide__n">3</span>
+      <span class="guide__t">真拿去用</span>
+      <span class="guide__d">「批量检测」整批过筛，「词库浏览」查证规则</span>
+    </li>
+  </ol>
 </div>
 
-<!-- ============================================================ 主布局 -->
-<main class="layout">
+<!-- ============================================================ 标签页 -->
+<nav class="tabs" id="tabbar" role="tablist" aria-label="功能切换">
+  <button class="tabs__btn is-on" type="button" role="tab" data-tab="single" aria-selected="true">
+    单条检测
+  </button>
+  <button class="tabs__btn" type="button" role="tab" data-tab="batch" aria-selected="false">
+    批量检测<span class="tabs__badge">整批过筛</span>
+  </button>
+  <button class="tabs__btn" type="button" role="tab" data-tab="rules" aria-selected="false">
+    词库浏览<span class="tabs__badge" id="tabRuleCount">…</span>
+  </button>
+</nav>
+
+<!-- ============================================================ 单条检测 -->
+<main class="layout" id="pane-single" role="tabpanel">
 
   <!-- ---------- 左：输入 ---------- -->
   <section class="panel">
@@ -121,6 +174,12 @@
       </div>
     </div>
 
+    <!-- 对照实验：同一引擎、同一文案，唯一变量是行业词库 -->
+    <div class="ab" id="abBox" hidden></div>
+
+    <!-- 改前/改后迭代对比：改完文案后确认"是否改干净、有没有改出新问题" -->
+    <div class="iter" id="iterBox" hidden></div>
+
     <div class="findings" id="findings"></div>
 
     <div class="preview" id="preview" hidden></div>
@@ -135,10 +194,138 @@
     <div class="actions">
       <button class="btn" id="exportBtn" type="button">导出检测报告</button>
       <button class="btn btn--ghost" id="copyBtn" type="button">复制命中清单</button>
+      <button class="btn btn--ghost" id="baselineBtn" type="button">存为改前</button>
       <button class="btn btn--ghost" id="clearBtn" type="button">清空</button>
+    </div>
+
+    <!-- 最近检测：默认只留痕、不留原文 -->
+    <div class="hist">
+      <div class="hist__head">
+        <span class="hist__title">最近检测</span>
+        <label class="switch" title="默认不保存文案。开启后原文会存在你自己的浏览器里，可点回看，可一键清除。">
+          <input type="checkbox" id="histStoreText">在本机保存文案
+        </label>
+        <button class="linkbtn" id="histClear" type="button">清除记录</button>
+      </div>
+      <div class="hist__hint" id="histHint"></div>
+      <div class="hist__list" id="histList"></div>
     </div>
   </section>
 
+</main>
+
+<!-- ============================================================ 批量检测 -->
+<main class="layout layout--wide" id="pane-batch" role="tabpanel" hidden>
+  <section class="panel">
+    <div class="panel__head">
+      <h2 class="panel__title">批量文案（每条之间空一行）</h2>
+      <div class="controls">
+        <select id="bPlatform" aria-label="目标平台">
+          <option value="all">全部平台</option>
+          <option value="xiaohongshu">小红书</option>
+          <option value="douyin">抖音</option>
+          <option value="weixin">微信</option>
+        </select>
+        <select id="bAccountType" aria-label="账号类型">
+          <option value="non_blue_v">普通账号</option>
+          <option value="blue_v">蓝 V 认证</option>
+        </select>
+        <select id="bIndustry" aria-label="行业词库">
+          <option value="all">移民 + 留学</option>
+          <option value="immigration">仅移民</option>
+          <option value="study_abroad">仅留学</option>
+          <option value="none">仅通用词库</option>
+        </select>
+        <label class="switch" title="识别谐音 / 跳字 / 全角 / 繁体等规避写法">
+          <input type="checkbox" id="bVariants" checked>变体检测
+        </label>
+      </div>
+    </div>
+
+    <textarea id="bInput" spellcheck="false" placeholder="每一条文案之间用空行隔开，一次可以粘几十条。
+例如：
+
+澳洲雇主担保，保签包过，名额有限
+
+留学申请保录取，考不上全额退费
+
+本月项目说明会欢迎了解详情"></textarea>
+
+    <div class="samples">
+      <span>试一下：</span>
+      <button class="chip" type="button" id="bSampleBtn">载入 5 条示例（含 1 条合规反例）</button>
+      <button class="chip" type="button" id="bClearBtn">清空</button>
+    </div>
+
+    <div class="panel__foot">
+      <span id="bCounter">0 条</span>
+      <span>SaaS 违禁词检测按次数或字数收费；本页一次可过整批，且不消耗任何额度</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel__head">
+      <h2 class="panel__title">整批结果</h2>
+      <span class="risk-sub" id="bMeta"></span>
+    </div>
+
+    <div class="bstat" id="bStats"></div>
+    <div class="btable" id="bResults"><div class="empty">
+      <div class="empty__big">▤</div>粘贴多条文案后，这里给出每条的分数与主要风险
+    </div></div>
+
+    <div class="actions">
+      <button class="btn" id="bExportCsv" type="button" disabled>导出 CSV</button>
+      <button class="btn btn--ghost" id="bCopyPass" type="button" disabled>复制「可放心发」的那批</button>
+    </div>
+  </section>
+</main>
+
+<!-- ============================================================ 词库浏览 -->
+<main class="rules" id="pane-rules" role="tabpanel" hidden>
+  <section class="panel">
+    <div class="panel__head">
+      <h2 class="panel__title">词库</h2>
+      <div class="controls">
+        <input class="search" id="rSearch" type="search" spellcheck="false"
+               placeholder="搜关键词 / 类别 / 建议，例如：保签、极限词、名额">
+        <select id="rSource" aria-label="规则来源">
+          <option value="">全部来源</option>
+          <option value="ad_law">广告法</option>
+          <option value="platform">平台规则</option>
+          <option value="blue_v">蓝V规则</option>
+          <option value="industry:immigration">移民红线</option>
+          <option value="industry:study_abroad">留学红线</option>
+          <option value="regex">组合正则</option>
+        </select>
+        <select id="rSeverity" aria-label="严重度">
+          <option value="">全部等级</option>
+          <option value="critical">高危</option>
+          <option value="high">中危</option>
+          <option value="medium">低危</option>
+        </select>
+        <select id="rPlatform" aria-label="平台">
+          <option value="">全部平台</option>
+          <option value="xiaohongshu">仅小红书</option>
+          <option value="douyin">仅抖音</option>
+          <option value="weixin">仅微信</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="panel__foot">
+      <span id="rStats">…</span>
+      <span>这里是检测引擎真正在用的那份词库，不是节选</span>
+    </div>
+
+    <div class="rlist" id="rList"></div>
+
+    <div class="pager">
+      <button class="btn btn--ghost" id="rPrev" type="button">上一页</button>
+      <span id="rPageInfo"></span>
+      <button class="btn btn--ghost" id="rNext" type="button">下一页</button>
+    </div>
+  </section>
 </main>
 
 <!-- ============================================================ 差异说明 -->
@@ -209,6 +396,9 @@
         计分口径公开：高危 10 分 · 中危 5 分 · 低危 2 分 · 提示 0 分，满分 100。
         分数低不等于违法，只代表<b>发布风险高</b>。
       </p>
+      <button class="dcard__demo" type="button" data-demo="rules">
+        去词库看一眼：每条规则都有来源和建议
+      </button>
     </article>
   </div>
 </section>
@@ -238,5 +428,18 @@
 <script src="data/rules.js"></script>
 <script src="js/engine.js"></script>
 <script src="js/app.js"></script>
+
+<script>
+// Service Worker：让页面在第一次打开之后可以断网使用、也可以装到主屏。
+// 只在 http(s) 下注册——直接双击文件（file://）时浏览器本来就禁止 SW，
+// 那种场景下页面依然能跑，因为所有资源都是相对路径、没有网络请求。
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {
+      /* 注册失败不影响任何功能，静默略过 */
+    });
+  });
+}
+</script>
 </body>
 </html>

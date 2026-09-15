@@ -88,16 +88,35 @@
       'input', 'platform', 'accountType', 'industry', 'variants', 'autoReplace',
       'counter', 'engineInfo', 'engineMeta', 'samples',
       'ringValue', 'scoreNum', 'riskBadge', 'riskSub', 'counts',
-      'findings', 'preview', 'safeBox', 'matrixBox', 'aiBox',
+      'findings', 'preview', 'safeBox', 'matrixBox', 'aiBox', 'abBox',
       'exportBtn', 'copyBtn', 'clearBtn', 'themeBtn',
+      'iterBox', 'baselineBtn',
       'heroRuleCount', 'fRuleCount',
       'dPlatform', 'dPlatforms', 'dImm', 'dStudy', 'dBlueV',
+      // 标签页
+      'tabbar', 'pane-single', 'pane-batch', 'pane-rules', 'tabRuleCount',
+      // 批量检测
+      'bInput', 'bPlatform', 'bAccountType', 'bIndustry', 'bVariants',
+      'bSampleBtn', 'bClearBtn', 'bCounter', 'bMeta', 'bStats', 'bResults',
+      'bExportCsv', 'bCopyPass',
+      // 词库浏览
+      'rSearch', 'rSource', 'rSeverity', 'rPlatform', 'rStats', 'rList',
+      'rPrev', 'rNext', 'rPageInfo',
+      // 最近检测
+      'histStoreText', 'histClear', 'histHint', 'histList',
     ].forEach(function (id) { els[id] = $(id); });
   }
 
   var engine = null;
   var lastResult = null;
   var debounceTimer = null;
+
+  /**
+   * 改前基线快照。内容运营的真实节奏是"检测 → 改 → 再检测 → 再改"，
+   * 所以光有一把尺子不够，还得能回答"这一轮我改干净了没、有没有改出新问题"。
+   * 只存在内存里：刷新即失效，不落盘，也就不会有原文残留。
+   */
+  var baseline = null;
 
   // ============================================================ 工具函数
 
@@ -199,7 +218,8 @@
       platform: 'all',
       accountType: 'non_blue_v',
       industry: 'all',
-      focus: 'findings',
+      // 这段文案在通用词库里是干净的，对照实验最能说明问题，所以滚到那里
+      focus: 'ab',
     },
     variant: {
       text: '全网最低價！加薇芯詳聊，保 签 包 过，成功率１００％，本公司首创该模式。',
@@ -208,6 +228,8 @@
       industry: 'all',
       focus: 'variant',
     },
+    // 第 ④ 张卡不讲文案，讲"规则本身可查证"，所以直接切到词库页
+    rules: { tab: 'rules' },
   };
 
   /** 把底部的统计数字换成真实词库数据 —— 作品自证不能靠写死的形容词。 */
@@ -250,6 +272,15 @@
       var demo = DEMOS[btn.getAttribute('data-demo')];
       if (!demo) return;
 
+      // 有的演示不讲文案（如"规则可查证"），只负责切换标签页
+      if (demo.tab) {
+        switchTab(demo.tab);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      switchTab('single');
+
       els.input.value = demo.text;
       els.platform.value = demo.platform;
       els.accountType.value = demo.accountType;
@@ -257,8 +288,13 @@
       els.variants.checked = true;
       runDetect();
 
-      // 滚到能看见结论的位置：platform 演示要看对比表，其余看命中明细
-      var target = demo.focus === 'matrix' ? els.matrixBox : els.findings;
+      // 滚到能看见结论的位置：三种演示各有各的"证据在哪里"
+      //   matrix → 三平台对比表
+      //   ab     → 对照实验（关掉行业词库就抓不到，这是最有力的证据）
+      //   其余   → 命中明细
+      var target = demo.focus === 'matrix' ? els.matrixBox
+        : demo.focus === 'ab' ? els.abBox
+          : els.findings;
       if (target && target.scrollIntoView) {
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
@@ -277,6 +313,7 @@
 
     els.counter.textContent = Array.from(text).length + ' 字';
     render(res, text, opts);
+    scheduleHistory(text, res);
   }
 
   function scheduleDetect() {
@@ -322,6 +359,12 @@
         SEV_LABEL[k] + ' ' + c + '</span>';
     }).join('');
 
+    // ---- 对照实验（关掉行业词库，看这段文案还剩几处风险）----
+    renderAB(text, opts, res);
+
+    // ---- 改前/改后迭代对比 ----
+    renderIter(text, res);
+
     // ---- 命中卡片（按严重度分组，高危在前）----
     if (n === 0) {
       els.findings.innerHTML = '<div class="empty"><div class="empty__big">✓</div>' +
@@ -356,6 +399,120 @@
 
     els.exportBtn.disabled = !text.trim();
     els.copyBtn.disabled = !text.trim();
+    updateBaselineBtn(text);
+  }
+
+  // ============================================================ 改前/改后迭代
+
+  /**
+   * 命中的身份标识。
+   *
+   * 用「词面 + 类别」而不是位置下标来配对——因为改文案会整体挪动字符位置，
+   * 用下标比对会把"同一处被改掉了"误判成"消失一处、新增一处"。
+   * 代价是同一段里重复出现的同一违规词只能算一处，对"有没有改干净"这个
+   * 问题来说，这个粒度恰好够用。
+   */
+  function iterKey(f) {
+    return (f.matchedText || '') + '|' + (f.category || '');
+  }
+
+  function scorePill(score) {
+    return '<span class="iter__score" style="color:' + scoreColor(score) + '">' +
+      score + '</span>';
+  }
+
+  function wordChips(list, limit, cls) {
+    if (!list.length) return '<span class="iter__none">无</span>';
+    var shown = list.slice(0, limit).map(function (f) {
+      return '<span class="iter__chip' + (cls ? ' ' + cls : '') + '">' +
+        esc(f.matchedText) + '</span>';
+    }).join('');
+    var more = list.length > limit
+      ? '<span class="iter__more">+另有 ' + (list.length - limit) + ' 处</span>' : '';
+    return shown + more;
+  }
+
+  function renderIter(text, res) {
+    var box = els.iterBox;
+    if (!box) return;
+
+    // 没存过基线、文案还没动过、或者已清空 —— 都不该出现这块
+    if (!baseline || !text.trim() || text === baseline.text) {
+      box.hidden = true;
+      box.innerHTML = '';
+      return;
+    }
+
+    var nowKeys = {};
+    res.findings.forEach(function (f) { nowKeys[iterKey(f)] = true; });
+    var beforeKeys = {};
+    baseline.findings.forEach(function (f) { beforeKeys[iterKey(f)] = true; });
+
+    var fixed = baseline.findings.filter(function (f) { return !nowKeys[iterKey(f)]; });
+    var left = res.findings.filter(function (f) { return beforeKeys[iterKey(f)]; });
+    // 「新引入」是这块最该被看见的东西：很多工具只告诉你"还剩几处"，
+    // 不告诉你"你刚才那一刀又砍出个新问题"。
+    var added = res.findings.filter(function (f) { return !beforeKeys[iterKey(f)]; });
+
+    var delta = res.summary.score - baseline.score;
+    var arrow, deltaColor;
+    if (delta > 0) { arrow = '↑ +' + delta; deltaColor = 'var(--ok)'; }
+    else if (delta < 0) { arrow = '↓ ' + delta; deltaColor = 'var(--sev-critical)'; }
+    else { arrow = '持平'; deltaColor = 'var(--text-3)'; }
+
+    var clean = res.findings.length === 0;
+
+    box.hidden = false;
+    box.innerHTML =
+      '<div class="iter__head">这一轮改动' +
+      '<span class="iter__tag">基线只存在内存里 · 刷新即失效</span></div>' +
+
+      '<div class="iter__scores">' +
+      '<div class="iter__side"><span class="iter__lb">改前</span>' +
+      scorePill(baseline.score) +
+      '<span class="iter__cnt">' + baseline.findings.length + ' 处</span></div>' +
+      '<div class="iter__arrow" style="color:' + deltaColor + '">→<b>' + arrow + '</b></div>' +
+      '<div class="iter__side"><span class="iter__lb">改后</span>' +
+      scorePill(res.summary.score) +
+      '<span class="iter__cnt">' + res.findings.length + ' 处</span></div>' +
+      '</div>' +
+
+      '<div class="iter__rows">' +
+      '<div class="iter__row" data-k="fixed"><span class="iter__k">已消除 ' +
+      fixed.length + ' 处</span><div class="iter__v">' +
+      wordChips(fixed, 6, 'is-ok') + '</div></div>' +
+
+      '<div class="iter__row" data-k="left"><span class="iter__k">仍未处理 ' +
+      left.length + ' 处</span><div class="iter__v">' +
+      wordChips(left, 6) + '</div></div>' +
+
+      '<div class="iter__row" data-k="added"><span class="iter__k">新引入 ' +
+      added.length + ' 处</span><div class="iter__v">' +
+      wordChips(added, 6, 'is-bad') + '</div></div>' +
+      '</div>' +
+
+      (clean
+        ? '<div class="iter__done">这一版已经清零，可以发了。如果要继续改，记得重新存一次基线。</div>'
+        : (added.length
+          ? '<div class="iter__warn">注意：改动带出了 ' + added.length +
+            ' 处新命中，别只看总分涨了就放过它们。</div>'
+          : ''));
+  }
+
+  /** 基线按钮的文案随状态变，用户一眼能看出"现在有没有基线"。 */
+  function updateBaselineBtn(text) {
+    var b = els.baselineBtn;
+    if (!b) return;
+    var hasText = !!(text && text.trim());
+    if (baseline) {
+      b.textContent = '改前 ' + baseline.score + ' 分 · 重新存';
+      b.title = '当前基线：' + baseline.score + ' 分 / ' + baseline.findings.length +
+        ' 处命中。点一下用现在的文案覆盖它；文案没动过时点一下则取消基线。';
+    } else {
+      b.textContent = '存为改前';
+      b.title = '先存下这一版作为基线，改完再来对比"改干净了没、有没有改出新问题"。';
+    }
+    b.disabled = !hasText;
   }
 
   // ============================================================ 跨平台对比
@@ -755,6 +912,486 @@
     });
   }
 
+  // ============================================================ 标签页
+
+  var currentTab = 'single';
+
+  function switchTab(name) {
+    if (name === currentTab && $('pane-' + name) && !$('pane-' + name).hidden) return;
+
+    ['single', 'batch', 'rules'].forEach(function (t) {
+      var pane = els['pane-' + t];
+      if (pane) pane.hidden = (t !== name);
+    });
+
+    if (els.tabbar) {
+      Array.prototype.forEach.call(els.tabbar.querySelectorAll('.tabs__btn'), function (b) {
+        var on = b.getAttribute('data-tab') === name;
+        if (on) b.classList.add('is-on'); else b.classList.remove('is-on');
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+
+    currentTab = name;
+
+    // 懒渲染：切过去才算，避免首屏白干三份工
+    if (name === 'rules') renderRules();
+    if (name === 'batch') runBatch();
+  }
+
+  // ============================================================ 对照实验
+
+  /**
+   * 「关掉行业词库 vs 打开行业词库」的对照。
+   *
+   * 这是整个页面最重要的一块，因为它把"我们和通用违禁词工具不一样"这句
+   * 自夸，变成了**一个访客可以自己复现的实验**：同一个引擎、同一段文案，
+   * 唯一变量是行业词库开关。
+   *
+   * 措辞上刻意克制：不说"通用工具等于关掉词库的我们"（那是过度宣称，
+   * 人家的词表和我们并不相同），只说"关掉后剩下的这部分，是通用工具
+   * 结构上覆盖不到的地方"。
+   */
+  function renderAB(text, opts, res) {
+    var box = els.abBox;
+    if (!box) return;
+
+    var enabled = !!(opts.industries && opts.industries.length);
+    var industryHits = res.findings.filter(function (f) { return !!f.industry; });
+
+    // 只在"确实抓到了行业红线"时才展示。否则这块会显得像在凑数。
+    if (!text.trim() || !enabled || !industryHits.length) {
+      box.hidden = true;
+      box.innerHTML = '';
+      return;
+    }
+
+    var offOpts = {};
+    Object.keys(opts).forEach(function (k) { offOpts[k] = opts[k]; });
+    offOpts.industries = [];
+    var off = engine.detect(text, offOpts);
+
+    function verdictOf(r) {
+      if (!r.findings.length) return '未发现风险词';
+      return '抓到 ' + r.findings.length + ' 处';
+    }
+
+    function wordList(list, limit) {
+      if (!list.length) return '';
+      var items = list.slice(0, limit).map(function (f) {
+        return '<li>' + esc(f.matchedText) +
+          ' <span style="color:' + SEV_VAR[f.severity] + '">' +
+          SEV_LABEL[f.severity] + '</span></li>';
+      }).join('');
+      var more = list.length > limit
+        ? '<li>…另有 ' + (list.length - limit) + ' 处</li>' : '';
+      return '<ul class="ab__list">' + items + more + '</ul>';
+    }
+
+    var offColor = scoreColor(off.summary.score);
+    var onColor = scoreColor(res.summary.score);
+
+    // 行业包名字，用于说明"多出来的这些是谁抓的"
+    var packNames = [];
+    industryHits.forEach(function (f) {
+      var n = INDUSTRY_LABEL[f.industry] || f.industry;
+      if (packNames.indexOf(n) === -1) packNames.push(n);
+    });
+
+    box.hidden = false;
+    box.innerHTML =
+      '<div class="ab__head">对照实验' +
+      '<span class="ab__tag">同一引擎 · 同一文案 · 唯一变量是行业词库</span></div>' +
+
+      '<div class="ab__grid">' +
+      '<div class="ab__col">' +
+      '<div class="ab__label">关闭行业词库 —— 约等于通用违禁词工具能覆盖到的范围</div>' +
+      '<div class="ab__score" style="color:' + offColor + '">' + off.summary.score +
+      '<span class="ab__unit">合规分</span></div>' +
+      '<div class="ab__verdict">' + esc(verdictOf(off)) +
+      (off.findings.length ? '：' + off.findings.slice(0, 3)
+        .map(function (f) { return esc(f.matchedText); }).join('、') : '') + '</div>' +
+      wordList(off.findings, 3) +
+      '</div>' +
+
+      '<div class="ab__col">' +
+      '<div class="ab__label">打开行业词库 —— 本页默认（' +
+      esc(packNames.join(' + ')) + '）</div>' +
+      '<div class="ab__score" style="color:' + onColor + '">' + res.summary.score +
+      '<span class="ab__unit">合规分</span></div>' +
+      '<div class="ab__verdict">' + esc(verdictOf(res)) + '</div>' +
+      wordList(industryHits, 4) +
+      '</div>' +
+      '</div>' +
+
+      '<div class="ab__note">' +
+      '左边这组就是「只查广告法极限词」能看到的东西；多出来的 <b>' +
+      industryHits.length + ' 处</b>全部来自行业专属规则（' +
+      esc(packNames.join('、')) + '）——' +
+      '这类词不违法，但会直接触发平台限流或封号，而且通用工具的词表里根本没有它们。' +
+      '</div>';
+  }
+
+  // ============================================================ 批量检测
+
+  //: 批量示例：4 条违规 + 1 条合规。最后那条是反例——如果它也被判违规，
+  //: 说明词库误报了，用户会因此不信整批结果。
+  var BATCH_SAMPLE = [
+    '澳洲雇主担保移民，官方授权渠道，包安排雇主，无需英语、无需工作经验。',
+    '保签不过全额退款，成功率 100%，全网最低价，名额有限先到先得。',
+    '留学申请保录取，考不上全额退费，名师一对一短期提分保过。',
+    '现成雇主资源，挂靠即可递交，内部名额还剩几个，抓紧私信。',
+    '本月项目说明会欢迎有兴趣的朋友了解详情，我们会结合您的学历与工作经历评估可行路径。',
+  ].join('\n\n');
+
+  var lastBatch = null;
+
+  /** 切分批量条目：空行分隔，纯分隔线忽略。 */
+  function parseBatch(text) {
+    return String(text || '')
+      .split(/\n[ \t]*\n+/)
+      .map(function (s) { return s.trim(); })
+      .filter(function (s) { return s && !/^[-—–=]{3,}$/.test(s); });
+  }
+
+  function batchOptions() {
+    return {
+      platform: els.bPlatform.value,
+      accountType: els.bAccountType.value,
+      industries: INDUSTRY_MAP[els.bIndustry.value] || [],
+      useVariants: els.bVariants.checked,
+      autoReplace: false,
+    };
+  }
+
+  var BATCH_OK_SCORE = 90;   // 「可放心发」的门槛，与引擎的"基本合规"口径一致
+
+  function runBatch() {
+    if (!engine) return;
+
+    var items = parseBatch(els.bInput.value);
+    els.bCounter.textContent = items.length + ' 条';
+
+    if (!items.length) {
+      lastBatch = null;
+      els.bStats.innerHTML = '';
+      els.bMeta.textContent = '';
+      els.bResults.innerHTML = '<div class="empty"><div class="empty__big">▤</div>' +
+        '粘贴多条文案后，这里给出每条的分数与主要风险</div>';
+      els.bExportCsv.disabled = true;
+      els.bCopyPass.disabled = true;
+      return;
+    }
+
+    var opts = batchOptions();
+    var rows = items.map(function (t, i) {
+      return { idx: i + 1, text: t, res: engine.detect(t, opts) };
+    });
+    lastBatch = { rows: rows, opts: opts };
+    renderBatch(rows);
+  }
+
+  function renderBatch(rows) {
+    var pass = rows.filter(function (r) { return r.res.summary.score >= BATCH_OK_SCORE; });
+    var fail = rows.length - pass.length;
+    var worst = rows.reduce(function (a, b) {
+      return b.res.summary.score < a.res.summary.score ? b : a;
+    }, rows[0]);
+    var total = rows.reduce(function (s, r) { return s + r.res.summary.score; }, 0);
+
+    els.bStats.innerHTML =
+      '<div class="bcard"><b>' + rows.length + '</b><span>条文案</span></div>' +
+      '<div class="bcard"><b style="color:var(--ok)">' + pass.length +
+      '</b><span>可放心发（≥' + BATCH_OK_SCORE + ' 分）</span></div>' +
+      '<div class="bcard"><b style="color:var(--sev-critical)">' + fail +
+      '</b><span>需要改</span></div>' +
+      '<div class="bcard"><b>' + Math.round(total / rows.length) +
+      '</b><span>平均分</span></div>';
+
+    els.bMeta.textContent = '最需要改的是第 ' + worst.idx + ' 条（' +
+      worst.res.summary.score + ' 分 · ' + worst.res.summary.riskLevel + '）';
+
+    var body = rows.map(function (r) {
+      var s = r.res.summary;
+      var color = scoreColor(s.score);
+      // 主要风险词：按严重度取前 3 个
+      var picks = SEV_ORDER.reduce(function (acc, k) {
+        return acc.concat(r.res.findings.filter(function (f) { return f.severity === k; }));
+      }, []).slice(0, 3);
+      var words = picks.length
+        ? picks.map(function (f) {
+          return '<em style="color:' + SEV_VAR[f.severity] + '">' + esc(f.matchedText) + '</em>';
+        }).join('、')
+        : '<span style="color:var(--ok)">未发现风险词</span>';
+
+      return '<tr>' +
+        '<td class="idx">' + r.idx + '</td>' +
+        '<td><div class="btext">' + esc(r.text) + '</div></td>' +
+        '<td class="num" style="color:' + color + '">' + s.score + '</td>' +
+        '<td>' + esc(s.riskLevel) + '</td>' +
+        '<td class="num">' + r.res.findings.length + '</td>' +
+        '<td class="bwords">' + words + '</td>' +
+        '</tr>';
+    }).join('');
+
+    els.bResults.innerHTML = '<table><thead><tr>' +
+      '<th>#</th><th>文案</th><th>合规分</th><th>风险等级</th><th>命中</th><th>主要风险</th>' +
+      '</tr></thead><tbody>' + body + '</tbody></table>';
+
+    els.bExportCsv.disabled = false;
+    els.bCopyPass.disabled = !pass.length;
+  }
+
+  /** 导出 CSV。加 BOM，否则 Excel 打开中文是乱码（Windows 上必踩）。 */
+  function exportBatchCsv() {
+    if (!lastBatch) return;
+    var head = ['序号', '合规分', '风险等级', '高危', '中危', '低危', '命中数', '主要风险词', '原文'];
+    var q = function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; };
+
+    var lines = [head.map(q).join(',')];
+    lastBatch.rows.forEach(function (r) {
+      var s = r.res.summary;
+      var words = r.res.findings.slice(0, 5)
+        .map(function (f) { return f.matchedText; }).join('、');
+      lines.push([
+        r.idx, s.score, s.riskLevel,
+        s.counts.critical || 0, s.counts.high || 0, s.counts.medium || 0,
+        r.res.findings.length, words, r.text,
+      ].map(q).join(','));
+    });
+
+    var blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '合规批量检测_' + stamp() + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+  }
+
+  function copyPassList() {
+    if (!lastBatch) return;
+    var pass = lastBatch.rows.filter(function (r) {
+      return r.res.summary.score >= BATCH_OK_SCORE;
+    });
+    if (!pass.length) return;
+    copyText(pass.map(function (r) { return r.text; }).join('\n\n'), function (ok) {
+      var old = els.bCopyPass.textContent;
+      els.bCopyPass.textContent = ok
+        ? '已复制 ' + pass.length + ' 条'
+        : '复制失败，请用导出 CSV';
+      setTimeout(function () { els.bCopyPass.textContent = old; }, 1800);
+    });
+  }
+
+  // ============================================================ 词库浏览
+
+  var RULES_PAGE_SIZE = 40;
+  var rulesPage = 0;
+
+  function rulesFiltered() {
+    var all = (window.GUARDIAN_RULES && window.GUARDIAN_RULES.rules) || [];
+    var q = (els.rSearch.value || '').trim().toLowerCase();
+    var src = els.rSource.value;
+    var sev = els.rSeverity.value;
+    var plat = els.rPlatform.value;
+
+    return all.filter(function (r) {
+      if (src && (r.o || '') !== src) return false;
+      if (sev && r.s !== sev) return false;
+      if (plat) {
+        var p = r.p || ['*'];
+        // "仅某平台"= 明确点名该平台且不是全平台规则
+        if (p.indexOf(plat) === -1 || p.indexOf('*') !== -1) return false;
+      }
+      if (q) {
+        var hay = [r.k, r.c, r.g, (r.r || []).join(' ')].join(' ').toLowerCase();
+        if (hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderRules() {
+    var list = rulesFiltered();
+    var pages = Math.max(1, Math.ceil(list.length / RULES_PAGE_SIZE));
+    if (rulesPage >= pages) rulesPage = pages - 1;
+    if (rulesPage < 0) rulesPage = 0;
+
+    var slice = list.slice(rulesPage * RULES_PAGE_SIZE,
+      rulesPage * RULES_PAGE_SIZE + RULES_PAGE_SIZE);
+
+    els.rStats.innerHTML = '共 <b>' +
+      ((window.GUARDIAN_RULES && window.GUARDIAN_RULES.rules.length) || 0) +
+      '</b> 条规则，当前筛选命中 <b>' + list.length + '</b> 条';
+
+    if (!list.length) {
+      els.rList.innerHTML = '<div class="empty"><div class="empty__big">∅</div>' +
+        '没有匹配的规则。换个关键词，或把筛选条件放宽。</div>';
+    } else {
+      els.rList.innerHTML = slice.map(ruleItemHtml).join('');
+    }
+
+    els.rPageInfo.textContent = '第 ' + (rulesPage + 1) + ' / ' + pages + ' 页';
+    els.rPrev.disabled = rulesPage <= 0;
+    els.rNext.disabled = rulesPage >= pages - 1;
+  }
+
+  function ruleItemHtml(r) {
+    var tags = '<span class="sev-tag" data-sev="' + esc(r.s) + '">' +
+      SEV_LABEL[r.s] + '</span>';
+
+    var src = SOURCE_LABEL[r.o] || r.o;
+    if (src) tags += '<span class="tag tag--src">' + esc(src) + '</span>';
+
+    if (r.c) tags += '<span class="tag">' + esc(r.c) + '</span>';
+
+    var p = r.p || ['*'];
+    if (p.indexOf('*') === -1) {
+      tags += '<span class="tag tag--src">' +
+        p.map(function (k) { return esc(PLATFORM_LABEL[k] || k); }).join('/') + '</span>';
+    }
+    if (r.m === 'regex') tags += '<span class="tag tag--warn">组合正则</span>';
+    if (r.sa) tags += '<span class="tag" title="同一词在蓝V号与普通号下定级不同">蓝V定级不同</span>';
+
+    var g = r.g ? '<div class="ritem__g">' + esc(r.g) + '</div>' : '';
+    var rep = (r.r && r.r.length)
+      ? '<div class="ritem__r">可改为：' + r.r.map(esc).join(' / ') + '</div>' : '';
+
+    return '<div class="ritem">' +
+      '<div class="ritem__k">' + esc(r.k) + '</div>' +
+      '<div class="ritem__body">' +
+      '<div class="ritem__meta">' + tags + '</div>' +
+      g + rep +
+      '</div></div>';
+  }
+
+  // ============================================================ 最近检测
+
+  /**
+   * 留痕与隐私的取舍。
+   *
+   * 这个页面一直宣称"文案不出本机、关掉即消失"。如果为了做"历史记录"
+   * 就把原文默默写进 localStorage，那句宣称就成了假话。所以这里的选择是：
+   *
+   *   - 默认**只记元数据**（时间 / 分数 / 命中数 / 风险词），不落原文
+   *   - 想回看原文，用户显式打开开关；关掉开关时**已存原文一并清除**
+   *   - 数据只在 localStorage，清空按钮随时可用
+   *
+   * 隐私默认关闭，本身就比"默认全存、藏在设置里"更值得说。
+   */
+  var HIST_KEY = 'adcompli-history';
+  var HIST_TEXT_KEY = 'adcompli-store-text';
+  var HIST_MAX = 12;
+  var HIST_SETTLE_MS = 2500;   // 停笔 2.5 秒才算"一次检测"，避免边打边记
+  var historyTimer = null;
+
+  function histStoreOn() {
+    return !!(els.histStoreText && els.histStoreText.checked);
+  }
+
+  function loadHist() {
+    try {
+      var raw = JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
+      return Object.prototype.toString.call(raw) === '[object Array]' ? raw : [];
+    } catch (e) { return []; }
+  }
+
+  function saveHist(list) {
+    try { localStorage.setItem(HIST_KEY, JSON.stringify(list.slice(0, HIST_MAX))); }
+    catch (e) { /* 无痕模式或配额满：静默放弃，不影响检测 */ }
+  }
+
+  function fmtClock(ts) {
+    var d = new Date(ts);
+    var p = function (n) { return (n < 10 ? '0' : '') + n; };
+    return p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' +
+      p(d.getHours()) + ':' + p(d.getMinutes());
+  }
+
+  function scheduleHistory(text, res) {
+    if (historyTimer) clearTimeout(historyTimer);
+    if (!text.trim() || !res) return;
+    historyTimer = setTimeout(function () {
+      // 期间用户又改了 → 那是个半成品，不记
+      if (els.input.value !== text) return;
+      pushHistory(text, res);
+    }, HIST_SETTLE_MS);
+  }
+
+  function pushHistory(text, res) {
+    var list = loadHist();
+    var len = Array.from(text).length;
+    var top = list[0];
+    // 连续检测同一段（分/命中数/长度都一致）不重复记，否则调参数会刷屏
+    if (top && top.score === res.summary.score && top.n === res.findings.length &&
+        top.len === len) return;
+
+    var entry = {
+      t: Date.now(),
+      score: res.summary.score,
+      risk: res.summary.riskLevel,
+      n: res.findings.length,
+      len: len,
+      words: res.findings.slice(0, 3).map(function (f) { return f.matchedText; }),
+    };
+    if (histStoreOn()) entry.text = text;
+
+    list.unshift(entry);
+    saveHist(list);
+    renderHistory();
+  }
+
+  function renderHistory() {
+    var list = loadHist();
+    var on = histStoreOn();
+
+    els.histHint.innerHTML = on
+      ? '已开启：原文存在<b>你自己的浏览器</b>里（localStorage），不上传任何服务器。点记录可回看，关掉开关会一并清除已存原文。'
+      : '默认<b>不保存原文</b>，只记时间 / 分数 / 命中数。想回看原文请打开左侧开关——数据只留在你自己的浏览器里。';
+
+    if (!list.length) {
+      els.histList.innerHTML = '<div class="hist__hint">还没有记录。停下约 3 秒后会自动记一条。</div>';
+      return;
+    }
+
+    els.histList.innerHTML = list.map(function (e, i) {
+      var color = scoreColor(e.score);
+      var body;
+      if (on && e.text) {
+        var chars = Array.from(e.text);
+        body = esc(chars.slice(0, 42).join('').replace(/\s+/g, ' ')) +
+          (chars.length > 42 ? '…' : '');
+      } else {
+        body = e.words && e.words.length
+          ? esc(e.words.join('、'))
+          : '<span style="color:var(--ok)">未发现风险词</span>';
+      }
+      var clickable = !!(on && e.text);
+      return '<div class="hitem' + (clickable ? ' hitem--click' : '') + '"' +
+        (clickable ? ' role="button" tabindex="0" data-hi="' + i + '"' : '') + '>' +
+        '<span class="hitem__score" style="color:' + color + '">' + e.score + '</span>' +
+        '<span class="hitem__txt">' + body + '</span>' +
+        '<span class="hitem__time">' + fmtClock(e.t) + '</span>' +
+        '</div>';
+    }).join('');
+  }
+
+  function restoreHistory(i) {
+    var e = loadHist()[i];
+    if (!e || !e.text) return;
+    els.input.value = e.text;
+    runDetect();
+    els.input.focus();
+  }
+
+  function clearHistory() {
+    saveHist([]);
+    renderHistory();
+  }
+
   // ============================================================ 主题
 
   function applyTheme(theme) {
@@ -770,6 +1407,26 @@
   }
 
   // ============================================================ 事件绑定
+
+  var batchTimer = null;
+  function scheduleBatch() {
+    if (batchTimer) clearTimeout(batchTimer);
+    batchTimer = setTimeout(runBatch, 220);
+  }
+
+  var rulesTimer = null;
+  function scheduleRules() {
+    if (rulesTimer) clearTimeout(rulesTimer);
+    rulesTimer = setTimeout(function () { rulesPage = 0; renderRules(); }, 140);
+  }
+
+  /** 读取"是否在本机保存文案"的偏好，并据此渲染最近检测。 */
+  function initHistoryPref() {
+    var on = false;
+    try { on = localStorage.getItem(HIST_TEXT_KEY) === '1'; } catch (e) { /* ignore */ }
+    if (els.histStoreText) els.histStoreText.checked = on;
+    renderHistory();
+  }
 
   function bindEvents() {
     els.input.addEventListener('input', scheduleDetect);
@@ -792,8 +1449,30 @@
     els.exportBtn.addEventListener('click', exportReport);
     els.copyBtn.addEventListener('click', copyList);
 
+    // 存/覆盖/取消"改前"基线。文案没动过时再点一下 = 取消，避免用户
+    // 存了一个基线却不知道怎么撤。
+    els.baselineBtn.addEventListener('click', function () {
+      var text = els.input.value;
+      if (!text.trim()) return;
+
+      if (baseline && text === baseline.text) {
+        baseline = null;
+      } else {
+        baseline = {
+          text: text,
+          score: lastResult ? lastResult.summary.score : 100,
+          findings: lastResult ? lastResult.findings.slice() : [],
+        };
+      }
+      // 按钮文案与对比块都由 render 统一刷新，这里不用单独改
+      runDetect();
+    });
+
     els.clearBtn.addEventListener('click', function () {
       els.input.value = '';
+      // 清空意味着"这一轮结束了"，基线一并撤掉，免得下一段新文案
+      // 莫名其妙地跟上一段的分数作对比。
+      baseline = null;
       els.input.focus();
       runDetect();
     });
@@ -801,6 +1480,71 @@
     els.themeBtn.addEventListener('click', function () {
       var cur = document.documentElement.getAttribute('data-theme');
       applyTheme(cur === 'dark' ? 'light' : 'dark');
+    });
+
+    // ---- 标签页 ----
+    if (els.tabbar) {
+      els.tabbar.addEventListener('click', function (e) {
+        var btn = e.target.closest ? e.target.closest('.tabs__btn') : null;
+        if (btn) switchTab(btn.getAttribute('data-tab'));
+      });
+    }
+
+    // ---- 批量检测 ----
+    els.bInput.addEventListener('input', function () {
+      els.bCounter.textContent = parseBatch(els.bInput.value).length + ' 条';
+      scheduleBatch();
+    });
+    ['bPlatform', 'bAccountType', 'bIndustry', 'bVariants'].forEach(function (id) {
+      els[id].addEventListener('change', runBatch);
+    });
+    els.bSampleBtn.addEventListener('click', function () {
+      els.bInput.value = BATCH_SAMPLE;
+      runBatch();
+    });
+    els.bClearBtn.addEventListener('click', function () {
+      els.bInput.value = '';
+      runBatch();
+      els.bInput.focus();
+    });
+    els.bExportCsv.addEventListener('click', exportBatchCsv);
+    els.bCopyPass.addEventListener('click', copyPassList);
+
+    // ---- 词库浏览 ----
+    els.rSearch.addEventListener('input', scheduleRules);
+    ['rSource', 'rSeverity', 'rPlatform'].forEach(function (id) {
+      els[id].addEventListener('change', function () { rulesPage = 0; renderRules(); });
+    });
+    els.rPrev.addEventListener('click', function () {
+      if (rulesPage > 0) { rulesPage--; renderRules(); }
+    });
+    els.rNext.addEventListener('click', function () {
+      rulesPage++; renderRules();
+    });
+
+    // ---- 最近检测 ----
+    els.histStoreText.addEventListener('change', function () {
+      var on = histStoreOn();
+      try { localStorage.setItem(HIST_TEXT_KEY, on ? '1' : '0'); } catch (e) { /* ignore */ }
+      // 关掉开关时把已经存下的原文一并清除 —— 用户关它就是要"别再留着"
+      if (!on) {
+        var list = loadHist();
+        list.forEach(function (e) { delete e.text; });
+        saveHist(list);
+      }
+      renderHistory();
+    });
+    els.histClear.addEventListener('click', clearHistory);
+    els.histList.addEventListener('click', function (e) {
+      var row = e.target.closest ? e.target.closest('.hitem--click') : null;
+      if (row) restoreHistory(Number(row.getAttribute('data-hi')));
+    });
+    els.histList.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var row = e.target.closest ? e.target.closest('.hitem--click') : null;
+      if (!row) return;
+      e.preventDefault();
+      restoreHistory(Number(row.getAttribute('data-hi')));
     });
 
     bindDemoButtons();
@@ -835,7 +1579,11 @@
     els.fRuleCount.textContent = String(total);
     els.engineInfo.textContent = '词库 ' + total + ' 条 · 引擎 ' + (meta.engine || '—');
 
+    // 标签页上的规则数角标
+    if (els.tabRuleCount) els.tabRuleCount.textContent = String(total);
+
     fillDiffStats();
+    initHistoryPref();
     runDetect();
   }
 

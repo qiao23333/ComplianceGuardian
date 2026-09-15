@@ -24,11 +24,13 @@ html[data-theme="dark"] {
   --border: #2a323c;
   --border-strong: #3d4753;
   --text: #e6edf3;
-  --text-2: #9aa4b0;
-  --text-3: #6b7580;
-  --accent: #3b82f6;
-  --accent-soft: rgba(59, 130, 246, 0.12);
+  --text-2: #adb6c0;
+  --text-3: #949da8;          /* 原 #6b7580：在深底上只有 3.8:1，验收时被量出来了 */
+  --accent: #6cb0ff;          /* 这个变量专供"深底上的蓝字/描边"，要够亮 */
+  --accent-soft: rgba(108, 176, 255, 0.13);
+  --accent-solid: #1f6feb;    /* 这个专供"蓝色实底按钮"，白字压在上面必须 ≥4.5:1 */
   --ok: #3fb950;
+  --sev-critical: #ff6b6b;    /* 原 #e5484d：压在暗红底上只有 3.8:1 */
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
@@ -40,11 +42,18 @@ html[data-theme="light"] {
   --border: #d8dee4;
   --border-strong: #c2cbd4;
   --text: #1f2328;
-  --text-2: #59636e;
-  --text-3: #818b96;
+  --text-2: #4c545c;
+  --text-3: #656d76;          /* 原 #818b96：在白底上只有 3.46:1 */
   --accent: #0969da;
   --accent-soft: rgba(9, 105, 218, 0.08);
-  --ok: #1a7f37;
+  --accent-solid: #0969da;
+  --ok: #166b2f;              /* 原 #1a7f37：压在 own 浅绿底上只有 4.32:1 */
+  --sev-critical: #c11a25;    /* 原 #e5484d 是给深色配的，放浅底上太亮 */
+  /* 严重度色是"深色优先"调的，直接搬到白底上会糊成一片：
+     黄色 1.7:1、橙色 2.3:1 —— 等于没写。浅色主题必须各自加深一档。 */
+  --sev-high: #a84300;
+  --sev-medium: #8a6100;
+  --sev-low: #6b7580;
   --shadow: 0 1px 2px rgba(31, 35, 40, 0.08);
 }
 
@@ -209,7 +218,8 @@ select {
   cursor: pointer;
 }
 
-textarea#input {
+textarea#input,
+textarea#bInput {
   width: 100%;
   min-height: 300px;
   resize: vertical;
@@ -222,7 +232,8 @@ textarea#input {
   font-size: 14px;
   line-height: 1.75;
 }
-textarea#input::placeholder { color: var(--text-3); }
+textarea#input::placeholder,
+textarea#bInput::placeholder { color: var(--text-3); }
 
 .samples {
   display: flex;
@@ -446,9 +457,9 @@ textarea#input::placeholder { color: var(--text-3); }
 }
 
 .btn {
-  background: var(--accent);
+  background: var(--accent-solid);
   color: #fff;
-  border: 1px solid var(--accent);
+  border: 1px solid var(--accent-solid);
   border-radius: 8px;
   padding: 7px 14px;
   font-size: 13px;
@@ -774,7 +785,419 @@ textarea#input::placeholder { color: var(--text-3); }
   outline-offset: 2px;
 }
 
+/* ============================================================ 标签页 */
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.tabs__btn {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--text-2);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 10px 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.tabs__btn:hover { color: var(--text); }
+.tabs__btn.is-on { color: var(--text); border-bottom-color: var(--accent); }
+.tabs__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.tabs__badge {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+
+/* ============================================================ 体验路径 */
+
+.guide {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+}
+
+.guide li {
+  display: flex;
+  align-items: baseline;
+  gap: 4px 8px;
+  flex-wrap: wrap;
+  text-align: left;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.guide__n {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, transparent);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}
+
+.guide__t { font-size: 12.5px; font-weight: 600; color: var(--text); }
+.guide__d { flex: 1 0 100%; font-size: 12px; color: var(--text-3); line-height: 1.5; }
+
+/* ============================================================ 对照实验 */
+
+/* 这一块是全页最有说服力的地方：同一引擎、同一文案，唯一变量是行业词库。
+   不用形容词，直接把两组数字并排放出来。 */
+.ab {
+  margin: 0 16px 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  background: var(--accent-soft);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ab__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 9px 13px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.ab__tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--bg-elev);
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+.ab__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.ab__col { padding: 11px 13px; min-width: 0; }
+.ab__col + .ab__col { border-left: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+.ab__label { font-size: 11.5px; color: var(--text-2); margin-bottom: 5px; }
+.ab__score { font-size: 26px; font-weight: 700; line-height: 1.15; }
+.ab__unit { font-size: 11.5px; font-weight: 400; color: var(--text-3); margin-left: 4px; }
+.ab__verdict { font-size: 12px; margin-top: 3px; color: var(--text-2); }
+
+.ab__list { margin: 7px 0 0; padding-left: 16px; font-size: 12px; color: var(--text-2); }
+.ab__list li { margin: 2px 0; }
+
+.ab__note {
+  padding: 9px 13px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--text-2);
+  border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* ============================================================ 改前 / 改后迭代 */
+
+/* 内容运营的真实节奏是"检测 → 改 → 再检测"，光有一把尺子不够，
+   还得回答"这一轮改干净了没、有没有改出新问题"。
+   刻意用中性容器而不是绿色：改完不一定变好，颜色留给里面的数字去说。 */
+.iter {
+  margin: 0 16px 14px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.iter__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 9px 13px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.iter__tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+.iter__scores {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 13px 10px;
+}
+
+.iter__side { display: flex; align-items: baseline; gap: 6px; }
+.iter__lb { font-size: 11.5px; color: var(--text-3); }
+.iter__score { font-size: 24px; font-weight: 700; line-height: 1.1; }
+.iter__cnt { font-size: 11.5px; color: var(--text-3); }
+
+.iter__arrow { font-size: 14px; font-weight: 600; color: var(--text-3); }
+.iter__arrow b { margin-left: 5px; font-size: 13px; }
+
+.iter__rows { display: flex; flex-direction: column; gap: 5px; padding: 0 13px 6px; }
+.iter__row { display: flex; align-items: baseline; gap: 9px; min-width: 0; }
+
+.iter__k { flex: 0 0 auto; min-width: 86px; font-size: 11.5px; color: var(--text-2); }
+/* 「新引入」是这块最该被看见的一行，给它最重的颜色 */
+.iter__row[data-k="added"] .iter__k { color: var(--sev-critical); font-weight: 600; }
+
+.iter__v { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
+
+.iter__chip {
+  font-size: 11.5px;
+  padding: 1px 7px;
+  border-radius: 5px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+}
+.iter__chip.is-ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 34%, transparent); }
+.iter__chip.is-bad { color: var(--sev-critical); border-color: color-mix(in srgb, var(--sev-critical) 34%, transparent); }
+
+.iter__none, .iter__more { font-size: 11.5px; color: var(--text-3); }
+
+.iter__done, .iter__warn {
+  padding: 9px 13px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  border-top: 1px solid var(--border);
+}
+.iter__done { color: var(--ok); }
+.iter__warn { color: var(--sev-critical); }
+
+/* 窄屏：分数对比竖排，标签不再占固定宽度 */
+@media (max-width: 560px) {
+  .iter__scores { gap: 6px 10px; }
+  .iter__row { flex-direction: column; gap: 3px; }
+  .iter__k { min-width: 0; }
+}
+
+/* ============================================================ 最近检测 */
+
+.hist {
+  border-top: 1px solid var(--border);
+  padding: 11px 16px 14px;
+}
+
+.hist__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.hist__title { font-size: 12.5px; font-weight: 600; color: var(--text-2); }
+.hist__hint { font-size: 11.5px; color: var(--text-3); margin-top: 6px; line-height: 1.55; }
+.hist__list { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+
+.hitem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 7px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+}
+.hitem--click { cursor: pointer; transition: border-color 0.15s ease; }
+.hitem--click:hover { border-color: var(--border-strong); }
+.hitem--click:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.hitem__score { flex: 0 0 auto; font-weight: 700; font-variant-numeric: tabular-nums; }
+.hitem__txt {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-2);
+}
+.hitem__time { flex: 0 0 auto; font-size: 11px; color: var(--text-3); }
+
+.linkbtn {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--text-3);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.linkbtn:hover { color: var(--text); }
+.linkbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ============================================================ 批量检测 */
+
+.bstat {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.bcard {
+  flex: 1 1 76px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 8px 11px;
+}
+.bcard b { display: block; font-size: 20px; line-height: 1.25; font-variant-numeric: tabular-nums; }
+.bcard span { font-size: 11.5px; color: var(--text-2); }
+
+.btable { overflow-x: auto; }
+.btable table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.btable th,
+.btable td {
+  border-bottom: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.btable th {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-2);
+  background: var(--bg-elev-2);
+  white-space: nowrap;
+}
+.btable tbody tr:last-child td { border-bottom: none; }
+.btable td.num { font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; }
+.btable td.idx { color: var(--text-3); font-variant-numeric: tabular-nums; width: 34px; }
+.btable .btext {
+  max-width: 300px;
+  color: var(--text-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.btable .bwords { color: var(--text-2); }
+.btable .bwords em { font-style: normal; }
+
+/* ============================================================ 词库浏览 */
+
+.rules { max-width: 1240px; margin: 0 auto; padding: 20px 24px; }
+
+.search {
+  background: var(--bg-elev-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 12.5px;
+  font-family: inherit;
+  min-width: 230px;
+  flex: 1 1 230px;
+}
+.search::placeholder { color: var(--text-3); }
+
+.rlist { display: flex; flex-direction: column; }
+
+.ritem {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.rlist .ritem:last-child { border-bottom: none; }
+
+.ritem__k {
+  flex: 0 0 210px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text);
+  word-break: break-all;
+  padding-top: 1px;
+}
+.ritem__body { flex: 1 1 auto; min-width: 0; }
+.ritem__meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+.ritem__g { font-size: 12px; color: var(--text-2); }
+.ritem__r { font-size: 12px; color: var(--ok); margin-top: 3px; }
+
+/* ============================================================ 分页 */
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-3);
+}
+
 /* ============================================================ 小屏收敛 */
+
+@media (max-width: 980px) {
+  .layout--wide { grid-template-columns: 1fr; }
+  .rules { padding: 14px; }
+  .guide { grid-template-columns: 1fr; }
+  .ritem { flex-direction: column; gap: 6px; }
+  .ritem__k { flex: 0 0 auto; }
+}
+
+@media (max-width: 720px) {
+  .tabs { padding: 0 14px; }
+  .tabs__badge { display: none; }
+  .tabs__btn { padding: 10px 9px; font-size: 13px; }
+  .ab { margin: 0 12px 12px; }
+  .ab__grid { grid-template-columns: 1fr; }
+  .ab__col + .ab__col {
+    border-left: 0;
+    border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  .btable table { font-size: 12px; }
+  .btable .btext { max-width: 150px; }
+  .bstat { padding: 10px 12px; }
+  .hist { padding: 11px 12px 14px; }
+  .search { min-width: 0; flex: 1 1 100%; }
+}
 
 @media (max-width: 720px) {
   .diff { padding: 20px 14px 8px; }

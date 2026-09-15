@@ -69,8 +69,8 @@
 
 误报率的下降来自一次设计思路的切换，详见下文「设计决策」。
 
-测试规模：**264 个 pytest 用例**，含反误报/反漏检语料门禁、UI 布局约定守卫、
-双端引擎对拍、变体抗规避、批量与导出。
+测试规模：**276 个 pytest 用例** + **92 项浏览器冒烟** + **WCAG 对比度审计**，
+含反误报/反漏检语料门禁、UI 布局约定守卫、双端引擎对拍、断网可用性验证。
 
 ---
 
@@ -145,6 +145,18 @@ rules/industry_packs/immigration/
 提示词里把这条边界写死了（"不要做合规判定"，并说明原因）。
 完整论述见 **[docs/AI-USAGE.md](docs/AI-USAGE.md)**。
 
+### 8. 改稿闭环，而不只是打分
+
+内容运营的真实节奏是**检测 → 改 → 再检测 → 再改**，所以光有一把尺子不够。
+
+Web 端可以「存为改前」建立基线，之后每改一次就实时给出：
+
+- 改前分 → 改后分、已消除 N 处、仍未处理 M 处
+- **新引入 K 处** —— 这块存在的理由。改文案时改出新违规是常态，
+  而多数工具只告诉你"还剩几处"，不告诉你"你刚才那一刀又砍出个新问题"。
+
+基线只存在内存里，刷新即失效，不落盘、不留原文。
+
 ---
 
 ## 架构
@@ -208,7 +220,7 @@ python apps/desktop/app.py
 
 # 测试
 pip install -r requirements-dev.txt
-pytest                          # 264 个用例
+pytest                          # 276 个用例
 
 # 评测误报率 / 漏检率
 python -c "from tests.corpus import report; print(report())"
@@ -216,9 +228,20 @@ python -c "from tests.corpus import report; print(report())"
 # 词库加固（幂等，--dry-run 预览）
 python scripts/harden_rulebank.py --dry-run
 
+# 把 Python 词库编译到 Web 端；--check 只校验不写文件（CI 门禁用，防双端漂移）
+python scripts/export_web_rules.py
+python scripts/export_web_rules.py --check
+
+# 生成 PWA 图标 / 分享卡片图（二进制资源也脚本化，改配色时两端一起改）
+python scripts/make_icons.py
+python scripts/make_og.py
+
 # Web 体验页冒烟测试（需先起静态服务；用真实浏览器跑，验证页面真的活着）
 #   cd web && python -m http.server 8923 --bind 127.0.0.1
-node scripts/web_smoke.mjs
+node scripts/web_smoke.mjs      # 92 项，含断网可用性验证
+
+# 对比度审计（WCAG 2.1：正常文字 4.5:1 / 大字 3.0:1，不达标即退出码 1）
+node scripts/web_contrast.mjs
 ```
 
 ### 代码示例
@@ -266,13 +289,13 @@ ComplianceGuardian/
 │   ├── regex_patterns.json      # 正则兜底 13
 │   ├── overrides/               # 同音词 / 替换词覆盖
 │   └── industry_packs/          # 行业词库包（immigration 178 / study_abroad 33）
-├── tests/                       # 264 个用例
+├── tests/                       # 276 个用例
 │   ├── corpus/                  # 反误报 / 反漏检评测语料
 │   ├── test_false_positive.py   # 误报率 / 漏检率门禁
 │   └── test_ui_conventions.py   # UI 布局约定守卫
 ├── scripts/                     # 词库治理 / 导出 / 对拍 / 打包
 │   └── web_smoke.mjs            # Web 端真实浏览器冒烟测试
-├── .github/workflows/ci.yml     # 门禁：264 测试 + 反误杀指标
+├── .github/workflows/ci.yml     # 门禁：276 测试 + 反误杀指标
 ├── docs/
 │   ├── DESIGN.md                # 设计决策与权衡
 │   ├── AI-USAGE.md              # AI 用在哪、为什么（判定 vs 改写）

@@ -135,3 +135,48 @@ def test_previously_missed_expressions_now_detected(detector, text, expect):
     s = result["summary"]
     assert s["violations"] + s["warnings"] > 0, f"仍未命中：{text}"
     assert any(expect in h for h in hits) or s["violations"] > 0, f"命中但非预期：{text} → {hits}"
+
+
+# ============================================================ 挂靠类：宽严成对
+
+
+#: (文案, 说明) —— 广告语态，必须命中
+GUAKAO_RISKY = [
+    ("无需英语无需工作经验，挂靠办理，快速拿PR", "挂靠 + 结果动词（不接'雇主'）"),
+    ("支持挂靠服务，随时递交申请", "挂靠 + 服务"),
+    ("现成雇主资源，挂靠即可递交，内部名额有限", "挂靠 + 即可 + 递交"),
+    ("我司可挂靠公司，随时安排", "已有字面规则仍要生效"),
+]
+
+#: (文案, 说明) —— 警示 / 无关语境，必须不命中
+GUAKAO_CLEAN = [
+    ("警惕挂靠骗局，签证申请必须基于真实雇佣关系", "风险提示"),
+    ("挂靠担保资格是违法的，我们会明确拒绝这类要求", "合规声明"),
+    ("社保挂靠政策解读，本文讲的是养老金计算", "无关语境"),
+]
+
+
+@pytest.mark.parametrize("text,reason", GUAKAO_RISKY)
+def test_guakao_advertising_forms_are_caught(detector, text, reason):
+    """广告语态的'挂靠'必须被抓到。
+
+    历史缺口：词库里只有 ``挂靠雇主 / 挂靠公司`` 两个字面词组，而字面匹配
+    要求"雇主/公司"紧跟在"挂靠"后面 —— 写成"挂靠即可递交""挂靠办理"
+    就整条绕过去了，这恰恰是最常见的广告写法。
+    """
+    result = detector.detect(text, "xiaohongshu", "non_blue_v")
+    assert result["summary"]["violations"] > 0, f"漏检（{reason}）：{text}"
+
+
+@pytest.mark.parametrize("text,reason", GUAKAO_CLEAN)
+def test_guakao_warning_context_is_not_flagged(detector, text, reason):
+    """警示语境的'挂靠'不能被判违规。
+
+    这是补规则时的**收紧项**：如果偷懒直接收「挂靠」二字，下面这些
+    "挂靠是违法的、请警惕"的内容会被误报 —— 而写这类内容的人恰恰是
+    最守规矩的那批运营。宽一条必须同时收紧一条，否则就是把误报
+    从漏检手里换回来。
+    """
+    result = detector.detect(text, "xiaohongshu", "non_blue_v")
+    hits = [v["matched_text"] for v in result["violations"]]
+    assert result["summary"]["violations"] == 0, f"误报（{reason}）：{text} → {hits}"
