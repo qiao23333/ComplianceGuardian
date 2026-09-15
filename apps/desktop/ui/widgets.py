@@ -545,3 +545,41 @@ class SegmentedControl(ctk.CTkFrame):
     def set_selected(self, idx):
         self._selected_idx = idx
         self._build_buttons()
+
+
+class ScrollBody(ctk.CTkScrollableFrame):
+    """页面级竖向滚动容器。
+
+    为什么需要它
+    ------------
+    ``CTkFrame`` 装不下内容时**不会**自动加滚动条：多出来的部分既不显示、
+    也拖不到。更隐蔽的是 pack 的压缩行为 —— 装不下时它会去压**靠后**的
+    子控件，把整张卡片压到 0~8px。看起来像"这张卡片样式没写对"，实际是
+    整页高度超了。
+
+    2026-09-15 实测：设置页内容需 1567px，而窗口最小 740px —— 被压掉的是
+    「关于」和「数据管理」两张卡片（实际高度 0px），在界面上等于不存在，
+    用户也没有任何办法把它们拖出来。仪表盘同理（内容 900px / 默认窗口
+    880px），被压的是"词库概览"里 BarChart 的末尾几行。
+
+    为什么做成一个具名子类（而不是各处直接用 CTkScrollableFrame）
+    --------------------------------------------------------------
+    1. 让"这是页面级滚动容器"这件事可被 grep、可被静态门禁检查
+       （见 ``tests/test_ui_layout.py::test_long_pages_have_scroll_body``）；
+    2. 把踩坑记录钉在代码里（下面这段）。
+
+    试过但**没做成**的：内容装得下时自动隐藏滚动条
+    ------------------------------------------------
+    customtkinter 的滚动条**一直可见**，内容只有几十像素时也占着一条
+    （实测：内容 56px / 视口 288px，``_scrollbar.winfo_ismapped() == 1``）。
+    本来想让它按需显示，实测发现做不到：
+
+    * ``self._scrollbar.grid()`` 在 tkinter 里是**空操作** —— 无关键字参数时
+      ``_grid_configure`` 直接返回，不发命令，所以隐藏后恢复不了；
+    * 连 ``grid_remove()`` 本身都不生效：调用后 ``winfo_ismapped()`` 仍是 1，
+      ``grid_info()`` 也不清空，哪怕直接用 ``tk.call('grid','remove', _w)``
+      也一样。CTkScrollbar 的 grid 管理由内部绘制逻辑接管，不允许外部改。
+
+    结论：不跟它较劲，长页面就老老实实显示滚动条（这些页面的内容本来就
+    比窗口高，滚动条是**正确**的提示，不是瑕疵）。
+    """

@@ -54,6 +54,39 @@ LEGACY_SEVERITY_MAP: dict[str, str] = {
 VALID_MATCH_MODES: tuple[str, ...] = ("exact", "regex", "fuzzy")
 
 
+# ============================================================ 账号类型
+
+#: 账号类型取值。``blue_v_only.json`` 的 ``severity_by_account`` 以这两个值做键，
+#: 所以任何进入检测链路的账号类型都必须先过 ``normalize_account_type``。
+VALID_ACCOUNT_TYPES: tuple[str, ...] = ("blue_v", "non_blue_v")
+
+#: 兜底账号类型。
+#:
+#: 取"非蓝V（严格口径）"而不是"蓝V"：合规工具宁可多提示一条，也不能因为
+#: 用户配置里存了个不认识的值（历史遗留的 ``"personal"``）就悄悄放宽判定。
+DEFAULT_ACCOUNT_TYPE = "non_blue_v"
+
+
+def normalize_account_type(value: object) -> str:
+    """把任意来源的账号类型规范化成 ``blue_v`` / ``non_blue_v``。
+
+    为什么需要
+    ----------
+    ``severity_by_account`` 只认这两个键，传进来别的值时会静默回退到
+    ``Rule.severity``（= 非蓝V档），于是"蓝V"选项看起来生效了、实际没生效。
+    这类"静默回退"是判定口径类 bug 最常见的藏身处，所以入口处直接归一。
+
+    Args:
+        value: 任意值（可能来自 config.json / UI 控件 / API 调用）
+
+    Returns:
+        合法的账号类型；不认识的一律回退 ``non_blue_v``
+    """
+    if isinstance(value, str) and value in VALID_ACCOUNT_TYPES:
+        return value
+    return DEFAULT_ACCOUNT_TYPE
+
+
 def normalize_severity(raw: str, category: str = "", keyword_len: int = 99) -> str:
     """把旧词库的 severity 值规范化为四级之一。
 

@@ -96,7 +96,7 @@ def test_no_ctkframe_with_width_but_no_height():
 # ============================================================ 组件默认值备忘
 
 
-def test_ctkframe_default_height_is_still_200():
+def test_ctkframe_default_height_is_still_200(tk_root):
     """把"CTkFrame 默认高 200"这个事实本身钉住。
 
     将来若 customtkinter 换了默认值，上面的规则可能需要重新评估 ——
@@ -106,22 +106,19 @@ def test_ctkframe_default_height_is_still_200():
     Tk 绑定或虚拟显示，``tk.Tk()`` 会抛 ``TclError`` —— 那是**环境缺失**，
     不是布局约定被破坏，所以跳过而不是判失败。上面的静态扫描不依赖 Tk，
     在任何环境下都会照常执行，守卫不会因此失效。
+
+    根窗口来自 conftest 的会话级 fixture，**不要在这里自己 ``tk.Tk()``** ——
+    同一进程里反复创建 Tcl 解释器在本机会静默失败，连带把布局门禁变成
+    永远跳过的摆设（详见 conftest 里那段对照实验）。
     """
     ctk = pytest.importorskip("customtkinter", reason="缺少 GUI 工具链，跳过")
-    tk = pytest.importorskip("tkinter", reason="缺少 Tk 绑定，跳过")
 
+    frame = ctk.CTkFrame(tk_root, width=100)
+    tk_root.update_idletasks()
     try:
-        root = tk.Tk()
-    except tk.TclError as exc:  # pragma: no cover - 仅在无显示环境触发
-        pytest.skip(f"无法创建 Tk 根窗口（无虚拟显示？）：{exc}")
-
-    root.withdraw()
-    try:
-        frame = ctk.CTkFrame(root, width=100)
-        root.update_idletasks()
         assert frame.winfo_reqheight() == 200, (
             "customtkinter 的 CTkFrame 默认高度已变化"
             f"（当前 {frame.winfo_reqheight()}），请复核布局约定守卫是否仍然必要"
         )
     finally:
-        root.destroy()
+        frame.destroy()

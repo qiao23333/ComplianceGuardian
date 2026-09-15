@@ -1,38 +1,315 @@
 [
-  {"keyword": "刷单", "category": "数据造假", "severity": "critical", "suggestion": "删除，不得虚构交易", "note": "虚构交易属不正当竞争行为", "law_ref": "《反不正当竞争法》第八条"},
-  {"keyword": "好评返现", "category": "数据造假", "severity": "high", "suggestion": "删除，改为引导用户如实评价", "note": "以返现诱导不真实评价，多地已明确禁止", "law_ref": "《反不正当竞争法》第八条"},
-  {"keyword": "晒图返现", "category": "数据造假", "severity": "high", "suggestion": "删除", "note": "诱导用户作出不客观评价", "law_ref": "《反不正当竞争法》第八条"},
-  {"keyword": "虚拟发货秒好评", "category": "数据造假", "severity": "high", "suggestion": "删除", "note": "伪造交易与评价数据", "law_ref": "《反不正当竞争法》第八条"},
-  {"keyword": "全真皮", "category": "无依据质量宣称", "severity": "high", "suggestion": "如宣称须提供具备资质的检测报告", "note": "成分与材质宣称须有检测依据支撑", "law_ref": "《广告法》第十一条"},
-  {"keyword": "无甲醛", "category": "无依据质量宣称", "severity": "high", "suggestion": "改为'甲醛释放量符合国家标准'，并注明标准编号", "note": "无检测依据的安全宣称", "law_ref": "《广告法》第十一条"},
-  {"keyword": "防臭抗菌", "category": "无依据质量宣称", "severity": "medium", "suggestion": "如宣称须提供抗菌检测报告", "note": "功能性宣称须有证据支撑", "law_ref": "《广告法》第十一条"},
-  {"keyword": "yyds", "category": "绝对化口语", "severity": "medium", "suggestion": "改为具体描述产品特点", "note": "网络缩写的绝对化表述，带货场景判定为极限词", "law_ref": "《广告法》第九条"},
-  {"keyword": "天花板", "category": "绝对化口语", "severity": "medium", "suggestion": "带货场景改为'品质不错'", "note": "2026 年新规下带货场景的'天花板'被判定为绝对化宣传", "law_ref": "《广告法》第九条"},
-  {"keyword": "封神", "category": "绝对化口语", "severity": "medium", "suggestion": "改为客观描述使用感受", "note": "网络夸张用语，属绝对化宣传", "law_ref": "《广告法》第九条"},
-  {"keyword": "殿堂级", "category": "绝对化口语", "severity": "medium", "suggestion": "删除", "note": "等级类绝对化用语", "law_ref": "《广告法》第九条"},
-  {"keyword": "不计成本", "category": "虚假价格", "severity": "medium", "suggestion": "删除", "note": "无法核实的成本表述", "law_ref": "《广告法》第四条"},
-  {"keyword": "亏本清仓", "category": "虚假价格", "severity": "high", "suggestion": "删除", "note": "虚构低价理由，属虚假营销", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "全渠道底价", "category": "虚假价格", "severity": "high", "suggestion": "删除，如需比价请明示比对渠道与时间", "note": "无依据的价格比较，属误导性宣传", "law_ref": "《价格法》第十四条"},
-  {"keyword": "全网抄底", "category": "虚假价格", "severity": "high", "suggestion": "删除，改为明示实际售价与活动期限", "note": "无法核实的全网比价宣称", "law_ref": "《价格法》第十四条"},
-  {"keyword": "全网最低价", "category": "虚假价格", "severity": "critical", "suggestion": "改为'活动期间价格优惠'，并写明活动期限与对比依据", "note": "虚构全网最低价属典型价格欺诈", "law_ref": "《价格法》第十四条"},
-  {"keyword": "厂家破产清仓", "category": "虚假价格", "severity": "high", "suggestion": "删除，改为如实说明促销原因", "note": "虚构清仓理由，监管明确点名", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "史上最低价", "category": "虚假价格", "severity": "critical", "suggestion": "删除，改为明示本次促销价与原价依据", "note": "无法核实的绝对化价格宣称", "law_ref": "《明码标价和禁止价格欺诈规定》"},
-  {"keyword": "白菜价", "category": "虚假价格", "severity": "medium", "suggestion": "改为标注实际售价", "note": "模糊夸张的价格表述", "law_ref": "《广告法》第四条"},
-  {"keyword": "骨折价", "category": "虚假价格", "severity": "medium", "suggestion": "改为明示折扣比例与原价", "note": "夸张价格表述，须与实际售价一致", "law_ref": "《广告法》第四条"},
-  {"keyword": "万人疯抢", "category": "虚假紧迫", "severity": "high", "suggestion": "删除", "note": "虚构抢购场景，监管明确点名", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "仅此一天", "category": "虚假紧迫", "severity": "high", "suggestion": "如属真实活动须明示日期", "note": "无具体日期的限时宣传", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "再不买就没了", "category": "虚假紧迫", "severity": "high", "suggestion": "删除，改为如实说明库存情况", "note": "制造与实际不符的稀缺感", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "卖爆", "category": "虚假紧迫", "severity": "medium", "suggestion": "删除", "note": "同上，属夸大销售状况", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "库存告急", "category": "虚假紧迫", "severity": "medium", "suggestion": "如属实须与实际库存一致", "note": "虚构库存紧张状态，属虚假营销", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "抢购一空", "category": "虚假紧迫", "severity": "medium", "suggestion": "删除", "note": "无依据的销售状态宣称", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "爆单", "category": "虚假紧迫", "severity": "medium", "suggestion": "改为客观描述订单情况", "note": "夸大销售状态的营销话术", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "疯抢", "category": "虚假紧迫", "severity": "medium", "suggestion": "删除，改为客观描述销售情况", "note": "制造抢购假象的诱导性话术", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "秒光", "category": "虚假紧迫", "severity": "medium", "suggestion": "删除", "note": "以'秒光'制造稀缺错觉", "law_ref": "《网络直播营销管理办法（试行）》"},
-  {"keyword": "错过再无", "category": "虚假紧迫", "severity": "high", "suggestion": "删除", "note": "虚假限时话术，监管明确点名", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "限时秒杀", "category": "虚假紧迫", "severity": "medium", "suggestion": "如确有活动须明示起止时间与库存数量", "note": "促销须明确公示条件与期限", "law_ref": "《网络直播营销管理办法（试行）》"},
-  {"keyword": "随时涨价", "category": "虚假紧迫", "severity": "high", "suggestion": "删除", "note": "无具体时间的涨价威胁，属诱导性话术", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "马上涨价", "category": "虚假紧迫", "severity": "high", "suggestion": "删除，改为明示调价日期与现价", "note": "以涨价威胁制造紧迫感，多地被认定为虚假宣传", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "军供", "category": "虚假背书", "severity": "critical", "suggestion": "删除", "note": "严禁使用涉军涉政名义进行商业宣传", "law_ref": "《广告法》第九条"},
-  {"keyword": "点击领红包", "category": "诱导点击", "severity": "medium", "suggestion": "如无真实活动须删除", "note": "虚假福利诱导点击", "law_ref": "《广告法》第二十八条"},
-  {"keyword": "零元购", "category": "诱导点击", "severity": "high", "suggestion": "删除，或明示全部参与条件与费用", "note": "以零元为噱头，实际暗含条件属误导", "law_ref": "《广告法》第二十八条"}
+  {
+    "keyword": "刷单",
+    "category": "数据造假",
+    "severity": "critical",
+    "suggestion": "删除，不得虚构交易",
+    "note": "虚构交易属不正当竞争行为",
+    "law_ref": "《反不正当竞争法》第八条",
+    "context_excludes": [
+      "不刷单",
+      "没有刷单",
+      "不是刷单",
+      "不做刷单",
+      "无刷单",
+      "零刷单",
+      "绝不刷单",
+      "永不刷单",
+      "从不刷单",
+      "从未刷单",
+      "不会刷单",
+      "不参与刷单",
+      "禁止刷单",
+      "严禁刷单",
+      "打击刷单",
+      "抵制刷单",
+      "拒绝刷单",
+      "反对刷单",
+      "杜绝刷单",
+      "严查刷单",
+      "反刷单",
+      "刷单违法",
+      "刷单是违法"
+    ]
+  },
+  {
+    "keyword": "好评返现",
+    "category": "数据造假",
+    "severity": "high",
+    "suggestion": "删除，改为引导用户如实评价",
+    "note": "以返现诱导不真实评价，多地已明确禁止",
+    "law_ref": "《反不正当竞争法》第八条"
+  },
+  {
+    "keyword": "晒图返现",
+    "category": "数据造假",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "诱导用户作出不客观评价",
+    "law_ref": "《反不正当竞争法》第八条"
+  },
+  {
+    "keyword": "虚拟发货秒好评",
+    "category": "数据造假",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "伪造交易与评价数据",
+    "law_ref": "《反不正当竞争法》第八条"
+  },
+  {
+    "keyword": "全真皮",
+    "category": "无依据质量宣称",
+    "severity": "high",
+    "suggestion": "如宣称须提供具备资质的检测报告",
+    "note": "成分与材质宣称须有检测依据支撑",
+    "law_ref": "《广告法》第十一条"
+  },
+  {
+    "keyword": "无甲醛",
+    "category": "无依据质量宣称",
+    "severity": "high",
+    "suggestion": "改为'甲醛释放量符合国家标准'，并注明标准编号",
+    "note": "无检测依据的安全宣称",
+    "law_ref": "《广告法》第十一条"
+  },
+  {
+    "keyword": "防臭抗菌",
+    "category": "无依据质量宣称",
+    "severity": "medium",
+    "suggestion": "如宣称须提供抗菌检测报告",
+    "note": "功能性宣称须有证据支撑",
+    "law_ref": "《广告法》第十一条"
+  },
+  {
+    "keyword": "yyds",
+    "category": "绝对化口语",
+    "severity": "medium",
+    "suggestion": "改为具体描述产品特点",
+    "note": "网络缩写的绝对化表述，带货场景判定为极限词",
+    "law_ref": "《广告法》第九条"
+  },
+  {
+    "keyword": "天花板",
+    "category": "绝对化口语",
+    "severity": "medium",
+    "suggestion": "带货场景改为'品质不错'",
+    "note": "2026 年新规下带货场景的'天花板'被判定为绝对化宣传",
+    "law_ref": "《广告法》第九条"
+  },
+  {
+    "keyword": "封神",
+    "category": "绝对化口语",
+    "severity": "medium",
+    "suggestion": "改为客观描述使用感受",
+    "note": "网络夸张用语，属绝对化宣传",
+    "law_ref": "《广告法》第九条"
+  },
+  {
+    "keyword": "殿堂级",
+    "category": "绝对化口语",
+    "severity": "medium",
+    "suggestion": "删除",
+    "note": "等级类绝对化用语",
+    "law_ref": "《广告法》第九条"
+  },
+  {
+    "keyword": "不计成本",
+    "category": "虚假价格",
+    "severity": "medium",
+    "suggestion": "删除",
+    "note": "无法核实的成本表述",
+    "law_ref": "《广告法》第四条"
+  },
+  {
+    "keyword": "亏本清仓",
+    "category": "虚假价格",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "虚构低价理由，属虚假营销",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "全渠道底价",
+    "category": "虚假价格",
+    "severity": "high",
+    "suggestion": "删除，如需比价请明示比对渠道与时间",
+    "note": "无依据的价格比较，属误导性宣传",
+    "law_ref": "《价格法》第十四条"
+  },
+  {
+    "keyword": "全网抄底",
+    "category": "虚假价格",
+    "severity": "high",
+    "suggestion": "删除，改为明示实际售价与活动期限",
+    "note": "无法核实的全网比价宣称",
+    "law_ref": "《价格法》第十四条"
+  },
+  {
+    "keyword": "全网最低价",
+    "category": "虚假价格",
+    "severity": "critical",
+    "suggestion": "改为'活动期间价格优惠'，并写明活动期限与对比依据",
+    "note": "虚构全网最低价属典型价格欺诈",
+    "law_ref": "《价格法》第十四条"
+  },
+  {
+    "keyword": "厂家破产清仓",
+    "category": "虚假价格",
+    "severity": "high",
+    "suggestion": "删除，改为如实说明促销原因",
+    "note": "虚构清仓理由，监管明确点名",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "史上最低价",
+    "category": "虚假价格",
+    "severity": "critical",
+    "suggestion": "删除，改为明示本次促销价与原价依据",
+    "note": "无法核实的绝对化价格宣称",
+    "law_ref": "《明码标价和禁止价格欺诈规定》"
+  },
+  {
+    "keyword": "白菜价",
+    "category": "虚假价格",
+    "severity": "medium",
+    "suggestion": "改为标注实际售价",
+    "note": "模糊夸张的价格表述",
+    "law_ref": "《广告法》第四条"
+  },
+  {
+    "keyword": "骨折价",
+    "category": "虚假价格",
+    "severity": "medium",
+    "suggestion": "改为明示折扣比例与原价",
+    "note": "夸张价格表述，须与实际售价一致",
+    "law_ref": "《广告法》第四条"
+  },
+  {
+    "keyword": "万人疯抢",
+    "category": "虚假紧迫",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "虚构抢购场景，监管明确点名",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "仅此一天",
+    "category": "虚假紧迫",
+    "severity": "high",
+    "suggestion": "如属真实活动须明示日期",
+    "note": "无具体日期的限时宣传",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "再不买就没了",
+    "category": "虚假紧迫",
+    "severity": "high",
+    "suggestion": "删除，改为如实说明库存情况",
+    "note": "制造与实际不符的稀缺感",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "卖爆",
+    "category": "虚假紧迫",
+    "severity": "medium",
+    "suggestion": "删除",
+    "note": "同上，属夸大销售状况",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "库存告急",
+    "category": "虚假紧迫",
+    "severity": "medium",
+    "suggestion": "如属实须与实际库存一致",
+    "note": "虚构库存紧张状态，属虚假营销",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "抢购一空",
+    "category": "虚假紧迫",
+    "severity": "medium",
+    "suggestion": "删除",
+    "note": "无依据的销售状态宣称",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "爆单",
+    "category": "虚假紧迫",
+    "severity": "medium",
+    "suggestion": "改为客观描述订单情况",
+    "note": "夸大销售状态的营销话术",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "疯抢",
+    "category": "虚假紧迫",
+    "severity": "medium",
+    "suggestion": "删除，改为客观描述销售情况",
+    "note": "制造抢购假象的诱导性话术",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "秒光",
+    "category": "虚假紧迫",
+    "severity": "medium",
+    "suggestion": "删除",
+    "note": "以'秒光'制造稀缺错觉",
+    "law_ref": "《网络直播营销管理办法（试行）》"
+  },
+  {
+    "keyword": "错过再无",
+    "category": "虚假紧迫",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "虚假限时话术，监管明确点名",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "限时秒杀",
+    "category": "虚假紧迫",
+    "severity": "medium",
+    "suggestion": "如确有活动须明示起止时间与库存数量",
+    "note": "促销须明确公示条件与期限",
+    "law_ref": "《网络直播营销管理办法（试行）》"
+  },
+  {
+    "keyword": "随时涨价",
+    "category": "虚假紧迫",
+    "severity": "high",
+    "suggestion": "删除",
+    "note": "无具体时间的涨价威胁，属诱导性话术",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "马上涨价",
+    "category": "虚假紧迫",
+    "severity": "high",
+    "suggestion": "删除，改为明示调价日期与现价",
+    "note": "以涨价威胁制造紧迫感，多地被认定为虚假宣传",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "军供",
+    "category": "虚假背书",
+    "severity": "critical",
+    "suggestion": "删除",
+    "note": "严禁使用涉军涉政名义进行商业宣传",
+    "law_ref": "《广告法》第九条"
+  },
+  {
+    "keyword": "点击领红包",
+    "category": "诱导点击",
+    "severity": "medium",
+    "suggestion": "如无真实活动须删除",
+    "note": "虚假福利诱导点击",
+    "law_ref": "《广告法》第二十八条"
+  },
+  {
+    "keyword": "零元购",
+    "category": "诱导点击",
+    "severity": "high",
+    "suggestion": "删除，或明示全部参与条件与费用",
+    "note": "以零元为噱头，实际暗含条件属误导",
+    "law_ref": "《广告法》第二十八条"
+  }
 ]

@@ -17,7 +17,7 @@ from apps.desktop.ui.theme import (
     gradient_button_style, glass_card_style,
 )
 from apps.desktop.ui.widgets import (
-    GradientCard, BarChart, StatCard, SegmentedControl,
+    GradientCard, BarChart, StatCard, SegmentedControl, ScrollBody,
 )
 from guardian.detector import ComplianceDetector
 
@@ -33,15 +33,22 @@ class DashboardPage(ctk.CTkFrame):
     def _build_ui(self):
         colors = get_colors()
 
+        # 滚动容器（页面级，详见 widgets.ScrollBody）
+        # 为什么必须有：本页内容实测 900px，而窗口最小 740px。没有滚动容器时
+        # pack 会去压**最后**那张卡（词库概览），把 BarChart 的末尾几行压到
+        # 8px 高 —— 数据还在，但看不见、也拖不出来。
+        self.body = ScrollBody(self, fg_color=colors["bg"], corner_radius=0)
+        self.body.pack(fill="both", expand=True)
+
         # 标题区
-        ctk.CTkLabel(self, text="仪表盘", font=font_typo("h1"),
+        ctk.CTkLabel(self.body, text="仪表盘", font=font_typo("h1"),
                      text_color=colors["text"]).pack(anchor="w", padx=SPACING["xxl"], pady=(SPACING["xl"], SPACING["xs"]))
-        ctk.CTkLabel(self, text="多平台内容合规检测中心 · 一站式管理你的内容安全",
+        ctk.CTkLabel(self.body, text="多平台内容合规检测中心 · 一站式管理你的内容安全",
                      font=font_typo("body"),
                      text_color=colors["text_secondary"]).pack(anchor="w", padx=SPACING["xxl"], pady=(0, SPACING["xl"]))
 
         # 统计卡片 — GradientCard 样式
-        cards_frame = ctk.CTkFrame(self, fg_color="transparent")
+        cards_frame = ctk.CTkFrame(self.body, fg_color="transparent")
         cards_frame.pack(fill="x", padx=SPACING["xxl"], pady=(0, SPACING["xl"]))
         cards_frame.grid_columnconfigure((0, 1, 2, 3), weight=1)
 
@@ -69,7 +76,7 @@ class DashboardPage(ctk.CTkFrame):
         self.stat_platforms.grid(row=0, column=3, sticky="nsew")
 
         # 快速操作 — 渐变按钮组
-        action_card = ctk.CTkFrame(self, **card_frame_style())
+        action_card = ctk.CTkFrame(self.body, **card_frame_style())
         action_card.pack(fill="x", padx=SPACING["xxl"], pady=(0, SPACING["xl"]))
 
         ctk.CTkLabel(action_card, text="快速操作", font=font_typo("h2"),
@@ -99,7 +106,7 @@ class DashboardPage(ctk.CTkFrame):
                       **secondary_button_style()).pack(side="left")
 
         # 词库概览 — BarChart
-        overview_card = ctk.CTkFrame(self, **card_frame_style())
+        overview_card = ctk.CTkFrame(self.body, **card_frame_style())
         overview_card.pack(fill="both", expand=True, padx=SPACING["xxl"], pady=(0, SPACING["xxl"]))
 
         ctk.CTkLabel(overview_card, text="词库概览", font=font_typo("h2"),
@@ -111,7 +118,16 @@ class DashboardPage(ctk.CTkFrame):
         for name, count in rules_summary.items():
             if name == "总计":
                 continue
-            if isinstance(count, dict):
+            if name == "行业红线":
+                # 行业红线 = 9 个行业包之和。把包明细标在这一根柱子上，
+                # 而不是让「行业词库包」再单独出一根同高的柱子（两根 475 并排，
+                # 看起来像两个不同的词库，实际是同一批规则）。
+                packs = rules_summary.get("行业词库包") or {}
+                total = count
+                detail = " · ".join(f"{k} {v}" for k, v in packs.items())
+            elif name == "行业词库包":
+                continue
+            elif isinstance(count, dict):
                 total = sum(count.values())
                 detail = " · ".join(f"{k} {v}" for k, v in count.items())
             else:
@@ -122,6 +138,7 @@ class DashboardPage(ctk.CTkFrame):
                 "平台规则": "info",
                 "蓝V专属限制": "warning",
                 "行业红线": "danger",
+                "自定义词条": "info",
                 "正则模式": "success",
             }.get(name, "primary")
             bar_data.append((name, total, color_key, detail))

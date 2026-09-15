@@ -60,11 +60,44 @@ def test_summary_shape(detector):
     # 旧 dashboard / 设置页读取的字段
     assert s["广告法违禁词"] == 1
     assert s["蓝V专属限制"] == 1
+    # 「行业红线」= 行业包里的规则总数（临时 rules_dir 里没有行业包）
     assert s["行业红线"] == 0
+    # 「自定义词条」= 用户自己加进 user_custom.json 的条数
+    assert s["自定义词条"] == 0
     assert s["正则模式"] == 1
     assert s["总计"] == 3  # ad_law 1 + platform 1 + blue_v 1
     # 平台规则是 {中文名: 条数}
     assert s["平台规则"] == {"小红书": 1}
+
+
+def test_summary_industry_redline_counts_packs(tmp_path):
+    """「行业红线」必须数的是行业包，不是用户自建词条。
+
+    历史 bug：这一栏取的是 ``len(user_custom)``，而 ``user_custom.json`` 默认是
+    空数组 —— 于是桌面端「关于」卡片上写着「行业红线 0 条」，
+    而磁盘上其实有 9 个行业包共 475 条规则。把 475 显示成 0，
+    比不显示这一栏更糟：用户会以为行业词库是空的。
+    """
+    rules_dir = tmp_path / "rules"
+    pack = rules_dir / "industry_packs" / "demo"
+    pack.mkdir(parents=True)
+    (pack / "rules.json").write_text(
+        json.dumps([{"keyword": "保证下签", "category": "虚假承诺",
+                     "severity": "high"}], ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (pack / "pack.json").write_text(
+        json.dumps({"id": "demo", "name": "演示合规包"}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    for name in ("ad_law.json", "blue_v_only.json", "platform_rules.json"):
+        (rules_dir / name).write_text("[]" if name != "platform_rules.json" else "{}",
+                                      encoding="utf-8")
+
+    s = ComplianceDetector(str(rules_dir)).get_rules_summary()
+    assert s["行业红线"] == 1, "行业红线应统计行业包里的条数"
+    # 显示名要取 pack.json 的 name，不能退回英文目录名
+    assert s["行业词库包"] == {"演示合规包": 1}
 
 
 def test_platform_names(detector):
@@ -83,9 +116,11 @@ def test_add_rule_to_category_persists(detector, rules_dir):
 
 def test_add_blue_v_and_custom(detector, rules_dir):
     detector.add_rule_to_category("蓝V限制", "点赞抽", "蓝V", "violation", "")
+    # 「行业红线」标签页写的是 user_custom.json（用户自建词条），
+    # 对应摘要里的「自定义词条」栏 —— 与行业包的「行业红线」栏是两个东西。
     detector.add_rule_to_category("行业红线", "保过", "行业红线", "violation", "")
     assert detector.get_rules_summary()["蓝V专属限制"] == 2
-    assert detector.get_rules_summary()["行业红线"] == 1
+    assert detector.get_rules_summary()["自定义词条"] == 1
     custom = json.loads((rules_dir / "user_custom.json").read_text(encoding="utf-8"))
     assert custom[0]["keyword"] == "保过"
 

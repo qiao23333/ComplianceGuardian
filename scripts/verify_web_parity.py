@@ -157,12 +157,26 @@ def _is_expected_diff(py_item: dict, js_item: dict) -> str | None:
     return None
 
 
+def _all_industry_ids() -> list[str]:
+    """磁盘上实际存在的行业包 id。
+
+    刻意不写死成 ``["immigration", "study_abroad"]`` —— 那样新增的行业包
+    **永远不会进入对拍**，两端判定是否一致就没人知道了。2026-09-15 就踩到过：
+    行业包从 2 个扩到 9 个，而对拍只覆盖原来那两个，新加的 313 条规则
+    在双端是否一致完全是空白。
+    """
+    packs = _ROOT / "rules" / "industry_packs"
+    return sorted(p.name for p in packs.iterdir() if (p / "rules.json").is_file())
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Python ↔ JS 引擎对拍")
     ap.add_argument("--verbose", action="store_true", help="打印全部用例结果")
     args = ap.parse_args()
 
-    industries = ["immigration", "study_abroad"]
+    industries = _all_industry_ids()
+    assert industries, "没找到任何行业包，路径可能不对"
+    print(f"行业包口径：{len(industries)} 个 —— {'、'.join(industries)}")
     py = _python_side(CORPUS, industries)
     js = _js_side(CORPUS, industries)
 

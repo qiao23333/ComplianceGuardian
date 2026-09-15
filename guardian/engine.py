@@ -42,6 +42,7 @@ from guardian.schema import (
     DetectionResult,
     Finding,
     Rule,
+    normalize_account_type,
     severity_weight,
 )
 
@@ -122,6 +123,11 @@ class DetectionEngine:
 
         text = text[: options.max_text_len] if len(text) > options.max_text_len else text
 
+        # 账号类型决定 blue_v_only.json 那批规则的实际严重度
+        # （同一条"保健食品"，非蓝V是 violation、蓝V只是 warning）。
+        # 必须从 options 取，不能写死 —— 见 _mk_hit / _account 的说明。
+        account = normalize_account_type(options.account_type)
+
         rules = self.bank.filter(
             platform=options.platform,
             account_type=options.account_type,
@@ -133,7 +139,9 @@ class DetectionEngine:
         # 1) 字面命中
         raw_hits: list[dict] = []
         for start, end, keyword, rule in matcher.iter_hits(text):
-            raw_hits.append(self._mk_hit(start, end, keyword, rule, "keyword"))
+            raw_hits.append(
+                self._mk_hit(start, end, keyword, rule, "keyword", account=account)
+            )
 
         # 正则通道
         for rule in regex_rules:
@@ -142,7 +150,10 @@ class DetectionEngine:
             except re.error:
                 continue
             for m in pat.finditer(text):
-                raw_hits.append(self._mk_hit(m.start(), m.end(), rule.keyword, rule, "regex"))
+                raw_hits.append(
+                    self._mk_hit(m.start(), m.end(), rule.keyword, rule,
+                                 "regex", account=account)
+                )
 
         # 2) 变体命中（归一化后）
         variant_hits: list[dict] = []
@@ -155,7 +166,7 @@ class DetectionEngine:
                 if orig_sub == keyword:
                     continue
                 h = self._mk_hit(o_s, o_e, keyword, rule, "variant",
-                                 variant_of=keyword, conf=0.8)
+                                 variant_of=keyword, conf=0.8, account=account)
                 variant_hits.append(h)
 
             # 2a) 正则通道（归一化文本）
@@ -175,7 +186,8 @@ class DetectionEngine:
                     # 归一化命中片段 == 原文片段 → 原文通道已产出同一命中，跳过
                     if text[o_s:o_e] == m.group(0):
                         continue
-                    h = self._mk_hit(o_s, o_e, rule.keyword, rule, "regex")
+                    h = self._mk_hit(o_s, o_e, rule.keyword, rule, "regex",
+                                     account=account)
                     variant_hits.append(h)
 
             # 2b) 拼音变体（可选，依赖 pypinyin；仅全拼 + 字符边界对齐）
@@ -210,7 +222,8 @@ class DetectionEngine:
                         if not _contains_non_cjk(orig_sub):
                             continue
                         h = self._mk_hit(o_s, o_e, keyword, rule, "variant",
-                                         variant_of=rule.keyword, conf=0.7)
+                                         variant_of=rule.keyword, conf=0.7,
+                                         account=account)
                         variant_hits.append(h)
 
         # 3) 合并 + 去重
@@ -289,8 +302,9 @@ class DetectionEngine:
         return kept
 
     def _mk_hit(self, start, end, keyword, rule, match_type,
-                variant_of=None, conf=1.0) -> dict:
-        severity = rule.severity_for(self._account())
+                variant_of=None, conf=1.0, account: str = "non_blue_v") -> dict:
+        """构造一个命中。``account`` 决定 blue_v_only 那批规则的最终严重度。"""
+        severity = rule.severity_for(account)
         allow = rule.allow_auto_replace
         if match_type == "variant":
             # ⚠️ 变体**不降级严重度**。
@@ -322,7 +336,20 @@ class DetectionEngine:
         }
 
     def _account(self) -> str:
-        # 简化：引擎内部用 non_blue_v 取默认严重度（调用方已通过 filter 控制）
+        """⚠️ 已废弃，仅保留给外部旧调用点。
+
+        ``detect_text`` 不再走这里 —— 它把 ``options.account_type`` 直接传给
+        ``_mk_hit``。原因：本方法曾经写死返回 ``non_blue_v``，导致
+        ``blue_v_only.json`` 的 ``severity_by_account`` 双档**完全失效**：
+        用户界面上的「蓝V认证 / 非蓝V」按钮切换后，57 条平台资质类规则
+        （保健食品 / 医疗器械 / 处方药 / 法律咨询…）的判定结果一模一样，
+        而 Web 端 ``severityOf(rule, accountType)`` 是正确分档的 ——
+        同一段文案在两个端给出不同等级。
+
+        以参数传递而非实例属性，是因为引擎是跨线程共享的单例：
+        `self._account_type = ...` 会让并发检测（桌面端批量检测后台线程 +
+        UI 单条检测）互相串档。
+        """
         return "non_blue_v"
 
     def _dedupe(self, hits: list[dict]) -> list[dict]:

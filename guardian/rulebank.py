@@ -44,6 +44,42 @@ def _load_json(path: Path):
         return None
 
 
+def list_industry_packs(rules_dir: Optional[Path] = None) -> list[dict]:
+    """扫描磁盘上的行业包，返回 ``[{id, name, short, count}]``。
+
+    为什么要有这个函数
+    ------------------
+    "有哪些行业" 这个事实只能有**一个**来源：``rules/industry_packs/`` 下的目录。
+    任何地方写死一份 id 列表（默认配置、UI 选项、文档）都会漂 ——
+    加第 10 个包时没人记得回来改，而且是静默少一个行业，不报错。
+
+    行业包是"丢两个文件就成立一个行业"的设计，所以：
+    * 目录名 = 包 id（前端来源标签、台账登记都用它）；
+    * ``pack.json`` 提供展示名与短名（短名缺失时退回目录名，不拼字符串）。
+    """
+    base = Path(rules_dir) if rules_dir else _BUILTIN_RULES_DIR
+    packs_dir = base / "industry_packs"
+    if not packs_dir.is_dir():
+        return []
+
+    out: list[dict] = []
+    for pack_dir in sorted(packs_dir.iterdir()):
+        rules_file = pack_dir / "rules.json"
+        if not rules_file.is_file():
+            continue
+        rules = _load_json(rules_file)
+        meta = _load_json(pack_dir / "pack.json") or {}
+        out.append({
+            "id": pack_dir.name,
+            "name": meta.get("name") or pack_dir.name,
+            "short": meta.get("short") or pack_dir.name,
+            "industry": meta.get("industry") or "",
+            "version": meta.get("version") or "",
+            "count": len(rules) if isinstance(rules, list) else 0,
+        })
+    return out
+
+
 def _from_blue_v_entry(raw: dict, source: str, index: int) -> Rule:
     """构造 blue_v_only.json 的特殊规则（双账号严重度）。"""
     keyword = raw.get("keyword", "")

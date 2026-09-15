@@ -10,10 +10,16 @@ import os
 import tempfile
 from pathlib import Path
 
+from guardian.schema import DEFAULT_ACCOUNT_TYPE
+
 DEFAULT_CONFIG = {
     "theme": "light",
     "last_platform": "小红书",
-    "last_account_type": "personal",
+    # 账号类型必须是 blue_v / non_blue_v 之一 —— 这两个值是
+    # blue_v_only.json 里 severity_by_account 的键。
+    # 历史上这里存的是 "personal"，是个谁都不认识的键，于是
+    # （叠加引擎写死 non_blue_v 的 bug）用户在界面上切"蓝V/非蓝V"完全没效果。
+    "last_account_type": DEFAULT_ACCOUNT_TYPE,
     "llm_enabled": False,
     "llm_mode": "local",            # local（Ollama）| cloud（OpenAI 兼容）
     "llm_api_key": "",
@@ -23,7 +29,15 @@ DEFAULT_CONFIG = {
     "total_checks": 0,
     "total_violations": 0,
     "appearance_mode": "Light",
-    "enabled_industry_packs": ["immigration"],
+    # 启用的行业包。``None`` = 跟随 rules/industry_packs/ 下的**全部**包。
+    #
+    # 为什么用 None 而不是把 9 个 id 写在这里：写过一次就会漂 —— 加第 10 个
+    # 行业包时没人记得回来改这个列表，用户界面上的行业选择器就少一项，
+    # 而且是静默的。列表只认磁盘，磁盘上加一个目录就多一个行业。
+    #
+    # 另：Web 端默认就是"全开"，桌面端曾经默认只开移民包，同一份文案在两个端
+    # 得到的命中数不一样 —— 双端口径必须一致。
+    "enabled_industry_packs": None,
     "minimize_to_tray": True,
 }
 

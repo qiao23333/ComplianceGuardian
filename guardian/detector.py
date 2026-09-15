@@ -51,12 +51,34 @@ _RISK_MAP = {
     "高风险": "高风险",
 }
 
-#: 默认启用的行业包（与 guardian.config.DEFAULT_CONFIG 保持一致）
-_DEFAULT_INDUSTRY_PACKS = ["immigration"]
+#: 默认启用的行业包
+#:
+#: ``None`` 语义 = 启用 ``rules/industry_packs/`` 下的**全部**包。
+#:
+#: 曾经这里写死 ``["immigration"]``，结果是：新增的 7 个行业包（共 313 条规则）
+#: 在桌面端**永远不生效** —— 用户在界面上看不到任何"行业选择"，也没法开启它们，
+#: 词库白写。而 Web 端默认是全开，同一份文案在两个端得到的命中数不一样。
+#:
+#: 不写死具体 id 的另一个理由：写过一次就会漂。加第 10 个包时没人记得回来改，
+#: 而且是静默少一个行业，不报错。
+_DEFAULT_INDUSTRY_PACKS: Optional[list[str]] = None
 
 
-def _configured_industry_packs() -> list[str]:
-    """读取用户启用的行业包，读不到则回退默认（移民包）。
+def _all_industry_pack_ids(rules_dir: Optional[Path] = None) -> list[str]:
+    """扫描磁盘，返回全部行业包 id（按目录名排序）。
+
+    行业包是"丢两个文件就成立一个行业"的设计，所以 id 的唯一来源是目录。
+    扫描逻辑落在 ``guardian.rulebank.list_industry_packs``，桌面端设置页
+    渲染"启用行业"勾选框时用的是同一个函数 —— 避免两处各扫一遍、各漏一堆。
+    """
+    from guardian.rulebank import list_industry_packs
+
+    packs = list_industry_packs(Path(rules_dir or _DEFAULT_RULES_DIR))
+    return [p["id"] for p in packs]
+
+
+def _configured_industry_packs(rules_dir: Optional[Path] = None) -> list[str]:
+    """读取用户启用的行业包；未配置则启用全部行业包。
 
     为什么需要
     ----------
@@ -69,15 +91,22 @@ def _configured_industry_packs() -> list[str]:
     在只读场景（打包 exe、测试）引入副作用。
     """
     try:
-        cfg_file = _PROJECT_ROOT / "data" / "config.json"
+        cfg_file = Path(rules_dir or _DEFAULT_RULES_DIR).parent / "data" / "config.json"
         if cfg_file.is_file():
             data = json.loads(cfg_file.read_text(encoding="utf-8"))
             packs = data.get("enabled_industry_packs")
+            # 显式配置的列表优先 —— **包括空列表**。
+            # 空列表语义 = "我明确一个行业都不要"，不是"没配置"：
+            # 设置页的「全不选」按钮写进去的就是空列表，如果把它当"没配置"
+            # 处理，用户点了全不选却发现所有行业包还在生效。
             if isinstance(packs, list):
                 return [str(p) for p in packs]
     except (OSError, json.JSONDecodeError):
         pass
-    return list(_DEFAULT_INDUSTRY_PACKS)
+    # 没配置（键缺失 / 为 null）→ 磁盘上全部行业包。
+    # 宽松兜底：宁可多提示一条，也不要在用户没表达任何偏好时静默漏检
+    # （实测行业包全关会让违规语料漏检率从 0% 升到 24%）。
+    return _all_industry_pack_ids(rules_dir)
 
 
 class ComplianceDetector:
@@ -126,9 +155,10 @@ class ComplianceDetector:
         options = DetectionOptions(
             platform=platform,
             account_type=account_type,
-            # 未显式指定时按用户配置启用行业包（默认含 immigration）
+            # 未显式指定时按用户配置启用行业包
+            # （未配置 = 启用磁盘上全部行业包，与 Web 端默认一致）
             industries=(industries if industries is not None
-                        else _configured_industry_packs()),
+                        else _configured_industry_packs(self.rules_dir)),
             use_variants=True,    # 变体抗规避：默认开启（已修误报）
             use_llm=False,        # 语义增强走独立 _llm_analyze
             auto_replace=auto_replace,  # 一键改写时开启
@@ -193,19 +223,13 @@ class ComplianceDetector:
 
         industry_pack_counts: dict[str, int] = {}
         total_industry = 0
-        packs_dir = Path(self.rules_dir) / "industry_packs"
-        if packs_dir.is_dir():
-            for pack_dir in sorted(packs_dir.iterdir()):
-                rules_file = pack_dir / "rules.json"
-                if not rules_file.is_file():
-                    continue
-                raw = self._read_json(rules_file, [])
-                n = len(raw) if isinstance(raw, list) else 0
-                meta_file = pack_dir / "meta.json"
-                meta = self._read_json(meta_file, {})
-                name = (meta or {}).get("name", pack_dir.name)
-                industry_pack_counts[name] = n
-                total_industry += n
+        from guardian.rulebank import list_industry_packs
+        for pack in list_industry_packs(Path(self.rules_dir)):
+            # 元信息来自 pack.json（不是 meta.json —— 这里曾经写错，
+            # 于是每个包都退回用英文目录名当显示名，
+            # 界面上的行业选择器/摘要表显示的是一串技术 id）。
+            industry_pack_counts[pack["name"]] = pack["count"]
+            total_industry += pack["count"]
 
         total = (len(self.ad_law)
                  + sum(len(r) for r in self.platform_rules.values()
@@ -218,8 +242,15 @@ class ComplianceDetector:
             "广告法违禁词": len(self.ad_law),
             "平台规则": plat_counts,
             "蓝V专属限制": len(self.blue_v_only),
-            "行业红线": len(self.user_custom),
+            # ⚠️ 「行业红线」曾经取的是 len(self.user_custom)。
+            #
+            # user_custom.json 装的是**用户自己加的词条**，默认是空数组；于是
+            # 桌面端「关于」卡片上「行业红线 0 条」——而磁盘上其实有 9 个行业包
+            # 共 475 条行业规则。一个把 475 显示成 0 的统计栏，比没有这一栏更糟：
+            # 用户会以为行业词库是空的。
+            "行业红线": total_industry,
             "行业词库包": industry_pack_counts,
+            "自定义词条": len(self.user_custom),
             "正则模式": len(self.REGEX_PATTERNS),
             "总计": total,
         }

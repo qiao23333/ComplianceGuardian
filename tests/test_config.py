@@ -92,5 +92,9 @@ class TestConfigMigration:
         assert cm.get("theme") == "light"
         assert cm.get("last_platform") == "抖音"
         # 缺失的新字段自动补全默认值
+        #
+        # 断言的是"键被补上了"，不是"值不为 None"：DEFAULT_CONFIG 里
+        # enabled_industry_packs 的默认值本身就是 None（语义 = 启用磁盘上
+        # 全部行业包），拿"不为 None"当代理会把它误判成缺字段。
         for k, v in DEFAULT_CONFIG.items():
-            assert cm.get(k) is not None
+            assert k in cm.config, f"旧配置缺少字段 {k}，未补默认值"

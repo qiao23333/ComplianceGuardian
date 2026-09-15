@@ -30,7 +30,7 @@ from apps.desktop.ui.widgets import (
 )
 from guardian.detector import ComplianceDetector
 from guardian.engine import DetectionEngine
-from guardian.schema import DetectionOptions
+from guardian.schema import DetectionOptions, normalize_account_type
 from guardian.export_report import build_payload, export_all
 from guardian.storage import HistoryStore, HistoryRecord
 
@@ -109,7 +109,14 @@ class CheckerPage(ctk.CTkFrame):
         ctk.CTkLabel(acct_frame, text="账号类型", font=font_typo("caption_bold"),
                      text_color=colors["text_secondary"]).pack(side="left", padx=(0, SPACING["md"]))
 
-        self.account_var = ctk.StringVar(value=self.app.config_manager.get("last_account_type", "blue_v"))
+        # 归一账号类型：历史配置里存过 "personal" 这种谁都不认识的值，
+        # 而 severity_by_account 只认 blue_v / non_blue_v —— 直接拿来用会静默
+        # 回退到非蓝V档，"蓝V认证"按钮看起来选中了、判定却完全没变。
+        self.account_var = ctk.StringVar(
+            value=normalize_account_type(
+                self.app.config_manager.get("last_account_type", "")
+            )
+        )
 
         self.bluev_btn = ctk.CTkButton(acct_frame, text="蓝V认证", width=90, height=28,
                                        corner_radius=CORNER_RADIUS["sm"],

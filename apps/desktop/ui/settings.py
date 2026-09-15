@@ -10,6 +10,7 @@
 """
 import threading
 import tkinter as tk
+from pathlib import Path
 from tkinter import messagebox
 
 import customtkinter as ctk
@@ -19,9 +20,11 @@ from apps.desktop.ui.theme import (
     primary_button_style, secondary_button_style, card_frame_style,
     glass_card_style, gradient_button_style,
 )
-from apps.desktop.ui.widgets import GradientCard, GlassCard, ToastNotification
+from apps.desktop.ui.widgets import GradientCard, GlassCard, ScrollBody, ToastNotification
+from guardian import __version__
 from guardian.detector import ComplianceDetector
 from guardian.llm_config import LLM_DEFAULTS, load_llm_config, save_llm_config
+from guardian.rulebank import list_industry_packs
 
 # 常见 OpenAI 兼容端点（下拉候选，可手改）
 _CLOUD_PRESETS = {
@@ -43,15 +46,31 @@ class SettingsPage(ctk.CTkFrame):
     def _build_ui(self):
         colors = get_colors()
 
+        # 滚动容器
+        # ----------
+        # 本页是"长表单"：实测内容需要 **1567px**（自带 1263px，加行业卡后 1567px），
+        # 而窗口默认 880px、最小 740px。Tk 不会自动给装不下的内容加滚动条，
+        # 超出的部分既不显示也拖不到 —— 用户在界面上看到的设置项比实际少。
+        # 2026-09-15 加"启用行业"卡片时才发现：这张卡片被挤到只剩 79px，
+        # 后面的"关于 / 数据管理"两张卡片直接是 0px（点了也点不到）。
+        #
+        # 容器放在 _build_ui 里创建而不是 __init__：apply_theme() 会 destroy
+        # 全部子控件后重新调用本方法，容器必须跟着一起重建。
+        self.body = ScrollBody(self, fg_color=colors["bg"], corner_radius=0)
+        self.body.pack(fill="both", expand=True)
+
         # 标题区
-        ctk.CTkLabel(self, text="设置", font=font_typo("h1"),
+        ctk.CTkLabel(self.body, text="设置", font=font_typo("h1"),
                      text_color=colors["text"]).pack(anchor="w", padx=SPACING["xxl"], pady=(SPACING["xl"], SPACING["xs"]))
-        ctk.CTkLabel(self, text="AI模型配置与系统信息",
+        ctk.CTkLabel(self.body, text="行业词库 · AI模型配置与系统信息",
                      font=font_typo("caption"),
                      text_color=colors["text_secondary"]).pack(anchor="w", padx=SPACING["xxl"], pady=(0, SPACING["lg"]))
 
+        # 行业词库（影响每一次检测，排在最前）
+        self._build_industry_card()
+
         # Ollama 状态卡片 — GlassCard
-        ollama_card = GlassCard(self)
+        ollama_card = GlassCard(self.body)
         ollama_card.pack(fill="x", padx=SPACING["xxl"], pady=(0, SPACING["md"]))
 
         header = ctk.CTkFrame(ollama_card, fg_color="transparent")
@@ -87,7 +106,7 @@ class SettingsPage(ctk.CTkFrame):
         self.ollama_models_label.pack(anchor="w", padx=SPACING["md"], pady=(0, SPACING["sm"]))
 
         # ---------------- AI 模型配置卡片 ----------------
-        cfg_card = ctk.CTkFrame(self, **card_frame_style())
+        cfg_card = ctk.CTkFrame(self.body, **card_frame_style())
         cfg_card.pack(fill="x", padx=SPACING["xxl"], pady=(0, SPACING["md"]))
 
         gradient_bar_cfg = ctk.CTkFrame(cfg_card, height=4,
@@ -173,7 +192,7 @@ class SettingsPage(ctk.CTkFrame):
         self._sync_llm_fields()
 
         # 关于卡片 — GradientCard 样式
-        about_card = ctk.CTkFrame(self, **card_frame_style())
+        about_card = ctk.CTkFrame(self.body, **card_frame_style())
         about_card.pack(fill="x", padx=SPACING["xxl"], pady=(0, SPACING["md"]))
 
         # 顶部渐变条
@@ -189,13 +208,20 @@ class SettingsPage(ctk.CTkFrame):
 
         info_items = [
             ("应用名称", "多平台内容合规检测工具"),
-            ("版本", "v3.0"),
+            # 版本号读单一来源，不写死 —— 这里曾经写着 "v3.0"，
+            # 而实际发布的是 3.4.0，用户报 bug 时报的版本号是错的。
+            ("版本", f"v{__version__}"),
             ("技术栈", "Python + CustomTkinter + Ollama/OpenAI兼容"),
             ("广告法词库", f"{rules_summary['广告法违禁词']} 条"),
             ("正则模式", f"{rules_summary.get('正则模式', 0)} 组"),
             ("平台规则", " · ".join(f"{k} {v}条" for k, v in rules_summary["平台规则"].items())),
             ("蓝V限制", f"{rules_summary['蓝V专属限制']} 条"),
-            ("行业红线", f"{rules_summary['行业红线']} 条"),
+            (
+                "行业红线",
+                f"{rules_summary['行业红线']} 条 · "
+                f"{len(rules_summary.get('行业词库包') or {})} 个行业包",
+            ),
+            ("自定义词条", f"{rules_summary.get('自定义词条', 0)} 条"),
             ("支持平台", "小红书 · 抖音 · 微信视频号"),
             ("检测维度", "关键词 + 正则模式 + AI语义增强"),
             ("外观模式", "浅色 / 暗色（侧栏底部切换）"),
@@ -214,7 +240,7 @@ class SettingsPage(ctk.CTkFrame):
                      text_color=colors["text_tertiary"]).pack(anchor="w", padx=SPACING["xl"], pady=(SPACING["xs"], SPACING["lg"]))
 
         # 数据管理卡片
-        data_card = ctk.CTkFrame(self, **card_frame_style())
+        data_card = ctk.CTkFrame(self.body, **card_frame_style())
         data_card.pack(fill="x", padx=SPACING["xxl"], pady=(0, SPACING["xxl"]))
 
         # 顶部渐变条
@@ -247,6 +273,109 @@ class SettingsPage(ctk.CTkFrame):
 
         ctk.CTkButton(data_card, text="重置检测统计", width=120,
                       command=self._reset_stats, **secondary_button_style()).pack(anchor="w", padx=SPACING["xl"], pady=(SPACING["sm"], SPACING["lg"]))
+
+    # ------------------------------------------------ 行业词库
+
+    def _build_industry_card(self):
+        """「启用哪些行业包」的入口。
+
+        为什么必须有这个入口
+        --------------------
+        行业词库是本工具区别于通用违禁词工具的核心（通用词库管广告法，
+        行业包管你这一行特有的红线）。但在此之前桌面端**没有任何地方**
+        能开关行业包 —— ``enabled_industry_packs`` 只存在于 config.json 里，
+        默认还只写了 ``["immigration"]`` 一个。后果是：新增 7 个行业包（313 条）
+        之后，桌面用户既看不到、也开不了，词库白写。
+
+        默认值读法与检测链路一致：``None`` = 全部启用（详见
+        ``guardian.detector._configured_industry_packs``）。
+        """
+        colors = get_colors()
+
+        packs = list_industry_packs(Path(ComplianceDetector.get_instance().rules_dir))
+
+        card = ctk.CTkFrame(self.body, **card_frame_style())
+        card.pack(fill="x", padx=SPACING["xxl"], pady=(0, SPACING["md"]))
+
+        bar = ctk.CTkFrame(card, height=4,
+                           fg_color=colors["gradient_card_purple_top"], corner_radius=0)
+        bar.pack(fill="x")
+
+        ctk.CTkLabel(card, text="行业词库", font=font_typo("h2"),
+                     text_color=colors["text"]).pack(
+            anchor="w", padx=SPACING["xl"], pady=(SPACING["md"], SPACING["xs"]))
+        ctk.CTkLabel(
+            card,
+            text="勾选你所在的行业，勾选后该行业的专属红线会参与检测。\n"
+                 "「全选」＝跟随词库目录（以后新增行业会自动纳入，不用回来改配置）。",
+            font=font_typo("micro"), text_color=colors["text_tertiary"],
+            justify="left", wraplength=560,
+        ).pack(anchor="w", padx=SPACING["xl"], pady=(0, SPACING["sm"]))
+
+        enabled = self.app.config_manager.get("enabled_industry_packs")
+        enabled_set = set(enabled) if isinstance(enabled, list) else None
+
+        grid = ctk.CTkFrame(card, fg_color="transparent")
+        grid.pack(fill="x", padx=SPACING["xl"], pady=(0, SPACING["xs"]))
+
+        self._pack_vars: dict[str, tk.BooleanVar] = {}
+        for i, pack in enumerate(packs):
+            var = tk.BooleanVar(
+                # 未显式配置（None）→ 全部勾上
+                value=True if enabled_set is None else pack["id"] in enabled_set
+            )
+            self._pack_vars[pack["id"]] = var
+            ctk.CTkCheckBox(
+                grid,
+                text=f"{pack['name']}（{pack['count']} 条）",
+                variable=var,
+                font=font_typo("caption"),
+                checkbox_width=18, checkbox_height=18,
+                command=self._save_industry_packs,
+            ).grid(row=i // 2, column=i % 2, sticky="w",
+                   padx=(0, SPACING["lg"]), pady=2)
+
+        foot = ctk.CTkFrame(card, fg_color="transparent")
+        foot.pack(fill="x", padx=SPACING["xl"], pady=(SPACING["sm"], SPACING["lg"]))
+
+        ctk.CTkButton(foot, text="全选", width=70,
+                      command=lambda: self._set_all_packs(True),
+                      **secondary_button_style()).pack(side="left", padx=(0, SPACING["sm"]))
+        ctk.CTkButton(foot, text="全不选", width=70,
+                      command=lambda: self._set_all_packs(False),
+                      **secondary_button_style()).pack(side="left")
+
+        self.pack_summary_label = ctk.CTkLabel(foot, text="", font=font_typo("micro"),
+                                               text_color=colors["text_tertiary"])
+        self.pack_summary_label.pack(side="right")
+        self._refresh_pack_summary()
+
+    def _set_all_packs(self, value: bool):
+        for var in self._pack_vars.values():
+            var.set(value)
+        self._save_industry_packs()
+
+    def _save_industry_packs(self):
+        """把勾选状态写进 config，并即时生效（检测每次都会重新读配置）。"""
+        ids = [pid for pid, var in self._pack_vars.items() if var.get()]
+        all_ids = list(self._pack_vars.keys())
+        if ids and len(ids) == len(all_ids):
+            # 全选 → 存 None（"跟随词库目录"），而不是把当前 9 个 id 冻进配置。
+            # 否则以后加第 10 个包时，老用户的配置里没有它 —— 静默少一个行业。
+            value = None
+        else:
+            # 含空列表：空 = 用户明确一个行业都不要
+            value = ids
+        self.app.config_manager.set("enabled_industry_packs", value)
+        self._refresh_pack_summary()
+
+    def _refresh_pack_summary(self):
+        total = len(self._pack_vars)
+        n_on = sum(1 for var in self._pack_vars.values() if var.get())
+        text = f"已启用 {n_on} / {total} 个行业包"
+        if n_on == 0:
+            text += "（未启用任何行业红线，会漏掉行业特有的违规表达）"
+        self.pack_summary_label.configure(text=text)
 
     # ------------------------------------------------ AI 配置
 
