@@ -299,3 +299,68 @@ def test_web_artifact_carries_law_refs():
     assert {"last", "days", "label", "basis"} <= set(sample), (
         f"review_log 字段不齐：{sorted(sample)}"
     )
+
+
+# ============================================================ 4. 文档与词库不许各说各话
+
+
+def test_readme_quoted_rule_numbers_match_rulebank():
+    """README 里手写的规则条数 / 覆盖率必须与词库实际一致。
+
+    这不是文档洁癖。README 是访客第一眼看到的东西，而它引用的数字全是
+    **手写**的 —— 词库一扩，README 不会自己变。v3.6.0 把行业包从 9 个扩到
+    14 个之后，README 的"610 / 710（约 86%）"就与词库页实际显示的
+    "1090 / 1093（99.7%）"对不上了，而没有任何机制会提醒这件事。
+
+    手写事实与自动统计并存，漂移只是时间问题 —— 那就让它会红灯。
+    """
+    readme = (_ROOT / "README.md").read_text(encoding="utf-8")
+    rules = RuleBank().all
+    scoped = [r for r in rules if _is_law_based(r.source)]
+    covered = [r for r in scoped if r.law_ref]
+
+    assert f"**规则规模**：{len(rules)} 条" in readme, (
+        f"README 写的规则总数不是 {len(rules)} 条 —— 词库变了，README 没跟着变"
+    )
+    assert f"{len(covered)} / {len(scoped)} 条标注了条款依据" in readme, (
+        f"README 写的条款覆盖率不是 {len(covered)} / {len(scoped)}"
+    )
+    pct = f"{len(covered) * 100 / len(scoped):.1f}%"
+    assert f"（{pct}）" in readme, f"README 里缺覆盖率百分比（{pct}）"
+
+
+def test_readme_number_guard_can_fail():
+    """守卫自测：给一个错数字，断言必须失败（否则上面的守卫是摆设）。"""
+    readme = (_ROOT / "README.md").read_text(encoding="utf-8")
+    assert "**规则规模**：99999 条" not in readme, (
+        "守卫自测未通过：README 里真的出现了那个假数字"
+    )
+    rules = RuleBank().all
+    assert len(rules) != 99999, "守卫自测未通过：真实条数恰好等于假数字"
+
+
+def test_readme_test_count_is_accurate():
+    """README 里写的 pytest 用例数必须等于实际收集到的用例数。
+
+    这是同一类漂移的第三个实例（前两个：前端首页的"9 个强监管行业"、
+    README 的条款覆盖率）。凡是手写的数字，都会在下次改动时悄悄过期 ——
+    "加测试"更是高频动作，靠人记得回来改 README 是不现实的。
+
+    用 ``--collect-only`` 收集而不是真的执行：收集不跑用例，不会递归。
+    """
+    import subprocess
+
+    readme = (_ROOT / "README.md").read_text(encoding="utf-8")
+    proc = subprocess.run(
+        [sys.executable, "-m", "pytest", "--collect-only", "-q", "-p", "no:cacheprovider"],
+        cwd=_ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace",
+    )
+    m = re.search(r"(\d+)\s+tests?\s+collected", proc.stdout) \
+        or re.search(r"collected\s+(\d+)\s+items?", proc.stdout)
+    assert m, f"无法从收集结果里解析用例数：{(proc.stdout or '')[-400:]}"
+    n = int(m.group(1))
+    assert f"{n} 个 pytest 用例" in readme, (
+        f"README 写的用例数不是 {n} —— 加了测试但 README 没跟着变"
+    )
+
+
