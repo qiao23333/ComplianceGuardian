@@ -24,6 +24,7 @@ def engine():
 def detect(engine, text, **kw):
     opts = DetectionOptions(platform=kw.get("platform", "xiaohongshu"),
                              account_type=kw.get("account_type", "non_blue_v"),
+                             industries=kw.get("industries"),
                              use_variants=True)
     return engine.detect_text(text, opts)
 
@@ -114,3 +115,72 @@ def test_variant_never_auto_replaced(engine):
     for f in r.findings:
         if f.match_type == "variant":
             assert f.allow_auto_replace is False
+
+
+# ---------------------------------------------------------------- 数字写法通道
+#
+# 背景：中文数字有阿拉伯与汉字两套写法，使用边界纯凭手感。"7天瘦" 与
+# "七天瘦" 是同一种违规表述，词库一个关键词只能收一种写法，另一种就漏。
+# 实测早期版本「七天瘦」命中而「7天瘦」完全没提示 —— 而后者才是营销
+# 文案里的主流写法。修复方式是在引擎里单开一条"数字写法通道"
+# （guardian/engine.py 的 2b 段 + guardian/normalize/pipeline.py 的
+# to_cjk_digits），而不是塞进 normalize() 主链路，原因见第三条测试。
+
+
+def test_digit_variant_arabic_hits_cjk_keyword(engine):
+    """"7天瘦" 应命中原词库里的「七天瘦」（词库收的是汉字写法）。"""
+    r = detect(engine, "轻断食代餐，7天瘦10斤", industries=["weight_loss"])
+    assert r.findings, "阿拉伯数字写法完全未命中 —— 数字通道失效"
+
+
+def test_digit_variant_maps_span_to_original(engine):
+    """命中区间必须回落到**原文**（高亮"7天瘦"而不是"七天瘦"）。"""
+    r = detect(engine, "轻断食代餐，7天瘦10斤", industries=["weight_loss"])
+    hit = [f for f in r.findings if f.match_type == "variant"]
+    assert hit, "数字写法应被标为变体命中"
+    assert any("7天瘦" in f.matched_text for f in hit), \
+        f"高亮片段未回落到原文：{[f.matched_text for f in hit]}"
+
+
+def test_digit_variant_works_for_base_library_too(engine):
+    """不只是行业包：通用库的「第一」也应被"第1"命中。
+
+    `第X + 量词` 的序数骨架由语境守卫豁免，所以这条同时验证
+    "阿拉伯数字能命中汉字关键词"与"豁免仍然生效"两件事。
+    """
+    r = detect(engine, "本机构为行业第1")
+    assert any("第1" in f.matched_text for f in r.findings), \
+        f"通用库的汉字数字关键词未被阿拉伯写法命中：{[f.matched_text for f in r.findings]}"
+
+
+def test_fullwidth_digit_keyword_still_matches(engine):
+    """回归守卫：全角「成功率１００％」靠归一半角命中「100%」的能力不能被砸掉。
+
+    这是把数字转换塞进 normalize() 主链路时的真实事故 —— 全角数字归一半角
+    后又立刻被转成"一零零"，关键词「100%」再也匹配不上。所以数字变体必须
+    单开通道，两条路各走各的。
+    """
+    r = detect(engine, "成功率１００％，绝无例外")
+    assert any("１００％" in f.matched_text for f in r.findings), \
+        f"全角数字写法漏检了：{[(f.keyword, f.matched_text) for f in r.findings]}"
+
+
+def test_digit_channel_does_not_break_ordinal_exemption(engine):
+    """反误报守卫：「第1步 / 第1位」是序数叙述，不能因数字通道而被报出。
+
+    豁免机制认的是 `第X + 量词` 骨架（X 同时接受阿拉伯与汉字数字），
+    数字通道必须与它协同，而不是绕过它。
+    """
+    for text in ("第1步递交EOI", "我排在第1位", "第2阶段准备材料"):
+        r = detect(engine, text)
+        assert not r.findings, \
+            f"{text!r} 被误报：{[(f.keyword, f.matched_text) for f in r.findings]}"
+
+
+def test_digit_variant_never_auto_replaced(engine):
+    """数字写法命中也属变体，禁止自动改写（改写会动到原文数字）。"""
+    r = detect(engine, "轻断食代餐，7天瘦10斤")
+    for f in r.findings:
+        if f.match_type == "variant":
+            assert f.allow_auto_replace is False
+

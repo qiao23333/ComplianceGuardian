@@ -119,6 +119,22 @@
   }
 
   /**
+   * 单字符数字映射：0-9 ↔ 零-九 都是 1 个字符，属**等长**替换，
+   * 因此转换后的坐标可直接复用原 indexMap（见 2b 数字写法通道）。
+   *
+   * 中文里数字有阿拉伯与汉字两套写法，使用边界纯凭手感："7天瘦" 与
+   * "七天瘦" 是同一种违规表述，词库一个关键词只能收一种写法，另一种就漏。
+   *
+   * ⚠️ 只做单字符映射。多位数（"10"→"十"）会改变长度，击穿命中坐标
+   *    回映射，必须排除 —— 与 Python 端 guardian/normalize/pipeline.py
+   *    的 _DIGIT_TO_CJK 严格一致。
+   */
+  var CJK_DIGITS = {
+    '0': '零', '1': '一', '2': '二', '3': '三', '4': '四',
+    '5': '五', '6': '六', '7': '七', '8': '八', '9': '九'
+  };
+
+  /**
    * 归一化：把"加了规避花招"的文本还原成规范形式。
    * 返回 { text, indexMap, chars }，indexMap[j] = 归一化第 j 个字符对应的原文**字符**下标。
    */
@@ -473,6 +489,40 @@
           variantHits.push(makeHit(oS, oE, v.payload.kw, vrule, 'variant',
             this.severityOf(vrule, opts.accountType), false,
             { variantOf: vrule.k, confidence: 0.8 }));
+        }
+      }
+
+      // 2b) 数字写法通道（阿拉伯 ↔ 汉字）
+      //     与 Python 端 guardian/engine.py 的同一处逻辑严格对齐。
+      //     "7天瘦" 与 "七天瘦" 是同一种违规表述，词库一个关键词只能收一种写法，
+      //     另一种就漏 —— 实测「七天瘦」命中而「7天瘦」不命中。
+      //
+      //     单独成通道而不塞进 normalize()：归一化负责"还原花招"，
+      //     数字是"同一表述的两种合法写法"。混做会反向砸掉全角
+      //     「成功率１００％」靠归一半角命中「100%」的能力（对拍门禁抓过这条回归）。
+      //     单字符映射长度不变，norm.indexMap 可直接复用，高亮位置不漂。
+      var digitChanged = false;
+      var digitChars = new Array(normChars.length);
+      for (var di = 0; di < normChars.length; di++) {
+        var dc = CJK_DIGITS[normChars[di]];
+        if (dc !== undefined) { digitChars[di] = dc; digitChanged = true; }
+        else { digitChars[di] = normChars[di]; }
+      }
+      if (digitChanged) {
+        var dh = ac.search(digitChars);
+        for (var dq = 0; dq < dh.length; dq++) {
+          var dv = dh[dq];
+          var dS = norm.indexMap[dv.start];
+          var dE = norm.indexMap[dv.end - 1] + 1;
+          if (dS === undefined || dE === undefined) continue;
+          // 原文本来就是汉字写法 → 归一化通道已产出同一命中，跳过
+          if (textChars.slice(dS, dE).join('') === dv.payload.kw) continue;
+          for (var dr2 = 0; dr2 < dv.payload.rules.length; dr2++) {
+            var drule = dv.payload.rules[dr2];
+            variantHits.push(makeHit(dS, dE, dv.payload.kw, drule, 'variant',
+              this.severityOf(drule, opts.accountType), false,
+              { variantOf: drule.k, confidence: 0.8 }));
+          }
         }
       }
 

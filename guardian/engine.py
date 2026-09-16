@@ -34,7 +34,7 @@ from typing import Optional
 from guardian import context_guard
 from guardian.matcher import create_matcher
 from guardian.matcher.base import Hit, KeywordIndex
-from guardian.normalize import normalize, romanize, pinyin_index
+from guardian.normalize import normalize, romanize, pinyin_index, to_cjk_digits
 from guardian.rulebank import RuleBank
 from guardian.schema import (
     SEVERITY_LEVELS,
@@ -169,7 +169,31 @@ class DetectionEngine:
                                  variant_of=keyword, conf=0.8, account=account)
                 variant_hits.append(h)
 
-            # 2a) 正则通道（归一化文本）
+            # 2b) 数字写法通道（阿拉伯 ↔ 汉字）
+            #     "7天瘦" 与 "七天瘦" 是同一种违规表述，但词库一个关键词只能
+            #     收一种写法，另一种就漏 —— 实测「七天瘦」命中而「7天瘦」不命中，
+            #     而后者才是营销文案里的主流写法。
+            #
+            #     为什么单独成通道、不塞进 normalize()：
+            #     归一化主链路的职责是"还原花招"（去噪/全角/繁简/谐音），
+            #     数字则是"同一表述的两种合法写法"。混在一起做会反向砸掉
+            #     全角「成功率１００％」靠归一半角命中「100%」的能力 ——
+            #     这条回归被对拍门禁当场抓到过。分开后两个方向都成立。
+            #
+            #     单字符映射长度不变，所以 norm 的坐标映射可直接复用，
+            #     命中位置仍能精准回落到原文。
+            digit_text = to_cjk_digits(norm.text)
+            if digit_text != norm.text:
+                for start, end, keyword, rule in matcher.iter_hits(digit_text):
+                    o_s, o_e = norm.original_span(start, end)
+                    # 原文本来就是汉字写法 → 归一化通道已产出同一命中，跳过
+                    if text[o_s:o_e] == keyword:
+                        continue
+                    h = self._mk_hit(o_s, o_e, keyword, rule, "variant",
+                                     variant_of=keyword, conf=0.8, account=account)
+                    variant_hits.append(h)
+
+            # 2c) 正则通道（归一化文本）
             #     正则只跑原文会漏掉"用花招写出的组合型违规"：
             #     １００％（全角）、全網最低價（繁体）、首 创（跳字）。
             #     这类写法恰恰是人工复核最容易漏的，必须和字面通道一样
